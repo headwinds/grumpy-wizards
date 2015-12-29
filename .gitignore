@@ -1,0 +1,23 @@
+# Local Development Files / build directories
+azureMobile.js
+public
+
+# Node Logs
+logs
+*.logs
+npm-debug.log*
+
+# jscoverage / JSCover / instanbul
+lib-cov
+coverage
+
+# Build process directories
+.grunt
+
+# node-waf
+.lock-wscript
+
+# npm stuff
+build/Release
+node_modules
+.npm.node_repl_history
