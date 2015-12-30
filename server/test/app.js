@@ -1,8 +1,8 @@
 /* global describe, it */
 import { expect } from 'chai';
-import createWebApplication from '../server/app';
+import createWebApplication from '../src/app';
 
-describe('server/app.js', () => {
+describe('server/src/app.js', () => {
     it('should export a function', () => {
         expect(createWebApplication).to.be.a('function');
     });

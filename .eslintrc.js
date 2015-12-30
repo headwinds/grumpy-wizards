@@ -6,7 +6,7 @@ module.exports = exports = {
     "env": {
         "es6": true,
     },
-    
+
     "ecmaFeatures": {
         "modules": true
     },
@@ -134,9 +134,8 @@ module.exports = exports = {
         "func-style": [ WARN, "declaration" ],
         "id-length": [ WARN, { "min": 2, "max": 32 } ],
         "indent": [ WARN, 4 ],
-        "jsx-quotes": [ WARN, "prefer-double" ],
         "linebreak-style": OFF, // git fixes this for us on checkin
-        "lines-around-comment": [ WARN, { "beforeBlockComment": true } ],
+        "lines-around-comment": OFF,
         "max-depth": [ WARN, 8 ],
         "max-len": [ WARN, 132 ],
         "max-nested-callbacks": [ WARN, 8 ],

@@ -3,8 +3,8 @@ var gulp = require('gulp'),
     process = require('process'),
     config = require('../config');
 
-gulp.task('server:test', [ 'server:lint' ], function () {
-    return gulp.src(config.test.server)
+gulp.task('client:test', [ 'client:lint:javascript' ], function () {
+    return gulp.src(config.test.client)
         .pipe(mocha(config.options.mocha))
         .once('error', function () { process.exit(1); });
 });
