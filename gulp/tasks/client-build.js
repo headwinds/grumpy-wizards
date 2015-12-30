@@ -1,9 +1,12 @@
 var gulp = require('gulp'),
+    autoprefixer = require('gulp-autoprefixer'),
     babelify = require('babelify'),
     browserify = require('browserify'),
     browserifyshim = require('browserify-shim'),
     buffer = require('vinyl-buffer'),
-    gutil = require('gulp-util'),
+    minifyCss = require('gulp-minify-css'),
+    runSequence = require('run-sequence'),
+    sass = require('gulp-sass'),
     source = require('vinyl-source-stream'),
     sourcemaps = require('gulp-sourcemaps'),
     uglify = require('gulp-uglify'),
@@ -38,14 +41,22 @@ gulp.task('client:build:javascript', [ 'client:test' ], function () {
  * Build the CSS Stylesheet from SCSS Files
  */
 gulp.task('client:build:stylesheet', [ 'client:lint:stylesheet' ], function () {
-    // Nothing happening here right now
+    return gulp.src(config.source.client.entry.stylesheet)
+        .pipe(sourcemaps.init())
+        .pipe(sass().on('error', sass.logError))
+        .pipe(autoprefixer(config.options.autoprefixer))
+        .pipe(minifyCss(config.options.minifycss))
+        .pipe(sourcemaps.write('./'))
+        .pipe(gulp.dest(config.destination.directory));
 });
 
 /**
  * Composite task for building the public area
  */
-gulp.task('client:build', [
-    'client:build:copyfiles',
-    'client:build:javascript',
-    'client:build:stylesheet'
-]);
+gulp.task('client:build', function (callback) {
+    runSequence(
+        'client:build:copyfiles',
+        'client:build:javascript',
+        'client:build:stylesheet',
+        callback);
+});

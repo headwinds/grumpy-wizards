@@ -2,7 +2,7 @@
 import { expect } from 'chai';
 import React from 'react';
 
-import Application from '../../js/views/Application.jsx';
+import Application from '../../src/views/Application.jsx';
 
 describe('client/js/views/Application.jsx', () => {
     it('should be a React.Component', () => {

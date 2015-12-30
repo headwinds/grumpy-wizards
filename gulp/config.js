@@ -7,19 +7,19 @@ module.exports = exports = {
         client: {
             files: {
                 copy: [
-                    'client/**/*.html'
+                    'client/src/**/*.html'
                 ],
                 javascript: [
-                    'client/**/*.js',
-                    'client/**/*.jsx'
+                    'client/src/**/*.js',
+                    'client/src/**/*.jsx'
                 ],
                 stylesheet: [
-                    'client/**/*.scss'
+                    'client/src/**/*.scss'
                 ]
             },
             entry: {
-                javascript: 'client/js/app.jsx',
-                stylesheet: 'client/sass/app.scss'
+                javascript: 'client/src/app.jsx',
+                stylesheet: 'client/src/app.scss'
             }
         }
     },
@@ -29,6 +29,13 @@ module.exports = exports = {
     },
 
     options: {
+        autoprefixer: {
+            browsers: [ '> 5%', 'last 2 versions' ],
+            cascade: false
+        },
+        minifycss: {
+            compatibility: '*'
+        },
         mocha: {
             reporter: 'spec',
             ui: 'bdd'

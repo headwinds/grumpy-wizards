@@ -52,7 +52,7 @@ module.exports = exports = {
         "no-eval": ERROR,
         "no-extend-native": ERROR,
         "no-extra-bind": WARN,
-        "no-extra-parens": ERROR,
+        "no-extra-parens": OFF,
         "no-extend-native": ERROR,
         "no-extra-bind": WARN,
         "no-floating-decimal": WARN,

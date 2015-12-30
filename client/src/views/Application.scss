@@ -1,0 +1,30 @@
+.application {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-flow: column nowrap;
+
+    &-header {
+        display: block;
+        order: 1;
+        min-height: 2rem;
+        background-color: red;
+    }
+
+    &-main {
+        display: block;
+        order: 2;
+        flex-grow: 1;
+        background-color: #E0E0E0;
+    }
+
+    &-footer {
+        display: block;
+        order: 3;
+        min-height: 2rem;
+        background-color: green;
+    }
+}

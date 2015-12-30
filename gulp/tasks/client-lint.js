@@ -1,5 +1,6 @@
 var gulp = require('gulp'),
     eslint = require('gulp-eslint'),
+    lodash = require('lodash'),
     config = require('../config');
 
 
@@ -14,7 +15,7 @@ gulp.task('client:lint:stylesheet', function () {
  * Lint the JavaScript contents using ESLINT
  */
 gulp.task('client:lint:javascript', function () {
-    return gulp.src(config.source.client.files.javascript)
+    return gulp.src(lodash.union(config.source.client.files.javascript, config.test.client))
         .pipe(eslint())
         .pipe(eslint.format())
         .pipe(eslint.failAfterError());
