@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 
-import arguments from 'shell-arguments';
+import args from 'shell-arguments';
 import config from 'config';
 import http from 'http';
 import createWebApplication from '../server/src/app';
@@ -8,8 +8,8 @@ import createWebApplication from '../server/src/app';
 // Command line arguments come in via shell-arguments.  Everything else
 // comes in via config.  We need to copy the shell-arguments to the config
 // for the known arguments.
-if (typeof arguments.port !== 'undefined') {
-    config.port = arguments.port;
+if (typeof args.port !== 'undefined') {
+    config.port = args.port;
 }
 
 // createWebApplication() returns a Promise which resolves to an express

@@ -1,6 +1,7 @@
 var gulp = require('gulp'),
     babelify = require('babelify'),
     browserify = require('browserify'),
+    browserifyshim = require('browserify-shim'),
     buffer = require('vinyl-buffer'),
     gutil = require('gulp-util'),
     source = require('vinyl-source-stream'),
@@ -23,6 +24,7 @@ gulp.task('client:build:javascript', [ 'client:test' ], function () {
     return browserify({ debug: true })
         .add(config.source.client.entry.javascript, { entry: true })
         .transform(babelify, { presets: [ 'es2015', 'react' ], sourceMaps: true })
+        .transform(browserifyshim)
         .bundle()
         .pipe(source('app.js'))
         .pipe(buffer())
