@@ -6,6 +6,29 @@ import logCollector from 'express-winston';
 import staticFiles from 'serve-static';
 import logger from './logger';
 
+const index = `<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Grumpy Wizards</title>
+
+    <link rel="stylesheet" href="app.css">
+</head>
+
+<body>
+    <div id="rootelement"></div>
+
+    <script src="//fb.me/react-0.14.4.min.js"></script>
+    <script src="//fb.me/react-dom-0.14.4.min.js"></script>
+    <script src="grumpywizards.js"></script>
+</body>
+
+</html>
+`;
+
 /**
  * Create an express web application and configure it.
  *
@@ -28,10 +51,15 @@ function createWebApplication(logging = true) {
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(bodyParser.json());
 
+    // Display the index.html file
+    app.get('/', function (request, response) {
+        response.status(200).type('text/html').send(index);
+    });
+
     app.use(staticFiles('public', {
         dotfile: 'ignore',
         etag: true,
-        index: 'index.html',
+        index: false,
         lastModified: true
     }));
 
