@@ -1,6 +1,8 @@
 var gulp = require('gulp'),
     eslint = require('gulp-eslint'),
     lodash = require('lodash'),
+    runSequence = require('run-sequence'),
+    sassLint = require('gulp-sass-lint'),
     config = require('../config');
 
 
@@ -8,7 +10,10 @@ var gulp = require('gulp'),
  * Lint the stylesheet using SASS-LINT
  */
 gulp.task('client:lint:stylesheet', function () {
-    // Nothing happening here right now
+    return gulp.src(config.source.client.files.stylesheet)
+        .pipe(sassLint())
+        .pipe(sassLint.format())
+        .pipe(sassLint.failOnError());
 });
 
 /**
@@ -24,7 +29,6 @@ gulp.task('client:lint:javascript', function () {
 /**
  * Composite task for linting the entire client set
  */
-gulp.task('client:lint', [
-    'client:lint:stylesheet',
-    'client:lint:javascript'
-]);
+gulp.task('client:lint', function (callback) {
+    runSequence('client:lint:stylesheet', 'client:lint:javascript', callback);
+});
