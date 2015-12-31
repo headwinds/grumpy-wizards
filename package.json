@@ -7,7 +7,7 @@
   "scripts": {
     "clean": "rimraf public",
     "pretest": "eslint client/src server/src client/test server/test && sass-lint -v -q -f stylish",
-    "test": "mocha --recursive --compilers js:babel-register --reporter spec client/test server/test",
+    "test": "mocha --recursive --compilers js:babel-register --reporter dot client/test server/test",
     "start": "node ./bin/www"
   },
   "engines": {
