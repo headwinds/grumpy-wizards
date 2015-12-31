@@ -1,5 +1,8 @@
 import React from 'react';
 
+// Stylesheet
+require('./Application.scss');
+
 /**
  * Main Application Router
  * @extends React.Component
