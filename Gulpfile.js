@@ -4,19 +4,9 @@ var gulp = require('gulp'),
 require('babel-register');
 requireAll('./gulp/tasks');
 
-gulp.task('default', [ 'test', 'build' ]);
+gulp.task('default', [ 'build' ]);
 
 gulp.task('build', [
     'client:build',
     'server:build'
-]);
-
-gulp.task('test', [
-    'client:test',
-    'server:test'
-]);
-
-gulp.task('lint', [
-    'client:lint',
-    'server:lint'
 ]);

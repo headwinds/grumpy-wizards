@@ -5,10 +5,10 @@
   "main": "bin/www",
   "private": true,
   "scripts": {
-    "build": "gulp build",
-    "prestart": "gulp clean build",
-    "start": "node ./bin/www",
-    "test": "gulp test"
+    "clean": "rimraf public",
+    "pretest": "eslint client/src server/src client/test server/test && sass-lint -v -q -f stylish",
+    "test": "mocha --recursive --compilers js:babel-register --reporter spec client/test server/test",
+    "start": "node ./bin/www"
   },
   "engines": {
     "node": ">=5.3.0",
@@ -39,22 +39,17 @@
     "browserify": "^12.0.1",
     "browserify-shim": "^3.8.11",
     "chai": "^3.4.1",
-    "del": "^2.2.0",
     "eslint-plugin-react": "^3.13.1",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^3.1.0",
-    "gulp-eslint": "^1.1.1",
     "gulp-minify-css": "^1.2.3",
-    "gulp-mocha": "^2.2.0",
     "gulp-sass": "^2.1.1",
-    "gulp-sass-lint": "^1.1.0",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^1.5.1",
-    "gulp-util": "^3.0.7",
-    "lodash": "^3.10.1",
     "react": "^0.14.5",
     "react-dom": "^0.14.5",
     "require-dir": "^0.3.0",
+    "rimraf": "^2.5.0",
     "run-sequence": "^1.1.5",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"

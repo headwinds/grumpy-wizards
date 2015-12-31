@@ -23,12 +23,17 @@ gulp.task('client:build:copyfiles', function () {
 /**
  * Transpile and combine all the JavaScript files into a single library
  */
-gulp.task('client:build:javascript', [ 'client:test' ], function () {
-    return browserify({ debug: true })
-        .add(config.source.client.entry.javascript, { entry: true })
-        .transform(babelify, { presets: [ 'es2015', 'react' ], sourceMaps: true })
-        .transform(browserifyshim)
-        .bundle()
+gulp.task('client:build:javascript', function () {
+    var options = {
+        extensions: [ '.js', '.jsx' ],
+        transforms: [
+            babelify.configure({ presets: [ 'es2015', 'react' ]}),
+            browserifyshim()
+        ],
+        debug: true
+    };
+
+    return browserify(config.source.client.entry.javascript, options).bundle()
         .pipe(source('app.js'))
         .pipe(buffer())
         .pipe(sourcemaps.init({ loadMaps: true }))
@@ -40,7 +45,7 @@ gulp.task('client:build:javascript', [ 'client:test' ], function () {
 /**
  * Build the CSS Stylesheet from SCSS Files
  */
-gulp.task('client:build:stylesheet', [ 'client:lint:stylesheet' ], function () {
+gulp.task('client:build:stylesheet', function () {
     return gulp.src(config.source.client.entry.stylesheet)
         .pipe(sourcemaps.init())
         .pipe(sass().on('error', sass.logError))
