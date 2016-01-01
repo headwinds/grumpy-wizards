@@ -1,5 +1,8 @@
 import React from 'react';
 
+// Components
+import Header from '../components/Header.jsx';
+
 // Stylesheet
 require('./Application.scss');
 
@@ -14,10 +17,10 @@ export default class Application extends React.Component {
      * @returns {JSX.Element} a JSX Expression
      */
     render() {
-        console.warn('In render function'); //es-lint-disable-line no-console
         return (
             <div className="application">
                 <div className="application-header">
+                    <Header/>
                 </div>
                 <div className="application-main">
                 </div>

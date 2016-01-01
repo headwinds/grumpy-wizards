@@ -1,0 +1,17 @@
+.header {
+    display: flex;
+    flex-flow: row nowrap;
+
+    &-brand {
+        order: 1;
+        flex-grow: 1;
+
+        > h1 {
+            font: 16pt 'Darkenstone';
+        }
+    }
+
+    &-menu {
+        order: 2;
+    }
+}
