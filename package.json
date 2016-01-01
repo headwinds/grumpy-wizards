@@ -7,7 +7,7 @@
   "scripts": {
     "clean": "rimraf public",
     "pretest": "eslint client/src server/src client/test server/test && sass-lint -v -q -f stylish",
-    "test": "mocha --recursive --compilers js:babel-register --reporter dot client/test server/test",
+    "test": "mocha --require ignore-styles --recursive --compilers js:babel-register --reporter dot client/test server/test",
     "prestart": "webpack -p",
     "start": "node ./bin/www"
   },
@@ -42,6 +42,7 @@
     "eslint": "^1.10.3",
     "eslint-plugin-react": "^3.13.1",
     "extract-text-webpack-plugin": "^0.9.1",
+    "ignore-styles": "^1.2.0",
     "mocha": "^2.3.4",
     "node-sass": "^3.4.2",
     "react": "^0.14.5",
