@@ -28,6 +28,9 @@ module.exports = {
     output: {
         filename: 'public/[name].js'
     },
+    sassLoader: {
+        includePaths: [ 'client/style' ]
+    },
     plugins: [
         new ExtractTextPlugin('public/grumpywizards.css')
     ]

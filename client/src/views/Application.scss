@@ -1,6 +1,4 @@
-$red: #FF0000;
-$gray: #E0E0E0;
-$green: #00FF00;
+@import 'colors';
 
 .application {
     position: fixed;
@@ -14,13 +12,12 @@ $green: #00FF00;
     &-header {
         display: block;
         min-height: 2rem;
-        background-color: $red;
+        background-color: $color-primary-0;
         order: 1;
     }
 
     &-main {
         display: block;
-        background-color: $gray;
         order: 2;
         flex-grow: 1;
     }
@@ -28,7 +25,7 @@ $green: #00FF00;
     &-footer {
         display: block;
         min-height: 2rem;
-        background-color: $green;
+        background-color: $color-secondary-2-4;
         order: 3;
     }
 }

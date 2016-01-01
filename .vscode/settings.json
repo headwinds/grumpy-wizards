@@ -1,0 +1,23 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+	// Enables or disables all validations
+	"sass.validate": true,
+    "sass.lint.compatibleVendorPrefixes": "warning",
+	"sass.lint.vendorPrefix": "warning",
+	"sass.lint.duplicateProperties": "warning",
+	"sass.lint.emptyRules": "warning",
+	"sass.lint.importStatement": "ignore",
+	"sass.lint.boxModel": "ignore",
+	"sass.lint.universalSelector": "warning",
+	"sass.lint.zeroUnits": "warning",
+	"sass.lint.fontFaceProperties": "warning",
+	"sass.lint.hexColorLength": "error",
+	"sass.lint.argumentsInColorFunction": "error",
+	"sass.lint.unknownProperties": "warning",
+	"sass.lint.ieHack": "warning",
+	"sass.lint.unknownVendorSpecificProperties": "warning",
+	"sass.lint.propertyIgnoredDueToDisplay": "warning",
+	"sass.lint.important": "error",
+	"sass.lint.float": "warning",
+	"sass.lint.idSelector": "error"
+}
