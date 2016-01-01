@@ -52,7 +52,7 @@ function createWebApplication(logging = true) {
     app.use(bodyParser.json());
 
     // Display the index.html file
-    app.get('/', function (request, response) {
+    app.get('/', (request, response) => {
         response.status(200).type('text/html').send(index);
     });
 

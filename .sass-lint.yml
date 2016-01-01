@@ -96,7 +96,7 @@ rules:
         - 2
         -
             allow-leading-underscore: false
-            convention: 'camelcase'
+            convention: 'hyphenatedlowercase'
 
     # Style Guide
     bem-depth: 0
