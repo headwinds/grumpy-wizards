@@ -15,7 +15,7 @@ const index = `<!DOCTYPE html>
 
     <title>Grumpy Wizards</title>
 
-    <link rel="stylesheet" href="app.css">
+    <link rel="stylesheet" href="grumpywizards.css">
 </head>
 
 <body>

@@ -1,18 +1,23 @@
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+
 module.exports = {
     entry: {
         grumpywizards: './client/src/app.jsx'
     },
-    devtool: 'inline-source-map',
+    devtool: 'source-map',
     module: {
         loaders: [
             {
                 test: /\.jsx?$/,
-                loaders: [ 'babel' ],
+                loader: 'babel',
                 exclude: /node_modules/
             },
             {
                 test: /\.scss$/,
-                loaders: [ 'style', 'css?sourceMap', 'sass?sourceMap' ]
+                loader: ExtractTextPlugin.extract(
+                    'style', // The backup style loader
+                    'css?sourceMap!sass?sourceMap'
+                )
             }
         ]
     },
@@ -22,5 +27,8 @@ module.exports = {
     },
     output: {
         filename: 'public/[name].js'
-    }
+    },
+    plugins: [
+        new ExtractTextPlugin('public/grumpywizards.css')
+    ]
 };
