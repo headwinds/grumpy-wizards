@@ -2,13 +2,15 @@ var OFF = 0, WARN = 1, ERROR = 2;
 
 module.exports = exports = {
     env: {
-        'es6': true,
-        'browser': true
+        'es6': true,        // We are writing ES6 code
+        'browser': true,    // for the browser
+        'commonjs': true    // and use require() for stylesheets
     },
     ecmaFeatures: {
         'jsx': true,
         'modules': true
     },
+    parser: 'babel-eslint',
     plugins: [
         'react'
     ],
@@ -22,7 +24,7 @@ module.exports = exports = {
         'react/jsx-handler-names': [ ERROR, { eventHandlerPrefix: 'on' } ],
         'react/jsx-indent-props': [ WARN, 4 ],
         'react/jsx-key': ERROR,
-        'react/jsx-max-props-per-line': [ WARN, 4 ],
+        'react/jsx-max-props-per-line': [ WARN, { maximum: 4 } ],
         'react/jsx-no-bind': ERROR,
         'react/jsx-no-duplicate-props': [ ERROR, { ignoreCase: true }],
         'react/jsx-no-literals': WARN,

@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "clean": "rimraf public",
-    "pretest": "eslint client/src server/src client/test server/test && sass-lint -v -q -f stylish",
+    "pretest": "sass-lint -v -q -f stylish",
     "test": "mocha --require ignore-styles --recursive --compilers js:babel-register --reporter dot client/test server/test",
     "prestart": "webpack -p",
     "start": "node ./bin/www"
@@ -35,11 +35,14 @@
     "winston": "^2.1.1"
   },
   "devDependencies": {
+    "babel-eslint": "^5.0.0-beta6",
     "babel-loader": "^6.2.0",
+    "babel-plugin-transform-class-properties": "^6.3.13",
     "babel-preset-react": "^6.3.13",
     "chai": "^3.4.1",
     "css-loader": "^0.23.1",
     "eslint": "^1.10.3",
+    "eslint-loader": "^1.1.1",
     "eslint-plugin-react": "^3.13.1",
     "extract-text-webpack-plugin": "^0.9.1",
     "file-loader": "^0.8.5",

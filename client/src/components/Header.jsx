@@ -1,5 +1,8 @@
 import React from 'react';
 
+// Components
+import AppMenu from './AppMenu.jsx';
+
 // Stylesheet
 require('./Header.scss');
 
@@ -16,10 +19,11 @@ export default class Header extends React.Component {
     render() {
         return (
             <div className="header">
-                <div className="header-brand">
-                    <h1>Grumpy Wizards</h1>
+                <div className="header--brand">
+                    <h1>{'Grumpy Wizards'}</h1>
                 </div>
-                <div className="header-menu">
+                <div className="header--menu">
+                    <AppMenu/>
                 </div>
             </div>
         );

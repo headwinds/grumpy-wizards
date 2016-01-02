@@ -11,7 +11,7 @@
 
     &-header {
         display: block;
-        min-height: 2rem;
+        height: 6rem;
         background-color: $color-primary-0;
         order: 1;
     }
@@ -24,7 +24,7 @@
 
     &-footer {
         display: block;
-        min-height: 2rem;
+        height: 3rem;
         background-color: $color-secondary-2-4;
         order: 3;
     }

@@ -6,6 +6,10 @@ module.exports = {
     },
     devtool: 'source-map',
     module: {
+        preLoaders: [
+            // Javascript
+            { test: /\.jsx?$/, loader: 'eslint', exclude: /node_modules/ }
+        ],
         loaders: [
             // Javascript
             { test: /\.jsx?$/, loader: 'babel', exclude: /node_modules/ },
@@ -26,6 +30,10 @@ module.exports = {
     },
     output: {
         filename: 'public/[name].js'
+    },
+    eslint: {
+        failOnWarning: false,
+        failOnError: true
     },
     sassLoader: {
         includePaths: [ 'client/style' ]
