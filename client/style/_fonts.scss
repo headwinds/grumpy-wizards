@@ -1,0 +1,13 @@
+// FONTS
+//
+// The settings for the Title Font
+//
+@import url(https://fonts.googleapis.com/css?family=Fontdiner+Swanky);
+
+$title-font-size: 20pt;
+$title-font-family: 'Fontdiner Swanky', cursive;
+$title-font-weight: normal;
+$title-font-color: rgba(255, 255, 255, 0.7);
+$title-font-margin: 1rem;
+
+$title-font: $title-font-weight $title-font-size $title-font-family;

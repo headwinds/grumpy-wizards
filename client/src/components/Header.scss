@@ -1,5 +1,10 @@
+@import 'colors';
+@import 'fonts';
+
 .header {
     display: flex;
+    width: 100%;
+    padding: 0 1rem;
     flex-flow: row nowrap;
 
     &-brand {
@@ -7,7 +12,9 @@
         flex-grow: 1;
 
         > h1 {
-            font: 16pt 'Darkenstone';
+            margin: $title-font-margin 0;
+            font: $title-font;
+            color: $title-font-color;
         }
     }
 

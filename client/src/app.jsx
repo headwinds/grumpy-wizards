@@ -4,8 +4,7 @@ import ReactDOM from 'react-dom';
 // Components
 import Application from './views/Application.jsx';
 
-// Stylesheets
-require('./fonts/font-darkenstone/darkenstone.scss');
+// Stylesheet
 require('./app.scss');
 
 // Render the application
