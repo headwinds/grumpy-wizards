@@ -6,7 +6,6 @@
   "private": true,
   "scripts": {
     "clean": "rimraf public",
-    "pretest": "sass-lint -v -q -f stylish",
     "test": "mocha --require ignore-styles --recursive --compilers js:babel-register --reporter dot client/test server/test",
     "prestart": "webpack -p",
     "start": "node ./bin/www"
