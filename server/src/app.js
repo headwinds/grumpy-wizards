@@ -1,9 +1,20 @@
-import azureMobileApp from 'azure-mobile-apps';
+/* global __dirname */
+
+// Node API Imports
+import fs from 'fs';
+import path from 'path';
+
+// ExpressJS API Imports
 import bodyParser from 'body-parser';
 import compression from 'compression';
 import express from 'express';
 import logCollector from 'express-winston';
 import staticFiles from 'serve-static';
+
+// Azure API Imports
+import azureMobileApp from 'azure-mobile-apps';
+
+// Local Imports
 import logger from './logger';
 
 const index = `<!DOCTYPE html>
@@ -22,6 +33,23 @@ const index = `<!DOCTYPE html>
 </body>
 </html>
 `;
+
+/**
+ * Make a directory if it does not already exist
+ * @param {string} path - the path to create
+ * @param {number} mode - the permissions
+ */
+function mkdirSyncIfNotExists(path, mode) {
+    try {
+        fs.mkdirSync(path, mode)
+    } catch(error) {
+        if (error.code === 'EEXIST') {
+            console.warn(`Path ${path} already exists - skipping`);
+        } else {
+            throw error;
+        }
+    }
+}
 
 /**
  * Create an express web application and configure it.
@@ -57,8 +85,13 @@ function createWebApplication(logging = true) {
         lastModified: true
     }));
 
-    mobile.tables.import('./tables');
-    mobile.api.import('./api');
+    var tablePath = path.join(__dirname, 'tables');
+    mkdirSyncIfNotExists(tablePath);
+    mobile.tables.import(tablePath);
+
+    var apiPath = path.join(__dirname, 'api');
+    mkdirSyncIfNotExists(apiPath);
+    mobile.api.import(apiPath);
 
     return mobile.tables.initialize().then(() => {
         app.use(mobile);
