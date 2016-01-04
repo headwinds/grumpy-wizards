@@ -43,8 +43,8 @@ function mkdirSyncIfNotExists(path, mode) {
     try {
         fs.mkdirSync(path, mode)
     } catch(error) {
-        if (error.code === 'EEXIST') {
-            console.warn(`Path ${path} already exists - skipping`);
+        if (error.code) {
+            if (error.code !== 'EEXIST') throw error;
         } else {
             throw error;
         }
