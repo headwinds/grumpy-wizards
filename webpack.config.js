@@ -1,5 +1,6 @@
 /* global __dirname */
-var path = require('path');
+var autoprefixer = require('autoprefixer'),
+    path = require('path');
 
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
@@ -23,8 +24,8 @@ module.exports = {
             // Javascript
             { test: /\.jsx?$/, loader: 'babel', exclude: /node_modules/ },
             // Stylesheets
-            { test: /\.css$/, loader: ExtractTextPlugin.extract( 'style', 'css?sourceMap') },
-            { test: /\.s(a|c)ss$/, loader: ExtractTextPlugin.extract( 'style', 'css?sourceMap!sass?sourceMap') },
+            { test: /\.css$/, loader: ExtractTextPlugin.extract( 'style', 'css?sourceMap|postcss') },
+            { test: /\.s(a|c)ss$/, loader: ExtractTextPlugin.extract( 'style', 'css?sourceMap!postcss!sass?sourceMap') },
             // Font Definitions
             { test: /\.svg$/, loader: 'url?limit=65000&mimetype=image/svg+xml&name=public/fonts/[name].[ext]' },
             { test: /\.woff$/, loader: 'url?limit=65000&mimetype=application/font-woff&name=public/fonts/[name].[ext]' },
@@ -45,6 +46,11 @@ module.exports = {
         failOnWarning: false,
         failOnError: true
     },
+    postcss: [
+        autoprefixer({
+            browsers: [ '> 5%', 'last 2 versions' ]
+        })
+    ],
     stylelint: {
         configFile: path.join(__dirname, './.stylelint.config.js')
     },
