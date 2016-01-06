@@ -55,7 +55,7 @@
     "style-loader": "^0.13.0",
     "stylelint": "^3.2.0",
     "stylelint-config-suitcss": "^2.0.0",
-    "stylelint-loader": "github:adrianhall/stylelint-loader",
+    "stylelint-loader": "^0.1.0",
     "url-loader": "^0.5.7",
     "webpack": "^1.9.11"
   }
