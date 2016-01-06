@@ -7,6 +7,7 @@
   "scripts": {
     "clean": "rimraf public",
     "test": "mocha --require ignore-styles --recursive --compilers js:babel-register --reporter dot client/test server/test",
+    "watch": "webpack --watch",
     "prestart": "webpack -p",
     "start": "node ./bin/www"
   },
