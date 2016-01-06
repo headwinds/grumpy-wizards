@@ -1,31 +1,31 @@
 @import 'colors';
 
 .application {
-    position: fixed;
-    top: 0;
-    right: 0;
     bottom: 0;
-    left: 0;
     display: flex;
     flex-flow: column nowrap;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
 
     &-header {
+        background-color: $color-primary-0;
         display: block;
         height: 6rem;
-        background-color: $color-primary-0;
         order: 1;
     }
 
     &-main {
         display: block;
-        order: 2;
         flex-grow: 1;
+        order: 2;
     }
 
     &-footer {
+        background-color: $color-secondary-2-4;
         display: block;
         height: 3rem;
-        background-color: $color-secondary-2-4;
         order: 3;
     }
 }

@@ -17,7 +17,7 @@ module.exports = {
             // Javascript
             { test: /\.jsx?$/, loader: 'eslint', exclude: /node_modules/ },
             // Stylesheets
-            { test: /\.s(a|c)ss$/, loader: 'sasslint' }
+            { test: /\.s(a|c)ss$/, loader: 'stylelint' }
         ],
         loaders: [
             // Javascript
@@ -45,8 +45,8 @@ module.exports = {
         failOnWarning: false,
         failOnError: true
     },
-    sasslint: {
-        configFile: path.join(__dirname, './.sass-lint.yml')
+    stylelint: {
+        configFile: path.join(__dirname, './.stylelint.config.js')
     },
     sassLoader: {
         includePaths: [ 'client/style' ]
