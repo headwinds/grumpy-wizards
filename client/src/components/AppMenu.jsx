@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Components
-import MenuElement from './MenuElement.jsx';
+import LoginMenuElement from './LoginMenuElement.jsx';
 
 // Stylesheet
 require('./AppMenu.scss');
@@ -23,7 +23,7 @@ export default class AppMenu extends React.Component {
         return (
             <div className="appmenu">
                 <ul>
-                    <li><MenuElement style="v" icon="login" title="Login"/></li>
+                    <li><LoginMenuElement menu={false}/></li>
                 </ul>
             </div>
         );

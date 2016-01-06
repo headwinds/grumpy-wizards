@@ -37,8 +37,8 @@ export default class MenuElement extends React.Component {
 
         return (
             <div className="menuelement">
-                <span className={classes}></span>
-                <span className="menuelement--title">{this.props.title}</span>
+                <div className="menuelement--icon"><span className={classes}></span></div>
+                <div className="menuelement--title">{this.props.title}</div>
             </div>
         );
     }
