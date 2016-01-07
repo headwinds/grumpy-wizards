@@ -1,5 +1,4 @@
 @import 'colors';
-@import 'fonts';
 @import url('https://cdn.materialdesignicons.com/1.3.41/css/materialdesignicons.min.css');
 
 .menuelement {
@@ -8,11 +7,6 @@
 
     &--icon {
         font-size: 1.6rem;
-        text-align: center;
-    }
-
-    &--title {
-        font: 1.2rem $sans-fontstack;
         text-align: center;
     }
 }

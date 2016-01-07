@@ -22,9 +22,7 @@ export default class MenuElement extends React.Component {
      *  {bool} menu - is this is a menu or an icon only?
      */
     static propTypes = {
-        icon: React.PropTypes.string.isRequired,
-        menu: React.PropTypes.bool.isRequired,
-        title: React.PropTypes.string.isRequired
+        icon: React.PropTypes.string.isRequired
     };
 
     /**
@@ -34,14 +32,10 @@ export default class MenuElement extends React.Component {
      */
     render() {
         let classes = `mdi mdi-${this.props.icon}`;
-        let mainclass = this.props.menu ? 'menuelement-menu' : 'menuelement';
-        let iconclass = `${mainclass}--icon`;
-        let titleclass = `${mainclass}--title`;
 
         return (
-            <div className={mainclass}>
-                <div className={iconclass}><span className={classes}></span></div>
-                <div className={titleclass}>{this.props.title}</div>
+            <div className="menuelement">
+                <div className="menuelement--icon"><span className={classes}></span></div>
             </div>
         );
     }

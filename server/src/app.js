@@ -1,18 +1,11 @@
 /* global __dirname */
 
-// Node API Imports
-import fs from 'fs';
-import path from 'path';
-
 // ExpressJS API Imports
 import bodyParser from 'body-parser';
 import compression from 'compression';
 import express from 'express';
 import logCollector from 'express-winston';
 import staticFiles from 'serve-static';
-
-// Azure API Imports
-import azureMobileApp from 'azure-mobile-apps';
 
 // Local Imports
 import logger from './logger';
@@ -35,31 +28,13 @@ const index = `<!DOCTYPE html>
 `;
 
 /**
- * Make a directory if it does not already exist
- * @param {string} path - the path to create
- * @param {number} mode - the permissions
- */
-function mkdirSyncIfNotExists(path, mode) {
-    try {
-        fs.mkdirSync(path, mode)
-    } catch(error) {
-        if (error.code) {
-            if (error.code !== 'EEXIST') throw error;
-        } else {
-            throw error;
-        }
-    }
-}
-
-/**
  * Create an express web application and configure it.
  *
  * @param {boolean} [logging=true] - add transaction logging
  * @returns {Promise.<express>} A promisified express application
  */
 function createWebApplication(logging = true) {
-    let app = express(),
-        mobile = azureMobileApp();
+    let app = express();
 
     if (typeof logging === 'undefined' || logging === true) {
         app.use(logCollector.logger({
@@ -85,18 +60,10 @@ function createWebApplication(logging = true) {
         lastModified: true
     }));
 
-    var tablePath = path.join(__dirname, 'tables');
-    mkdirSyncIfNotExists(tablePath);
-    mobile.tables.import(tablePath);
-
-    var apiPath = path.join(__dirname, 'api');
-    mkdirSyncIfNotExists(apiPath);
-    mobile.api.import(apiPath);
-
-    return mobile.tables.initialize().then(() => {
-        app.use(mobile);
+    // We need to return a promise so that we can support the base bin/www functionality
+    return new Promise((resolve) => {
         app.use(logCollector.errorLogger({ winstonInstance: logger }));
-        return app;
+        resolve(app);
     });
 }
 

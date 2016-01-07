@@ -25,5 +25,22 @@
         display: block;
         height: 100%;
         order: 2;
+
+        > .appmenu {
+            display: block;
+            height: 100%;
+            padding-right: 3rem;
+
+            > ul {
+                display: table;
+                height: 100%;
+                margin: 0;
+
+                > li {
+                    display: table-cell;
+                    vertical-align: middle;
+                }
+            }
+        }
     }
 }
