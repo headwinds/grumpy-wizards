@@ -33,7 +33,7 @@ export default class MenuElement extends React.Component {
      * @returns {JSX.Element} a JSX Expression
      */
     render() {
-        let classes = 'mdi mdi-login';
+        let classes = `mdi mdi-${this.props.icon}`;
         let mainclass = this.props.menu ? 'menuelement-menu' : 'menuelement';
         let iconclass = `${mainclass}--icon`;
         let titleclass = `${mainclass}--title`;

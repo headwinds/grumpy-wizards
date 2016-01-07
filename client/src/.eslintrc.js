@@ -16,6 +16,7 @@ module.exports = exports = {
     ],
     rules: {
         'jsx-quotes': [ WARN, 'prefer-double' ],
+        'guard-for-in': OFF,
         'react/display-name': [ WARN, { acceptTranspilerName: true } ],
         'react/forbid-prop-types': WARN,
         'react/jsx-boolean-value': [ WARN, 'always' ],

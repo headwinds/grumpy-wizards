@@ -47,6 +47,7 @@
     "eslint-plugin-react": "^3.13.1",
     "extract-text-webpack-plugin": "^0.9.1",
     "file-loader": "^0.8.5",
+    "flux": "^2.1.1",
     "ignore-styles": "^1.2.0",
     "mocha": "^2.3.4",
     "node-sass": "^3.4.2",
@@ -60,6 +61,7 @@
     "stylelint-config-suitcss": "^2.0.0",
     "stylelint-loader": "^0.1.0",
     "url-loader": "^0.5.7",
+    "uuid": "^2.0.1",
     "webpack": "^1.9.11"
   }
 }

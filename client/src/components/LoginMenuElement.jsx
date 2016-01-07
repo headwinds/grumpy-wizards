@@ -1,6 +1,7 @@
 import React from 'react';
 
 import MenuElement from './MenuElement.jsx';
+import authStore from '../flux/AuthStore';
 
 /**
  * LoginMenuElement Component - handles a login capability
@@ -29,6 +30,41 @@ export default class LoginMenuElement extends React.Component {
      */
     constructor(props) {
         super(props);
+
+        this.state = {
+            authState: 'unknown'
+        };
+    }
+
+    /**
+     * React API - componentWillMount() is called right before the component
+     * is added to the DOM
+     * @returns {void}
+     */
+    componentWillMount() {
+        this.authStoreID = authStore.addStoreListener(() => {
+            this.updateState();
+        });
+        this.updateState();
+    }
+
+    /**
+     * React API - componentWillUnmount() is called right before the component
+     * is removed from the DOM
+     * @returns {void}
+     */
+    componentWillUnmount() {
+        authStore.removeStoreListener(this.authStoreID);
+    }
+
+    /**
+     * Read the state and set the state according to the auth store
+     * @returns {void}
+     */
+    updateState() {
+        this.setState({
+            authState: authStore.state
+        });
     }
 
     /**
@@ -37,6 +73,17 @@ export default class LoginMenuElement extends React.Component {
      * @returns {JSX.Element} a JSX Expression
      */
     render() {
-        return <MenuElement menu={this.props.menu} icon="login" title="Login"/>;
+        /* eslint-disable no-multi-spaces */
+        let stateInfo = {
+            unknown:       { icon: 'link-off', title: ''       },
+            init:          { icon: 'link',     title: ''       },
+            anonymous:     { icon: 'login',    title: 'Login'  },
+            authenticated: { icon: 'logout',   title: 'Logout' }
+        };
+        /* eslint-enable no-multi-spaces */
+        let icon = stateInfo[this.state.authState].icon;
+        let title = stateInfo[this.state.authState].title;
+
+        return <MenuElement menu={this.props.menu} icon={icon} title={title}/>;
     }
 }
