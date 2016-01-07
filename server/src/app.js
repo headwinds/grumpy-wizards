@@ -8,6 +8,7 @@ import logCollector from 'express-winston';
 import staticFiles from 'serve-static';
 
 // Local Imports
+import configRouter from './config';
 import logger from './logger';
 
 const index = `<!DOCTYPE html>
@@ -47,6 +48,9 @@ function createWebApplication(logging = true) {
     app.use(compression());
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(bodyParser.json());
+
+    // Overrides for the API Definition
+    app.use('/config', configRouter);
 
     // Display the index.html file
     app.get('/', (request, response) => {

@@ -1,3 +1,8 @@
 {
-    "port": 3000
+    "port": 3000,
+    "auth": {
+        "clientid": "NOT-SET",
+        "secret": "NOT-SET",
+        "domain": "NOT-SET"
+    }
 }
