@@ -20,7 +20,8 @@ const index = `<!DOCTYPE html>
     <link rel="stylesheet" href="grumpywizards.css">
 </head>
 <body>
-    <div id="rootelement"></div>
+    <div id="jsx-page"></div>
+
     <script src="//fb.me/react-0.14.4.min.js"></script>
     <script src="//fb.me/react-dom-0.14.4.min.js"></script>
     <script src="grumpywizards.js"></script>
@@ -50,7 +51,7 @@ function createWebApplication(logging = true) {
     app.use(bodyParser.json());
 
     // Overrides for the API Definition
-    app.use('/config', configRouter);
+    //app.use('/config', configRouter);
 
     // Display the index.html file
     app.get('/', (request, response) => {

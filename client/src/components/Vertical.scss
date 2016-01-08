@@ -1,0 +1,21 @@
+.vertical {
+    display: table;
+    height: 100%;
+
+    > div {
+        display: table-cell;
+        height: 100%;
+
+        &.vertical--align-top {
+            vertical-align: top;
+        }
+
+        &.vertical--align-middle {
+            vertical-align: middle;
+        }
+
+        &.vertical--align-bottom {
+            vertical-align: bottom;
+        }
+    }
+}

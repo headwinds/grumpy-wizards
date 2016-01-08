@@ -45,6 +45,7 @@ export default class Store extends EventEmitter {
     addStoreListener(callback) {
         let id = uuid.v4();
         this.stores.set(id, callback);
+        console.info(`[Store] adding store listener ID ${id}`); // eslint-disable-line no-console
         return id;
     }
 
@@ -54,6 +55,7 @@ export default class Store extends EventEmitter {
      * @returns {void}
      */
     removeStoreListener(id) {
+        console.info(`[Store] removing store listener ID ${id}`); // eslint-disable-line no-console
         delete this.stores[id];
     }
 
@@ -62,6 +64,7 @@ export default class Store extends EventEmitter {
      * @returns {void}
      */
     storeChanged() {
+        console.info('[Store] Store Changed'); // eslint-disable-line no-console
         this.emit('store-changed');
     }
 
@@ -70,7 +73,9 @@ export default class Store extends EventEmitter {
      * @returns {void}
      */
     onStoreChanged() {
+        console.info('[Store] onStoreChanged: stores = ', this.stores.keys()); // eslint-disable-line no-console
         for (let key in this.stores.keys()) {
+            console.info(`[Store] informing ID ${key}`); // eslint-disable-line no-console
             this.stores.get(key)();
         }
     }

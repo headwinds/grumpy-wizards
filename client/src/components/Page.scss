@@ -1,0 +1,14 @@
+.page {
+    display: flex;
+    flex-flow: column nowrap;
+    height: 100%;
+    width: 100%;
+
+    > div {
+        display: block;
+    }
+
+    > div.page--grow {
+        flex-grow: 1;
+    }
+}

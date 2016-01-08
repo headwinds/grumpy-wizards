@@ -2,13 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 // Components
-import Application from './views/Application.jsx';
+import Page from './components/Page.jsx';
 
-// Stylesheet
 require('./app.scss');
 
 // Render the application
-ReactDOM.render(
-    <Application/>,
-    document.getElementById('rootelement')
-);
+ReactDOM.render(<Page/>, document.getElementById('jsx-page'));
