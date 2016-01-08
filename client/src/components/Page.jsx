@@ -1,5 +1,6 @@
 import React from 'react';
 import appStore from '../flux/appstore';
+import ClientLogger from '../flux/logger';
 
 import Content from './Content.jsx';
 import Footer from './Footer.jsx';
@@ -7,15 +8,20 @@ import Header from './Header.jsx';
 
 require('./Page.scss');
 
+let logger = new ClientLogger('Page.jsx');
+
 export default class Page extends React.Component {
     /**
      * Invoked once before the component is mounted for the first time
      * @returns {Object} the initial state
      */
     getInitialState() {
-        return {
+        logger.entry('getInitialState');
+        let initState = {
             errorMessage: null
         };
+        logger.exit('getInitialState', initState);
+        return initState;
     }
 
     /**
@@ -23,11 +29,16 @@ export default class Page extends React.Component {
      * @returns {void}
      */
     componentWillMount() {
+        logger.entry('componentWillMount');
+
+        logger.debug('registering view with AppStore');
         this.storeid = appStore.addStoreListener(() => {
-            console.info('[Page.jsx] in store listener callback'); // eslint-disable-line no-console
+            logger.trace('AppStore has updated - updating state');
             this.updateState();
         });
+        logger.debug('store ID = ', this.storeid);
         this.updateState();
+        logger.exit('componentWillMount');
     }
 
     /**
@@ -35,7 +46,9 @@ export default class Page extends React.Component {
      * @returns {void}
      */
     componentWillUnmount() {
+        logger.entry('componentWillUnmount');
         appStore.removeStoreListener(this.storeid);
+        logger.exit('componentWillUnmount');
     }
 
     /**
@@ -44,10 +57,15 @@ export default class Page extends React.Component {
      * @returns {void}
      */
     updateState() {
-        console.info('[Page.jsx] updateState: errorMessage = ', appStore.errorMessage); // eslint-disable-line no-console
-        this.setState({
+        logger.entry('updateState');
+
+        let newState = {
             errorMessage: appStore.errorMessage
-        });
+        };
+        logger.debug('updateState: new state = ', newState);
+        this.setState(newState);
+
+        logger.exit('updateState');
     }
 
     /**
@@ -57,13 +75,17 @@ export default class Page extends React.Component {
      * @overrides React.Component#render
      */
     render() {
+        logger.entry('render');
+
         let errorComponent = '';
         if (this.state.errorMessage) {
-            console.log(`error message = ${this.state.errorMessage}`); // eslint-disable-line no-console
+            logger.debug('render: There is an error message in state');
             errorComponent = <div className="error">{this.state.errorMessage}</div>;
+        } else {
+            logger.debug('render: no error message in state');
         }
 
-        return (
+        let jsx = (
             <div className="page">
                 {errorComponent}
                 <div><Header/></div>
@@ -71,5 +93,8 @@ export default class Page extends React.Component {
                 <div><Footer/></div>
             </div>
         );
+
+        logger.exit('render');
+        return jsx;
     }
 }

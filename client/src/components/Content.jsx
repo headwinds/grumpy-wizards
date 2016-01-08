@@ -1,4 +1,7 @@
 import React from 'react';
+import ClientLogger from '../flux/logger';
+
+let logger = new ClientLogger('Content.jsx');
 
 /**
  * Eventually, this will be the content router
@@ -12,6 +15,9 @@ export default class Content extends React.Component {
      * @overrides React.Component#render
      */
     render() {
-        return <section className="content"></section>;
+        logger.entry('render');
+        let jsx = <section className="content"></section>;
+        logger.exit('render');
+        return jsx;
     }
 }

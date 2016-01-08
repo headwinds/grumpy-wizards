@@ -22,6 +22,7 @@ const index = `<!DOCTYPE html>
 <body>
     <div id="jsx-page"></div>
 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/core-js/2.0.2/core.min.js"></script>
     <script src="//fb.me/react-0.14.4.min.js"></script>
     <script src="//fb.me/react-dom-0.14.4.min.js"></script>
     <script src="grumpywizards.js"></script>
@@ -51,7 +52,7 @@ function createWebApplication(logging = true) {
     app.use(bodyParser.json());
 
     // Overrides for the API Definition
-    //app.use('/config', configRouter);
+    app.use('/config', configRouter);
 
     // Display the index.html file
     app.get('/', (request, response) => {

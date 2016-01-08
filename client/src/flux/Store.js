@@ -1,4 +1,5 @@
 import dispatcher from './dispatcher';
+import ClientLogger from './logger';
 import EventEmitter from 'events';
 import uuid from 'uuid';
 
@@ -9,20 +10,26 @@ import uuid from 'uuid';
 export default class Store extends EventEmitter {
     /**
      * Create a new store.
+     * @param {string} name the name of the store
      * @returns {void}
      */
-    constructor() {
+    constructor(name) {
         super();
 
+        this.name = name;
+        this.logger = new ClientLogger(`Store-${name}`);
         this.stores = new Map();
 
-        // register this store with the dispatcher
+        this.logger.entry('constructor-Store', { name: name });
+        this.logger.trace('Registering onAction with dispatcher');
         dispatcher.register((payload) => {
             return this.onAction(payload);
         });
 
-        // register a handler for store change events
+        this.logger.trace('Registering onStoreChanged for store-changed events');
         this.on('store-changed', this.onStoreChanged.bind(this));
+
+        this.logger.exit('constructor-Store');
     }
 
     /**
@@ -43,9 +50,11 @@ export default class Store extends EventEmitter {
      * @returns {string} id for removing the store listener
      */
     addStoreListener(callback) {
+        this.logger.entry('addStoreListener', { callback: callback });
         let id = uuid.v4();
         this.stores.set(id, callback);
-        console.info(`[Store] adding store listener ID ${id}`); // eslint-disable-line no-console
+        this.logger.trace('addStoreListener: stores=', this.stores);
+        this.logger.exit('addStoreListener', id);
         return id;
     }
 
@@ -55,8 +64,15 @@ export default class Store extends EventEmitter {
      * @returns {void}
      */
     removeStoreListener(id) {
-        console.info(`[Store] removing store listener ID ${id}`); // eslint-disable-line no-console
-        delete this.stores[id];
+        this.logger.entry('removeStoreListener', { id: id });
+        if (this.stores.has(id)) {
+            this.logger.debug(`removeStoreListener: found id ${id} - deleting`);
+            this.stores.delete(id);
+        } else {
+            this.logger.debug(`removeStoreListener: did not find id ${id}`);
+        }
+        this.logger.trace('removeStoreListener: stores=', this.stores);
+        this.logger.exit('removeStoreListener');
     }
 
     /**
@@ -64,8 +80,9 @@ export default class Store extends EventEmitter {
      * @returns {void}
      */
     storeChanged() {
-        console.info('[Store] Store Changed'); // eslint-disable-line no-console
+        this.logger.entry('storeChanged');
         this.emit('store-changed');
+        this.logger.exit('storeChanged');
     }
 
     /**
@@ -73,10 +90,11 @@ export default class Store extends EventEmitter {
      * @returns {void}
      */
     onStoreChanged() {
-        console.info('[Store] onStoreChanged: stores = ', this.stores.keys()); // eslint-disable-line no-console
-        for (let key in this.stores.keys()) {
-            console.info(`[Store] informing ID ${key}`); // eslint-disable-line no-console
-            this.stores.get(key)();
+        this.logger.entry('onStoreChanged');
+        for (let [ id, storeHandler ] of this.stores) {
+            this.logger.trace('Executing callback for view ', id);
+            storeHandler();
         }
+        this.logger.exit('onStoreChanged');
     }
 }

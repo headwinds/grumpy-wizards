@@ -1,6 +1,9 @@
 import React from 'react';
+import ClientLogger from '../flux/logger';
 
 require('./Footer.scss');
+
+let logger = new ClientLogger('Footer.jsx');
 
 /**
  * @extends React.Component
@@ -13,12 +16,15 @@ export default class Footer extends React.Component {
      * @overrides React.Component#render
      */
     render() {
-        return (
+        logger.entry('render');
+        let jsx = (
             <footer>
                 <div className="footer--left"></div>
                 <div className="footer--center"></div>
                 <div className="footer--right"></div>
             </footer>
         );
+        logger.exit('render');
+        return jsx;
     }
 }

@@ -13,22 +13,31 @@ class AppStore extends Store {
      * @returns {void}
      */
     constructor() {
-        super();
+        super('App');
 
+        this.logger.entry('constructor-AppStore');
+
+        this.logger.trace('Setting initial data set');
         this.data = {
             errorMessage: null,
             authPhase: 'initializing',
             authConfig: { clientId: null, clientDomain: null },
             currentUser: null
         };
+        this.logger.debug('this.data = ', this.data);
 
+        this.logger.trace('Setting dispatch table');
         this.dispatchTable = {
             'init-appstore': (payload) => {
                 return this.initializeStore(payload);
             }
         };
+        this.logger.debug('this.dispatchTable = ', this.dispatchTable);
 
+        this.logger.trace('Dispatching init-appstore action');
         dispatcher.dispatch({ actionType: 'init-appstore' });
+
+        this.logger.exit('constructor-AppStore');
     }
 
     /**
@@ -39,12 +48,19 @@ class AppStore extends Store {
      * @overrides Store#onAction
      */
     onAction(action) {
-        console.info('[AppStore] onAction:', action); // eslint-disable-line no-console
+        this.logger.entry('onAction', { action: action });
         if (action.actionType) {
             if (typeof this.dispatchTable[action.actionType] === 'function') {
-                return this.dispatchTable[action.actionType](action);
+                this.logger.debug(`Dispatching action ${action.actionType}`);
+                let returns = this.dispatchTable[action.actionType](action);
+                this.logger.exit('onAction', returns);
+                return returns;
             }
+            this.logger.debug(`Ignoring action ${action.actionType} - no dispatch table`);
+        } else {
+            this.logger.debug(`Ignoring action - no actionType`);
         }
+        this.logger.exit('onAction', false);
         return false;
     }
 
@@ -53,24 +69,34 @@ class AppStore extends Store {
      * @returns {bool} true if this action was handled
      */
     initializeStore() {
+        this.logger.entry('initializeStore');
+
+        this.logger.debug('initalizeStore: Calling API: GET /config/auth');
         fetch('/config/auth')
             .then((response) => {
+                this.logger.debug('initializeStore: Response = ', response);
                 if (!response.ok) {
+                    this.logger.debub('initializeStore: Error received - changing store');
                     let errmsg = `Error retrieving /config/auth: ${response.statusText}`;
                     this.data.errorMessage = errmsg;
                     this.storeChanged();
                     return null;
                 }
+                this.logger.debug('initializeStore: Converstion to JSON');
                 return response.json();
             })
             .then((config) => {
+                this.logger.debug('initializeStore: config = ', config);
                 if (config) {
+                    this.logger.debug('initializeStore: config received - changing store');
                     this.data.authConfig.clientId = config.clientid;
                     this.data.authConfig.clientDomain = config.domain;
                     this.data.authPhase = 'anonymous';
                     this.storeChanged();
                 }
             });
+
+        this.logger.exit('initializeStore', true);
         return true;
     }
 

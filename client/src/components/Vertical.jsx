@@ -1,6 +1,9 @@
 import React from 'react';
+import ClientLogger from '../flux/logger';
 
 require('./Vertical.scss');
+
+let logger = new ClientLogger('Vertical');
 
 /**
  * Vertically align something with its parent
@@ -26,14 +29,19 @@ export default class Vertical extends React.Component {
      * @overrides React.Component#render
      */
     render() {
-        let vclass = `vertical--align-${this.props.align}`;
+        logger.entry('render');
 
-        return (
+        let vclass = `vertical--align-${this.props.align}`;
+        logger.debug(`render: vclass = ${vclass}`);
+
+        let jsx = (
             <div className="vertical">
                 <div className={vclass}>
                     {this.props.children}
                 </div>
             </div>
         );
+        logger.exit('render');
+        return jsx;
     }
 }

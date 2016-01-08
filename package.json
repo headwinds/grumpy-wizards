@@ -7,7 +7,7 @@
   "scripts": {
     "clean": "rimraf public",
     "pretest": "eslint server/src/**/*.js",
-    "test": "mocha --require ignore-styles --recursive --compilers js:babel-register --reporter spec client/test server/test",
+    "test": "mocha --require ignore-styles --recursive --compilers js:babel-register --reporter spec server/test",
     "watch": "webpack --watch",
     "prestart": "webpack -p",
     "start": "node ./bin/www"

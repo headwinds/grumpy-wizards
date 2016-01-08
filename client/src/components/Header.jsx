@@ -1,7 +1,11 @@
 import React from 'react';
+import ClientLogger from '../flux/logger';
+
 import Vertical from './Vertical.jsx';
 
 require('./Header.scss');
+
+let logger = new ClientLogger('Header.jsx');
 
 /**
  * @extends React.Component
@@ -14,7 +18,8 @@ export default class Header extends React.Component {
      * @overrides React.Component#render
      */
     render() {
-        return (
+        logger.entry('render');
+        let jsx = (
             <header>
                 <div className="header--left"></div>
                 <div className="header--center">
@@ -25,5 +30,7 @@ export default class Header extends React.Component {
                 <div className="header--right"></div>
             </header>
         );
+        logger.exit('render');
+        return jsx;
     }
 }
