@@ -1,12 +1,12 @@
 import config from 'config';
 import express from 'express';
 
-let configRouter = express.Router();
+let configRouter = express.Router(); // eslint-disable-line new-cap
 
 /*
  * Implement the /config/auth endpoint
  */
-configRouter.get('/auth', (req, res, next) => {
+configRouter.get('/auth', (req, res) => {
     let json = {
         clientid: config.get('auth.clientid'),
         domain: config.get('auth.domain')
