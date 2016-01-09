@@ -80,7 +80,7 @@ export default class Page extends React.Component {
         let errorComponent = '';
         if (this.state.errorMessage) {
             logger.debug('render: There is an error message in state');
-            errorComponent = <div className="error">{this.state.errorMessage}</div>;
+            errorComponent = <div className="error"><strong>{'ERROR: '}</strong>{this.state.errorMessage}</div>;
         } else {
             logger.debug('render: no error message in state');
         }

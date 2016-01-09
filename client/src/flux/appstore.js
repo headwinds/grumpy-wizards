@@ -76,7 +76,7 @@ class AppStore extends Store {
             .then((response) => {
                 this.logger.debug('initializeStore: Response = ', response);
                 if (!response.ok) {
-                    this.logger.debub('initializeStore: Error received - changing store');
+                    this.logger.debug('initializeStore: Error received - changing store');
                     let errmsg = `Error retrieving /config/auth: ${response.statusText}`;
                     this.data.errorMessage = errmsg;
                     this.storeChanged();
@@ -88,6 +88,12 @@ class AppStore extends Store {
             .then((config) => {
                 this.logger.debug('initializeStore: config = ', config);
                 if (config) {
+                    if (config.clientid === 'NOT-SET') {
+                        this.logger.debug('initializeStore: config is bad - sending error to store');
+                        this.data.errorMessage = `ClientId stored in server is not set`;
+                        this.storeChanged();
+                        return null;
+                    }
                     this.logger.debug('initializeStore: config received - changing store');
                     this.data.authConfig.clientId = config.clientid;
                     this.data.authConfig.clientDomain = config.domain;

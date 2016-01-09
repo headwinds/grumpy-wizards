@@ -1,3 +1,6 @@
+@import 'colors';
+@import 'fonts';
+
 .page {
     display: flex;
     flex-flow: column nowrap;
@@ -6,9 +9,18 @@
 
     > div {
         display: block;
-    }
 
-    > div.page--grow {
-        flex-grow: 1;
+        &.error {
+            background-color: $color-secondary-1-0;
+            color: $color-trans-8;
+            font: 1rem $sans-fontstack;
+            padding: 0.5rem 0;
+            text-align: center;
+            width: 100%;
+        }
+
+        &.page--grow {
+            flex-grow: 1;
+        }
     }
 }
