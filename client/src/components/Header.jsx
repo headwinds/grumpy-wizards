@@ -1,6 +1,7 @@
 import React from 'react';
 import ClientLogger from '../flux/logger';
 
+import Authenticator from './Authenticator.jsx';
 import Vertical from './Vertical.jsx';
 
 require('./Header.scss');
@@ -27,7 +28,9 @@ export default class Header extends React.Component {
                         <h1>{'Grumpy Wizards'}</h1>
                     </Vertical>
                 </div>
-                <div className="header--right"></div>
+                <div className="header--right">
+                  <Authenticator/>
+                </div>
             </header>
         );
         logger.exit('render');
