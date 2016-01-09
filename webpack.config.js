@@ -35,10 +35,12 @@ module.exports = {
         ]
     },
     output: {
-        filename: 'public/[name].js'
+        path: path.join(__dirname, 'public'),
+        publicPath: '/',
+        filename: '[name].js'
     },
     plugins: [
-        new ExtractTextPlugin('public/grumpywizards.css')
+        new ExtractTextPlugin('grumpywizards.css')
     ],
 
     // Plugin and Loader options

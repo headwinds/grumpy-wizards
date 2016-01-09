@@ -1,5 +1,6 @@
 {
     "port": "PORT",
+    "env": "NODE_ENV",
     "auth": {
         "clientid": "AUTH0_CLIENTID",
         "secret": "AUTH0_CLIENTSECRET",

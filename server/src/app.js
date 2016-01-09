@@ -3,9 +3,15 @@
 // ExpressJS API Imports
 import bodyParser from 'body-parser';
 import compression from 'compression';
+import config from 'config';
 import express from 'express';
 import logCollector from 'express-winston';
 import staticFiles from 'serve-static';
+
+// Imports for Webpack Development Server
+import webpack from 'webpack';
+import devServer from 'webpack-dev-middleware';
+import webpackConfig from '../../webpack.config.js';
 
 // Local Imports
 import configRouter from './config';
@@ -59,12 +65,20 @@ function createWebApplication(logging = true) {
         response.status(200).type('text/html').send(index);
     });
 
-    app.use(staticFiles('public', {
-        dotfile: 'ignore',
-        etag: true,
-        index: false,
-        lastModified: true
-    }));
+    if (config.env === 'development') {
+        var compiler = webpack(webpackConfig);
+
+        app.use(devServer(compiler, {
+            publicPath: webpackConfig.output.publicPath || '/'
+        }));
+    } else {
+        app.use(staticFiles('public', {
+            dotfile: 'ignore',
+            etag: true,
+            index: false,
+            lastModified: true
+        }));
+    }
 
     // We need to return a promise so that we can support the base bin/www functionality
     return new Promise((resolve) => {
