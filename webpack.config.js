@@ -1,6 +1,7 @@
 /* global __dirname */
-var assign = require('object-assign'),
-    autoprefixer = require('autoprefixer'),
+/* eslint-env node */
+/* eslint no-var:0 */
+var autoprefixer = require('autoprefixer'),
     config = require('config'),
     path = require('path'),
     webpack = require('webpack');
@@ -13,7 +14,6 @@ var configuration = {
         path.join(__dirname, 'client/src/app.jsx')
     ],
     externals: {
-        'auth0-lock': 'Auth0Lock',
         'react': 'React',
         'react-dom': 'ReactDOM'
     },
@@ -22,8 +22,8 @@ var configuration = {
             // Javascript
             { test: /\.jsx?$/, loader: 'babel', exclude: /node_modules/ },
             // Stylesheets
-            { test: /\.css$/, loader: ExtractTextPlugin.extract( 'style', 'css?sourceMap|postcss') },
-            { test: /\.s(a|c)ss$/, loader: ExtractTextPlugin.extract( 'style', 'css?sourceMap!postcss!sass?sourceMap') },
+            { test: /\.css$/, loader: ExtractTextPlugin.extract('style', 'css?sourceMap|postcss') },
+            { test: /\.s(a|c)ss$/, loader: ExtractTextPlugin.extract('style', 'css?sourceMap!postcss!sass?sourceMap') },
             // Font Definitions
             { test: /\.svg$/, loader: 'url?limit=65000&mimetype=image/svg+xml&name=public/fonts/[name].[ext]' },
             { test: /\.woff$/, loader: 'url?limit=65000&mimetype=application/font-woff&name=public/fonts/[name].[ext]' },

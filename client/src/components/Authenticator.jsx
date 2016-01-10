@@ -1,4 +1,3 @@
-import Auth0Lock from 'auth0-lock';
 import React from 'react';
 import ClientLogger from '../flux/logger';
 import appStore from '../flux/appstore';
@@ -78,43 +77,6 @@ export default class Authenticator extends React.Component {
     onLoginClicked(event) {
         logger.entry('onLoginClicked', { event: event });
         event.preventDefault();
-
-        if (!this.lock) {
-            this.lock = new Auth0Lock(
-                this.state.authConfig.clientId,
-                this.state.authConfig.clientDomain);
-            this.lockIsOpen = false;
-        }
-
-        if (this.lockIsOpen) {
-            logger.debug('Lock is already open - bailing');
-            return false;
-        }
-
-        let lockOptions = {
-            closable: true,
-            disableSignupAction: true,
-            focusInput: true,
-            popup: true,
-            rememberLastLogin: true,
-            responseType: 'token',
-            socialBigButtons: false
-        };
-
-        this.lockIsOpen = true;
-        logger.trace('Opening Auth0 Lock');
-        this.lock.show(lockOptions, (err, profile, token) => {
-            logger.trace('Lock: callback =', err, profile, token);
-            this.lockIsOpen = false;
-            this.lock.hide();
-            if (err) {
-                logger.error('Auth0 Error: ', err);
-                return;
-            }
-            logger.debug('Auth0: Profile = ', profile);
-            logger.debug('Auth0: Token = ', token);
-            return;
-        });
 
         logger.exit('onLoginClicked');
         return true;
