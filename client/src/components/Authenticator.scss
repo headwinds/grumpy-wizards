@@ -52,12 +52,21 @@
             display: table-cell;
             height: 3rem;
             text-align: center;
-            width: 3rem;
             vertical-align: middle;
+            width: 3rem;
 
             > .photo-missing {
                 font-size: 2.5rem;
                 vertical-align: middle;
+            }
+
+            > .photo {
+                > img {
+                    border: 0;
+                    height: 3rem;
+                    vertical-align:middle;
+                    width: 3rem;
+                }
             }
         }
 

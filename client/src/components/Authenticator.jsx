@@ -1,4 +1,5 @@
 import Auth0Lock from 'auth0-lock';
+import md5 from 'md5';
 import React from 'react';
 import ClientLogger from '../flux/logger';
 import appStore from '../flux/appstore';
@@ -95,13 +96,12 @@ export default class Authenticator extends React.Component {
             popup: true,
             rememberLastLogin: true,
             responseType: 'token',
-            socialBigButtons: false,
+            socialBigButtons: true,
             usernameStyle: 'email'
         };
-        logger.debug('lockOptions = ', lockOptions);
 
-        logger.trace('showing this.lock UI');
-        this.lock.show((err, profile, token) => {
+        logger.trace('showing this.lock UI - options = ', lockOptions);
+        this.lock.show(lockOptions, (err, profile, token) => {
             logger.trace('[lock-callback] - returned from lock');
             this.lock.hide();
 
@@ -159,6 +159,11 @@ export default class Authenticator extends React.Component {
             logger.debug(`Render authenticated auth`);
 
             let user = <span className="photo-missing"><span className="fa fa-user"></span></span>;
+            if (this.state.currentUser.profile.email) {
+                let emailHash = md5(this.state.currentUser.profile.email.toLowerCase());
+                let gravatarUrl = `http://www.gravatar.com/avatar/${emailHash}.jpg?s=128&d=mm`;
+                user = <span className="photo"><img src={gravatarUrl}/></span>;
+            }
 
             let jsx = (
                 <div className="authenticator">

@@ -21,7 +21,7 @@ var configuration = {
     module: {
         loaders: [
             // Javascript
-            { test: /\.jsx?$/, loader: 'babel', exclude: /node_modules/ },
+            { test: /\.jsx?$/, loader: ']babel', exclude: /node_modules/ },
             // Stylesheets
             { test: /\.css$/, loader: ExtractTextPlugin.extract('style', 'css?sourceMap|postcss') },
             { test: /\.s(a|c)ss$/, loader: ExtractTextPlugin.extract('style', 'css?sourceMap!postcss!sass?sourceMap') },
