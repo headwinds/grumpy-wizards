@@ -13,7 +13,7 @@ import webpackConfig from '../../webpack.config.js';
  */
 function linkStaticFiles(app) {
     if (config.env === 'development') {
-        var compiler = webpack(webpackConfig);
+        let compiler = webpack(webpackConfig);
 
         app.use(devServer(compiler, {
             publicPath: webpackConfig.output.publicPath || '/',
@@ -21,7 +21,8 @@ function linkStaticFiles(app) {
         }));
 
         app.use(hotServer(compiler, {
-            log: console.log
+            // NOTE: We must use console.log in hotServer - using logger won't work
+            log: console.log // eslint-disable-line no-console
         }));
     } else {
         app.use(staticFiles('public', {

@@ -14,17 +14,17 @@ if (typeof args.port !== 'undefined') {
 
 // createWebApplication() returns a Promise which resolves to an express
 // Application.  We need to connect that to the HTTP endpoint.
-createWebApplication().then(app => {
+createWebApplication().then((app) => {
     app.set('port', config.get('port'));
 
     let server = http.createServer(app);
-    server.on('error', error => {
+    server.on('error', (error) => {
         if (error.syscall && error.code) {
             console.error(`System Error while creating HTTP Server: ${error.syscall} ${error.code} ${error.message}`);
         }
         throw error;
     });
-    server.on('listening', function () {
+    server.on('listening', () => {
         let addr = server.address();
         console.info(`Listening on port: ${addr.family}/(${addr.address}):${addr.port}`);
     });
