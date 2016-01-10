@@ -9,7 +9,7 @@
     "clean": "rimraf public",
     "pretest": "eslint server/src/**/*.js",
     "test": "mocha --require ignore-styles --recursive --compilers js:babel-register --reporter spec server/test",
-    "nodemon": "nodemon --watch server --watch config --watch bin ./bin/www",
+    "nodemon": "nodemon --watch server --watch config --watch bin ./bin/www"
   },
   "engines": {
     "node": ">=5.3.0",

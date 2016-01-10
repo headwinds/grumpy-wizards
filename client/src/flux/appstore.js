@@ -21,7 +21,7 @@ class AppStore extends Store {
         this.data = {
             errorMessage: null,
             authPhase: 'initializing',
-            authConfig: { clientId: null, clientDomain: null },
+            authConfig: { provider: null },
             currentUser: null
         };
         this.logger.debug('this.data = ', this.data);
@@ -97,8 +97,7 @@ class AppStore extends Store {
                         return null;
                     }
                     this.logger.debug('initializeStore: config received - changing store');
-                    this.data.authConfig.clientId = config.clientid;
-                    this.data.authConfig.clientDomain = config.domain;
+                    this.data.authConfig = config;
                     this.data.authPhase = 'anonymous';
                     this.storeChanged();
                 }

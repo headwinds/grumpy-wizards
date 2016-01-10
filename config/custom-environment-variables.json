@@ -2,8 +2,6 @@
     "port": "PORT",
     "env": "NODE_ENV",
     "auth": {
-        "clientid": "AUTH0_CLIENTID",
-        "secret": "AUTH0_CLIENTSECRET",
-        "domain": "AUTH0_DOMAIN"
+        "provider": "WEBSITE_AUTH_PROVIDER"
     }
 }
