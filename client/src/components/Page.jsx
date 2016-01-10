@@ -10,6 +10,9 @@ require('./Page.scss');
 
 let logger = new ClientLogger('Page.jsx');
 
+/**
+ * @extends React.Component
+ */
 export default class Page extends React.Component {
     /**
      * Invoked once before the component is mounted for the first time

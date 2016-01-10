@@ -14,6 +14,7 @@ const index = `<!DOCTYPE html>
     <div id="jsx-page"></div>
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/core-js/2.0.2/core.min.js"></script>
+    <script src="//cdn.auth0.com/js/lock-8.1.min.js"></script>
     <script src="//fb.me/react-0.14.4.min.js"></script>
     <script src="//fb.me/react-dom-0.14.4.min.js"></script>
     <script src="grumpywizards.js"></script>

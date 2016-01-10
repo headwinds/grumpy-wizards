@@ -1,6 +1,7 @@
 @import 'colors';
 @import 'fonts';
-@import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css');
+@import url('//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css');
+@import url('//cdn.materialdesignicons.com/1.4.57/css/materialdesignicons.min.css');
 
 .authenticator {
     display: block;
@@ -15,9 +16,29 @@
 
         > li {
             display: table-cell;
+            font-size: 1.5rem;
             height: 100%;
             text-align: center;
             vertical-align: middle;
+
+            &.authenticator--icon-unknown,
+            &.authenticator--icon-initializing {
+                color: $color-complement-2;
+            }
+
+            &.authenticator--icon-error {
+                color: $color-secondary-1-2;
+            }
+
+            &.authenticator--icon-anonymous {
+                color: $color-trans-7;
+                cursor: pointer;
+
+                &:hover,
+                &:active {
+                    color: $color-complement-1;
+                }
+            }
         }
     }
 }
