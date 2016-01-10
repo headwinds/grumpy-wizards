@@ -3,7 +3,7 @@
 import args from 'shell-arguments';
 import config from 'config';
 import http from 'http';
-import createWebApplication from '../server/src/app';
+import createWebApplication from './app';
 
 // Command line arguments come in via shell-arguments.  Everything else
 // comes in via config.  We need to copy the shell-arguments to the config
