@@ -2,6 +2,8 @@
     "port": 3000,
     "env": "development",
     "auth": {
-        "provider": "microsoftaccount"
+        "clientid": "NOT-SET",
+        "clientsecret": "NOT-SET",
+        "domain": "NOT-SET"
     }
 }

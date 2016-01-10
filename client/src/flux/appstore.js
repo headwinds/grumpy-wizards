@@ -21,7 +21,7 @@ class AppStore extends Store {
         this.data = {
             errorMessage: null,
             authPhase: 'initializing',
-            authConfig: { provider: null },
+            authConfig: { clientid: null, domain: null },
             currentUser: null
         };
         this.logger.debug('this.data = ', this.data);
@@ -30,6 +30,9 @@ class AppStore extends Store {
         this.dispatchTable = {
             'init-appstore': (payload) => {
                 return this.initializeStore(payload);
+            },
+            'authenticate': (payload) => {
+                return this.authenticate(payload);
             }
         };
         this.logger.debug('this.dispatchTable = ', this.dispatchTable);
@@ -104,6 +107,39 @@ class AppStore extends Store {
             });
 
         this.logger.exit('initializeStore', true);
+        return true;
+    }
+
+    /**
+     * Event Handler for authentication events
+     * @param {Object} payload the action payload
+     * @param {string} payload.token the IdP token
+     * @param {Object} payload.profile the user profile
+     * @returns {bool} true if this action was handled
+     */
+    authenticate(payload) {
+        this.logger.entry('authenticate', payload);
+
+        if (payload.token && payload.profile) {
+            if (typeof payload.token !== 'string') {
+                this.logger.error('payload.token is not a string');
+                return false;
+            }
+            if (!payload.profile.name) {
+                this.logger.error('payload.profile.name does not exist');
+                return false;
+            }
+            this.data.currentUser = {
+                token: payload.token,
+                profile: payload.profile
+            };
+            this.data.authPhase = 'authenticated';
+            this.storeChanged();
+        } else {
+            this.logger.error('Invalid payload for authenticate action');
+        }
+
+        this.logger.exit('authenticate', true);
         return true;
     }
 

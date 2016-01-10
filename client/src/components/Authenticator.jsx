@@ -1,6 +1,8 @@
+import Auth0Lock from 'auth0-lock';
 import React from 'react';
 import ClientLogger from '../flux/logger';
 import appStore from '../flux/appstore';
+import dispatcher from '../flux/dispatcher';
 
 let logger = new ClientLogger('Authenticator.jsx');
 
@@ -19,7 +21,8 @@ export default class Authenticator extends React.Component {
         logger.entry('getInitialState');
         let initialState = {
             authPhase: 'unknown',
-            authConfig: null
+            authConfig: null,
+            currentUser: null
         };
         logger.exit('getInitialState', initialState);
     }
@@ -61,7 +64,8 @@ export default class Authenticator extends React.Component {
 
         let newState = {
             authPhase: appStore.authenticationPhase,
-            authConfig: appStore.authenticationConfig
+            authConfig: appStore.authenticationConfig,
+            currentUser: appStore.currentUser
         };
         logger.debug('updateState: new state = ', newState);
         this.setState(newState);
@@ -77,6 +81,41 @@ export default class Authenticator extends React.Component {
     onLoginClicked(event) {
         logger.entry('onLoginClicked', { event: event });
         event.preventDefault();
+
+        if (!this.lock) {
+            logger.trace('this.lock is not set - creating a Lock object');
+            let config = this.state.authConfig;
+            logger.debug('this.lock configuration: ', config);
+            this.lock = new Auth0Lock(config.clientid, config.domain);
+        }
+
+        let lockOptions = {
+            closable: true,
+            focusInput: true,
+            popup: true,
+            rememberLastLogin: true,
+            responseType: 'token',
+            socialBigButtons: false,
+            usernameStyle: 'email'
+        };
+        logger.debug('lockOptions = ', lockOptions);
+
+        logger.trace('showing this.lock UI');
+        this.lock.show((err, profile, token) => {
+            logger.trace('[lock-callback] - returned from lock');
+            this.lock.hide();
+
+            if (err) {
+                logger.error('[lock-callback]', err);
+                alert('Auth Lock Error\nCould not complete authentication'); // eslint-disable-line no-alert
+            }
+
+            dispatcher.dispatch({
+                actionType: 'authenticate',
+                profile: profile,
+                token: token
+            });
+        });
 
         logger.exit('onLoginClicked');
         return true;
@@ -114,6 +153,26 @@ export default class Authenticator extends React.Component {
             }
 
             let jsx = <div className="authenticator"><ul>{icon}</ul></div>;
+            logger.exit('render');
+            return jsx;
+        } else if (this.state.authPhase === 'authenticated') {
+            logger.debug(`Render authenticated auth`);
+
+            let user = <span className="photo-missing"><span className="fa fa-user"></span></span>;
+
+            let jsx = (
+                <div className="authenticator">
+                    <div className="authenticator--authinfo">
+                        <div className="authenticator--authinfo-photo">
+                            {user}
+                        </div>
+                        <div className="authenticator--authinfo-name">
+                            <h2>{this.state.currentUser.profile.name}</h2>
+                        </div>
+                    </div>
+                </div>
+            );
+
             logger.exit('render');
             return jsx;
         }

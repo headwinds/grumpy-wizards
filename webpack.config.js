@@ -14,6 +14,7 @@ var configuration = {
         path.join(__dirname, 'client/src/app.jsx')
     ],
     externals: {
+        'auth0-lock': 'Auth0Lock',
         'react': 'React',
         'react-dom': 'ReactDOM'
     },

@@ -8,7 +8,8 @@ let configRouter = express.Router(); // eslint-disable-line new-cap
  */
 configRouter.get('/auth', (req, res) => {
     let json = {
-        provider: config.get('auth.provider')
+        clientid: config.get('auth.clientid'),
+        domain: config.get('auth.domain')
     };
     res.status(200).type('application/json').send(json);
 });
