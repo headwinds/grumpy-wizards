@@ -6,8 +6,6 @@ var autoprefixer = require('autoprefixer'),
     path = require('path'),
     webpack = require('webpack');
 
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-
 var configuration = {
     devtool: 'source-map',
     entry: [
@@ -23,14 +21,16 @@ var configuration = {
             // Javascript
             { test: /\.jsx?$/, loader: ']babel', exclude: /node_modules/ },
             // Stylesheets
-            { test: /\.css$/, loader: ExtractTextPlugin.extract('style', 'css?sourceMap|postcss') },
-            { test: /\.s(a|c)ss$/, loader: ExtractTextPlugin.extract('style', 'css?sourceMap!postcss!sass?sourceMap') },
+            { test: /\.css$/, loader: 'style!css?sourceMap|postcss' },
+            { test: /\.s(a|c)ss$/, loader: 'style!css?sourceMap!postcss!sass?sourceMap' },
             // Font Definitions
             { test: /\.svg$/, loader: 'url?limit=65000&mimetype=image/svg+xml&name=public/fonts/[name].[ext]' },
             { test: /\.woff$/, loader: 'url?limit=65000&mimetype=application/font-woff&name=public/fonts/[name].[ext]' },
             { test: /\.woff2$/, loader: 'url?limit=65000&mimetype=application/font-woff2&name=public/fonts/[name].[ext]' },
             { test: /\.[ot]tf$/, loader: 'url?limit=65000&mimetype=application/octet-stream&name=public/fonts/[name].[ext]' },
-            { test: /\.eot$/, loader: 'url?limit=65000&mimetype=application/vnd.ms-fontobject&name=public/fonts/[name].[ext]' }
+            { test: /\.eot$/, loader: 'url?limit=65000&mimetype=application/vnd.ms-fontobject&name=public/fonts/[name].[ext]' },
+            // Images
+            { test: /.(jpg|png)$/i, loader: 'file' }
         ]
     },
     output: {
@@ -38,9 +38,6 @@ var configuration = {
         publicPath: '/',
         filename: 'grumpywizards.js'
     },
-    plugins: [
-        new ExtractTextPlugin('grumpywizards.css')
-    ],
     target: 'web',
 
     // Plugin and Loader options
