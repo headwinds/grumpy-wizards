@@ -2,7 +2,6 @@ import React from 'react';
 import appStore from '../flux/appstore';
 import ClientLogger from '../flux/logger';
 
-import Content from './Content.jsx';
 import Footer from './Footer.jsx';
 import Header from './Header.jsx';
 
@@ -14,6 +13,10 @@ let logger = new ClientLogger('Page.jsx');
  * @extends React.Component
  */
 export default class Page extends React.Component {
+    static propTypes = {
+        children: React.PropTypes.node
+    };
+
     /**
      * Invoked once before the component is mounted for the first time
      * @returns {Object} the initial state
@@ -92,7 +95,7 @@ export default class Page extends React.Component {
             <div className="page">
                 {errorComponent}
                 <div><Header/></div>
-                <div className="page--grow"><Content/></div>
+                <div className="page--grow">{this.props.children}</div>
                 <div><Footer/></div>
             </div>
         );
