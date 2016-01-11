@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-fetch';
+import localforage from 'localforage';
 
 import dispatcher from './dispatcher';
 import Store from './Store';
@@ -17,7 +18,7 @@ class AppStore extends Store {
 
         this.logger.entry('constructor-AppStore');
 
-        this.logger.trace('Setting initial data set');
+        this.logger.debug('Setting initial data set');
         this.data = {
             errorMessage: null,
             authPhase: 'initializing',
@@ -33,11 +34,14 @@ class AppStore extends Store {
             },
             'authenticate': (payload) => {
                 return this.authenticate(payload);
+            },
+            'check-cached-authentication': (payload) => {
+                return this.checkCachedAuthentication(payload);
             }
         };
         this.logger.debug('this.dispatchTable = ', this.dispatchTable);
 
-        this.logger.trace('Dispatching init-appstore action');
+        this.logger.debug('Dispatching init-appstore action');
         dispatcher.dispatch({ actionType: 'init-appstore' });
 
         this.logger.exit('constructor-AppStore');
@@ -103,6 +107,9 @@ class AppStore extends Store {
                     this.data.authConfig = config;
                     this.data.authPhase = 'anonymous';
                     this.storeChanged();
+
+                    // Send the check-cached-authentication action
+                    dispatcher.dispatch({ actionType: 'check-cached-authentication' });
                 }
             });
 
@@ -134,12 +141,71 @@ class AppStore extends Store {
                 profile: payload.profile
             };
             this.data.authPhase = 'authenticated';
+
+            localforage.setItem('gw-authentication', {
+                clientid: this.data.authConfig.clientid,
+                domain: this.data.authConfig.domain,
+                profile: JSON.stringify(this.data.currentUser.profile),
+                token: this.data.currentUser.token
+            });
+
             this.storeChanged();
         } else {
             this.logger.error('Invalid payload for authenticate action');
         }
 
         this.logger.exit('authenticate', true);
+        return true;
+    }
+
+    /**
+     * Event Handler for authentication events
+     * @returns {bool} true if this action was handled
+     */
+    checkCachedAuthentication() {
+        this.logger.entry('checkCachedAuthentication');
+
+        localforage.getItem('gw-authentication')
+            .then((authInfo) => {
+                this.logger.debug('[checkCachedAuthentication-callback] authInfo = ', authInfo);
+                if (authInfo.clientid && authInfo.domain) {
+                    if (this.data.authConfig.clientid !== authInfo.clientid || this.data.authConfig.domain !== authInfo.domain) {
+                        throw new Error('stored config does not match current config');
+                    }
+                } else {
+                    throw new Error('stored config does not include auth config');
+                }
+
+                if (authInfo.token && authInfo.profile) {
+                    let headers = new Headers();
+                    headers.append('Authorization', `Bearer ${authInfo.token}`);
+                    fetch('/auth/verify', { headers: headers })
+                        .then((response) => {
+                            // If response === 200, then we have a valid token
+                            // so send an authenticate response
+                            this.logger.debug('/auth/verify response: ', response);
+                            if (response.status === 200) {
+                                this.logger.info('Authentication still valid - authenticating');
+                                dispatcher.dispatch({
+                                    actionType: 'authenticate',
+                                    profile: JSON.parse(authInfo.profile),
+                                    token: authInfo.token
+                                });
+                            }
+                        })
+                        .catch((err) => {
+                            this.logger.info('/auth/verify error: ', err);
+                        });
+                } else {
+                    throw new Error('stored config does not include user information');
+                }
+            })
+            .catch((err) => {
+                this.logger.error('[checkCachedAuthentication-callback] err = ', err);
+                return false;
+            });
+
+        this.logger.exit('checkCachedAuthentication', true);
         return true;
     }
 

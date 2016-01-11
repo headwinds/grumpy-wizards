@@ -3,12 +3,12 @@
 // ExpressJS API Imports
 import bodyParser from 'body-parser';
 import compression from 'compression';
-import config from 'config';
 import express from 'express';
 import logCollector from 'express-winston';
 
 
 // Local Imports
+import authRouter from './auth';
 import configRouter from './config';
 import indexPage from './indexpage';
 import logger from './logger';
@@ -37,6 +37,7 @@ function createWebApplication(logging = true) {
 
     // Overrides for the API Definition
     app.use('/config', configRouter);
+    app.use('/auth', authRouter);
 
     // Display the index.html file
     app.get('/', indexPage);
