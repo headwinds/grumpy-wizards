@@ -7,11 +7,14 @@
 // ------------------------------------------------------------------------
 //  Development version for static files - supports hot reloading
 // ------------------------------------------------------------------------
+/* eslint-disable no-console */
 var express = require('express'),
     webpack = require('webpack'),
     devServer = require('webpack-dev-middleware'),
     hotServer = require('webpack-hot-middleware'),
     config = require('../webpack.config.js');
+
+console.info('[webpack.server] Using Webpack Dev Server - please wait until bundle is VALID');
 
 var router = express.Router(), // eslint-disable-line new-cap
     compiler = webpack(config);

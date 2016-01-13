@@ -6,7 +6,7 @@ module.exports = {
         node: true
     },
     extends: 'eslint:recommended',
-    
+
     rules: {
         // Possible Errors
         // Most possible errors are included in the eslint:recommended
@@ -21,7 +21,7 @@ module.exports = {
             'requireReturnDescription': true,
             'requireReturnType': true
         }],
-        
+
         // Best Practices
         'accessor-pairs': [ ERROR, {
             'getWithoutSet': false,
@@ -94,8 +94,8 @@ module.exports = {
 
         // Strict Mode
         'strict': [ ERROR, 'global' ],
-        
-        // Variables        
+
+        // Variables
         'init-declarations': [ ERROR, 'always' ],
         'no-catch-shadow': WARN,
         'no-delete-var': ERROR,
@@ -205,7 +205,7 @@ module.exports = {
             'require': {
                 'FunctionDeclaration': true,
                 'MethodDefinition': true,
-                'ClassDeclaration': true
+                'ClassDeclaration': false
             }
         }]
     }

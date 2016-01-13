@@ -45,7 +45,11 @@
     "winston": "^2.1.1"
   },
   "devDependencies": {
+    "flux": "^2.1.1",
+    "history": "^1.17.0",
     "react": "^0.14.6",
-    "react-dom": "^0.14.6"
+    "react-dom": "^0.14.6",
+    "react-router": "^1.0.3",
+    "react-tap-event-plugin": "^0.2.1"
   }
 }
