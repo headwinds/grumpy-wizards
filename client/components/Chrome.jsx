@@ -1,6 +1,7 @@
 import Radium from 'radium';
 import React from 'react';
 import AppBar from 'material-ui/lib/app-bar';
+import IconButton from 'material-ui/lib/icon-button';
 import LeftNav from 'material-ui/lib/left-nav';
 import appStyle from '../style/appStyle';
 
@@ -74,6 +75,10 @@ export default class Chrome extends React.Component {
             </LeftNav>
         );
 
+        let authenticationIndicator = (
+            <IconButton iconClassName="mdi mdi-login" tooltip="Login" tooltipPosition="bottom-center" />
+        );
+
         // Style
         let styles = {
             chrome: {
@@ -100,7 +105,11 @@ export default class Chrome extends React.Component {
         let jsx = (
             <div style={styles.chrome}>
                 <header>
-                    <AppBar style={styles.appbar} onLeftIconButtonTouchTap={onMenuIconTap} title={'Grumpy Wizards'}/>
+                    <AppBar
+                        iconElementRight={authenticationIndicator}
+                        style={styles.appbar}
+                        title={'Grumpy Wizards'}
+                        onLeftIconButtonTouchTap={onMenuIconTap} />
                     {leftNav}
                 </header>
                 <section style={{ flexGrow: 1 }}>
