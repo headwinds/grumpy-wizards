@@ -2,10 +2,15 @@ var OFF = 0, WARN = 1, ERROR = 2;
 
 module.exports = {
     root: true,
+    ecmaFeatures: {
+        modules: true
+    },
     env: {
+        es6: true,
         node: true
     },
     extends: 'eslint:recommended',
+    parser: 'babel-eslint',
 
     rules: {
         // Possible Errors
@@ -122,7 +127,7 @@ module.exports = {
         // Stylistic Issues
         'array-bracket-spacing': [ WARN, 'always' ],
         'block-spacing': [ WARN, 'always' ],
-        'brace-style': [ WARN, '1tbs', { 'allowSingleLine': false } ],
+        'brace-style': [ WARN, '1tbs', { 'allowSingleLine': true } ],
         'camelcase': WARN,
         'comma-spacing': [ WARN, { 'before': false, 'after': true } ],
         'comma-style': [ WARN, 'last' ],
@@ -183,22 +188,22 @@ module.exports = {
         'wrap-regex': WARN,
 
         // ECMAScript 2015 Issues: SERVER IS ES5 CODE
-        // 'arrow-body-style': [ ERROR, 'always' ],
-        // 'arrow-parens': [ ERROR, 'always' ],
-        // 'arrow-spacing': [ ERROR, { 'before': true, 'after': true }],
-        // 'constructor-super': ERROR,
-        // 'generator-star-spacing': [ ERROR, 'before' ],
-        // 'no-arrow-condition': ERROR,
-        // 'no-class-assign': ERROR,
-        // 'no-const-assign': ERROR,
-        // 'no-dupe-class-members': ERROR,
-        // 'no-this-before-super': ERROR,
-        // 'no-var': ERROR,
-        // 'object-shorthand': [ WARN, 'never' ],
-        // 'prefer-arrow-callback': WARN,
-        // 'prefer-spread': WARN,
-        // 'prefer-template': WARN,
-        // 'require-yield': ERROR,
+        'arrow-body-style': [ ERROR, 'always' ],
+        'arrow-parens': [ ERROR, 'always' ],
+        'arrow-spacing': [ ERROR, { 'before': true, 'after': true }],
+        'constructor-super': ERROR,
+        'generator-star-spacing': [ ERROR, 'before' ],
+        'no-arrow-condition': ERROR,
+        'no-class-assign': ERROR,
+        'no-const-assign': ERROR,
+        'no-dupe-class-members': ERROR,
+        'no-this-before-super': ERROR,
+        'no-var': ERROR,
+        'object-shorthand': [ WARN, 'never' ],
+        'prefer-arrow-callback': WARN,
+        'prefer-spread': WARN,
+        'prefer-template': WARN,
+        'require-yield': ERROR,
 
         // JSDoc Requirements
         'require-jsdoc': [ WARN, {

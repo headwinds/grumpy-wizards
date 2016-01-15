@@ -1,4 +1,7 @@
 {
     "port": 3000,
-    "env": "development"
+    "env": "development",
+    "auth": {
+        "endpoint": "/.auth/login/microsoftaccount"
+    }
 }

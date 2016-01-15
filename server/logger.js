@@ -1,4 +1,3 @@
-'use strict';
 // ------------------------------------------------------------------------
 //
 //  The Grumpy Wizards Website Service
@@ -7,12 +6,27 @@
 // ------------------------------------------------------------------------
 //  Configure the Winston Logger as a singleton.
 // ------------------------------------------------------------------------
-var winston = require('winston');
+import winston from 'winston';
+import logCollector from 'express-winston';
 
-var logger = new winston.Logger({
+let logger = new winston.Logger({
     transports: [
         new winston.transports.Console({ colorize: true, timestamp: true })
     ]
 });
 
-module.exports = logger;
+let transactionLogger = logCollector.logger({
+    winstonInstance: logger,
+    colorStatus: true,
+    statusLevels: true
+});
+
+let errorLogger = logCollector.logger({
+    winstonInstance: logger
+});
+
+export {
+    transactionLogger,
+    errorLogger,
+    logger
+};

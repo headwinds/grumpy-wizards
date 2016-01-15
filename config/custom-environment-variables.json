@@ -1,4 +1,7 @@
 {
     "port": "PORT",
-    "env": "NODE_ENV"
+    "env": "NODE_ENV",
+    "auth": {
+        "endpoint": "WEBSITE_AUTH_ENDPOINT"
+    }
 }

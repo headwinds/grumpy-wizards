@@ -8,8 +8,7 @@
 //  Client Package generation
 // ------------------------------------------------------------------------
 /* global __dirname */
-var autoprefixer = require('autoprefixer'),
-    config = require('config'),
+var config = require('config'),
     path = require('path'),
     webpack = require('webpack');
 
