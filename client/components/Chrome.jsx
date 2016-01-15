@@ -1,6 +1,7 @@
 import Radium from 'radium';
 import React from 'react';
 import AppBar from 'material-ui/lib/app-bar';
+import { Card, CardHeader } from 'material-ui/lib/card';
 import IconButton from 'material-ui/lib/icon-button';
 import LeftNav from 'material-ui/lib/left-nav';
 import appStyle from '../style/appStyle';
@@ -65,20 +66,6 @@ export default class Chrome extends React.Component {
     render() {
         logger.entry('render');
 
-        // Define Event Handlers
-        let onMenuIconTap = (event) => { return this.onLeftNavDisplay(event, !this.state.leftNavIsOpen); };
-        let onRequestChange = (open) => { return this.onLeftNavDisplay(null, open); };
-
-        // Components
-        let leftNav = (
-            <LeftNav docked={false} onRequestChange={onRequestChange} open={this.state.leftNavIsOpen}>
-            </LeftNav>
-        );
-
-        let authenticationIndicator = (
-            <IconButton iconClassName="mdi mdi-login" tooltip="Login" tooltipPosition="bottom-center" />
-        );
-
         // Style
         let styles = {
             chrome: {
@@ -99,8 +86,33 @@ export default class Chrome extends React.Component {
                 color: appStyle.trans8,
                 font: `0.8rem ${appStyle.fonts.sans}`,
                 margin: '0.5rem 0'
+            },
+            leftnav: {
+                usercard: {
+                    backgroundColor: appStyle.color1
+                }
             }
         };
+
+        // Define Event Handlers
+        let onMenuIconTap = (event) => { return this.onLeftNavDisplay(event, !this.state.leftNavIsOpen); };
+        let onRequestChange = (open) => { return this.onLeftNavDisplay(null, open); };
+
+        // Components
+        let leftNav = (
+            <LeftNav docked={false} onRequestChange={onRequestChange} open={this.state.leftNavIsOpen}>
+                <Card style={styles.leftnav.usercard}>
+                    <CardHeader
+                        title="Not Logged In"
+                        subtitle="Log in to see more"
+                        avatar="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm"/>
+                </Card>
+            </LeftNav>
+        );
+
+        let authenticationIndicator = (
+            <IconButton iconClassName="mdi mdi-login" tooltip="Login" tooltipPosition="bottom-center" />
+        );
 
         let jsx = (
             <div style={styles.chrome}>
