@@ -1,4 +1,7 @@
 import React from 'react';
+import AppBar from 'material-ui/lib/app-bar';
+import LeftNav from 'material-ui/lib/left-nav';
+
 import ClientLogger from '../lib/logger';
 
 let logger = new ClientLogger(__filename);
@@ -28,11 +31,28 @@ export default class Chrome extends React.Component {
         logger.entry('$constructor');
         super(props);
 
-        // this.state = {
-        //     leftNavIsOpen: false
-        // };
+        this.state = {
+            leftNavIsOpen: false
+        };
 
         logger.exit('$constructor');
+    }
+
+    /**
+     * Event Handler to change the display/open of the left nav
+     *
+     * @param {Event} event the synthetic event that generated the request
+     * @param {bool} open if the left nav should be open or closed
+     * @returns {bool} true if the event was handled
+     */
+    onLeftNavDisplay(event, open) {
+        logger.entry('onLeftNavDisplay', event);
+
+        let newState = { leftNavIsOpen: open };
+        logger.debug(`Setting state to ${JSON.stringify(newState)}`);
+        this.setState(newState);
+
+        return logger.exit('onLeftNavDisplay', true);
     }
 
     /**
@@ -43,9 +63,21 @@ export default class Chrome extends React.Component {
     render() {
         logger.entry('render');
 
+        // Define Event Handlers
+        let onMenuIconTap = (event) => { return this.onLeftNavDisplay(event, !this.state.leftNavIsOpen); };
+        let onRequestChange = (open) => { return this.onLeftNavDisplay(null, open); };
+
+        // Components
+        let leftNav = (
+            <LeftNav docked={false} onRequestChange={onRequestChange} open={this.state.leftNavIsOpen}>
+            </LeftNav>
+        );
+
         let jsx = (
             <div className="chrome">
                 <header>
+                    <AppBar className="gw--appBar" onLeftIconButtonTouchTap={onMenuIconTap} title={'Grumpy Wizards'}/>
+                    {leftNav}
                 </header>
                 <section className="chrome--content">
                     {this.props.children}

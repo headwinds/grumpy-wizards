@@ -6,6 +6,7 @@
   "main": "server.js",
   "scripts": {
     "build": "webpack -p",
+    "nodemon": "nodemon --watch server ./server.js",
     "start": "node ./server.js"
   },
   "keywords": [
@@ -31,10 +32,17 @@
     "eslint-plugin-react": "^3.15.0",
     "express": "^4.13.3",
     "express-winston": "^1.2.0",
+    "flux": "^2.1.1",
+    "history": "^1.17.0",
     "ignore-styles": "^1.2.0",
+    "material-ui": "^0.14.2",
     "merge2": "^0.3.6",
     "node-sass": "^3.4.2",
     "postcss-loader": "^0.8.0",
+    "react": "^0.14.6",
+    "react-dom": "^0.14.6",
+    "react-router": "^1.0.3",
+    "react-tap-event-plugin": "^0.2.1",
     "sass-loader": "^3.1.2",
     "style-loader": "^0.13.0",
     "stylelint": "^3.2.2",
@@ -46,11 +54,6 @@
     "winston": "^2.1.1"
   },
   "devDependencies": {
-    "flux": "^2.1.1",
-    "history": "^1.17.0",
-    "react": "^0.14.6",
-    "react-dom": "^0.14.6",
-    "react-router": "^1.0.3",
-    "react-tap-event-plugin": "^0.2.1"
+    "nodemon": "^1.8.1"
   }
 }

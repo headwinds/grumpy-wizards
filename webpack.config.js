@@ -16,10 +16,10 @@ var autoprefixer = require('autoprefixer'),
 var configuration = {
     devtool: 'source-map',
     entry: [ path.join(__dirname, 'client/app.jsx') ],
-    externals: {
-        'react': 'React',
-        'react-dom': 'ReactDOM'
-    },
+    // externals: {
+    //     'react': 'React',
+    //     'react-dom': 'ReactDOM'
+    // },
     module: {
         loaders: [
             // JavaScript and React JSX Files

@@ -14,6 +14,27 @@ module.exports = exports = {
     ],
     parser: 'babel-eslint',
     rules: {
+        'brace-style': [ WARN, '1tbs', { 'allowSingleLine': true }],
+
+        // ECMAScript 2015 Issues
+        'arrow-body-style': [ ERROR, 'always' ],
+        'arrow-parens': [ ERROR, 'always' ],
+        'arrow-spacing': [ ERROR, { 'before': true, 'after': true }],
+        'constructor-super': ERROR,
+        'generator-star-spacing': [ ERROR, 'before' ],
+        'no-arrow-condition': ERROR,
+        'no-class-assign': ERROR,
+        'no-const-assign': ERROR,
+        'no-dupe-class-members': ERROR,
+        'no-this-before-super': ERROR,
+        'no-var': ERROR,
+        'object-shorthand': [ WARN, 'never' ],
+        'prefer-arrow-callback': WARN,
+        'prefer-spread': WARN,
+        'prefer-template': WARN,
+        'require-yield': ERROR,
+
+        // React Settings
         'jsx-quotes': [WARN, 'prefer-double'],
         'react/display-name': [WARN, { acceptTranspilerName: true }],
         'react/forbid-prop-types': WARN,
