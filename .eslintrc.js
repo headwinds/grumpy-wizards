@@ -167,7 +167,7 @@ module.exports = {
         'operator-linebreak': [ WARN, 'after' ],
         'padded-blocks': [ WARN, 'never' ],
         'quote-props': [ WARN, 'consistent-as-needed' ],
-        'quotes': [ WARN, 'single' ],
+        'quotes': [ WARN, 'single', 'avoid-escape' ],
         'semi-spacing': [ WARN, { 'before': false, 'after': true }],
         'semi': [ ERROR, 'always' ],
         'sort-vars': OFF,

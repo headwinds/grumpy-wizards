@@ -1,17 +1,18 @@
+import Radium from 'radium';
 import React from 'react';
 import AppBar from 'material-ui/lib/app-bar';
 import LeftNav from 'material-ui/lib/left-nav';
+import appStyle from '../style/appStyle';
 
 import ClientLogger from '../lib/logger';
 
 let logger = new ClientLogger(__filename);
 
-require('./Chrome.scss');
-
 /**
  * Provides all the chrome around the application
  * @extends React.Component
  */
+@Radium
 export default class Chrome extends React.Component {
     /**
      * React property types
@@ -73,17 +74,40 @@ export default class Chrome extends React.Component {
             </LeftNav>
         );
 
+        // Style
+        let styles = {
+            chrome: {
+                display: 'flex',
+                flexFlow: 'column nowrap',
+                height: '100%',
+                width: '100%'
+            },
+            appbar: {
+                backgroundColor: appStyle.color1
+            },
+            footer: {
+                backgroundColor: appStyle.color5,
+                display: 'block',
+                textAlign: 'center'
+            },
+            footertext: {
+                color: appStyle.trans8,
+                font: `0.8rem ${appStyle.fonts.sans}`,
+                margin: '0.5rem 0'
+            }
+        };
+
         let jsx = (
-            <div className="chrome">
+            <div style={styles.chrome}>
                 <header>
-                    <AppBar className="gw--appBar" onLeftIconButtonTouchTap={onMenuIconTap} title={'Grumpy Wizards'}/>
+                    <AppBar style={styles.appbar} onLeftIconButtonTouchTap={onMenuIconTap} title={'Grumpy Wizards'}/>
                     {leftNav}
                 </header>
-                <section className="chrome--content">
+                <section style={{ flexGrow: 1 }}>
                     {this.props.children}
                 </section>
-                <footer>
-                    <h6>{'Copyright \u00a9 2016 Adrian Hall'}</h6>
+                <footer style={styles.footer}>
+                    <h6 style={styles.footertext}>{'Copyright \u00a9 2016 Adrian Hall'}</h6>
                 </footer>
             </div>
 
