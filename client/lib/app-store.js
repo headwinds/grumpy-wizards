@@ -30,6 +30,9 @@ class AppStore extends Store {
             config: '/api/config'
         };
 
+        // Read any cookies we have
+        this.logger.info(`document.cookie = ${document.cookie}`);
+
         // Register any action listeners
         this.logger.debug('Creating Dispatch Table');
         this.onActionDispatched('init-store', (payload) => {
