@@ -102,11 +102,12 @@ export default class Chrome extends React.Component {
             }
         };
     }
+
     /**
      * Update the component state
      */
     updateState() {
-        logger.entry('updatestae');
+        logger.entry('updateState');
         this.setState({
             isAuthenticated: appStore.isAuthenticated
         });
