@@ -4,8 +4,7 @@ import React from 'react';
 // Components
 import AuthenticationButton from './AuthenticationButton.jsx';
 import AppBar from 'material-ui/lib/app-bar';
-import { Card, CardHeader } from 'material-ui/lib/card';
-import LeftNav from 'material-ui/lib/left-nav';
+import LeftMenu from './LeftMenu.jsx';
 
 import ClientLogger from '../lib/logger';
 import appStyle from '../style/appStyle';
@@ -39,7 +38,7 @@ export default class Chrome extends React.Component {
         super(props);
 
         this.state = {
-            leftNavIsOpen: false,
+            leftMenuOpen: false,
             isAuthenticated: false
         };
         logger.exit('$constructor');
@@ -95,7 +94,7 @@ export default class Chrome extends React.Component {
                 font: `0.8rem ${appStyle.fonts.sans}`,
                 margin: '0.5rem 0'
             },
-            leftnav: {
+            leftmenu: {
                 usercard: {
                     backgroundColor: appStyle.color1
                 }
@@ -117,18 +116,17 @@ export default class Chrome extends React.Component {
     /**
      * Event Handler to change the display/open of the left nav
      *
-     * @param {Event} event the synthetic event that generated the request
      * @param {bool} open if the left nav should be open or closed
      * @returns {bool} true if the event was handled
      */
-    onLeftNavDisplay(event, open) {
-        logger.entry('onLeftNavDisplay', event);
+    displayLeftMenu(open) {
+        logger.entry('displayLeftMenu', event);
 
-        let newState = { leftNavIsOpen: open };
+        let newState = { leftMenuOpen: open };
         logger.debug(`Setting state to ${JSON.stringify(newState)}`);
         this.setState(newState);
 
-        return logger.exit('onLeftNavDisplay', true);
+        return logger.exit('displayLeftMenu', true);
     }
 
     /**
@@ -143,21 +141,10 @@ export default class Chrome extends React.Component {
         let styles = this.stylesheet();
 
         // Define Event Handlers
-        let onMenuIconTap = (event) => { return this.onLeftNavDisplay(event, !this.state.leftNavIsOpen); };
-        let onRequestChange = (open) => { return this.onLeftNavDisplay(null, open); };
+        let onMenuIconTap = () => { return this.displayLeftMenu(!this.state.leftMenuOpen); };
+        let onRequestChange = (open) => { return this.displayLeftMenu(open); };
 
         // Components
-        let leftNav = (
-            <LeftNav docked={false} onRequestChange={onRequestChange} open={this.state.leftNavIsOpen}>
-                <Card style={styles.leftnav.usercard}>
-                    <CardHeader
-                        title="Not Logged In"
-                        subtitle="Log in to see more"
-                        avatar="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm"/>
-                </Card>
-            </LeftNav>
-        );
-
         let authenticationIndicator = <AuthenticationButton authenticated={this.state.isAuthenticated}/>;
 
         let jsx = (
@@ -168,7 +155,10 @@ export default class Chrome extends React.Component {
                         style={styles.appbar}
                         title={'Grumpy Wizards'}
                         onLeftIconButtonTouchTap={onMenuIconTap} />
-                    {leftNav}
+                    <LeftMenu
+                        authenticated={this.state.isAuthenticated}
+                        onRequestChange={onRequestChange}
+                        open={this.state.leftMenuOpen} />
                 </header>
                 <section style={{ flexGrow: 1 }}>
                     {this.props.children}
