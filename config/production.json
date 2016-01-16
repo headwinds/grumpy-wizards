@@ -1,0 +1,6 @@
+{
+    "env": "production",
+    "auth": {
+        "endpoint": "/.auth/login/microsoftaccount"
+    }
+}
