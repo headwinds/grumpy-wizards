@@ -1,12 +1,15 @@
 import Radium from 'radium';
 import React from 'react';
+
+// Components
+import AuthenticationButton from './AuthenticationButton.jsx';
 import AppBar from 'material-ui/lib/app-bar';
 import { Card, CardHeader } from 'material-ui/lib/card';
-import IconButton from 'material-ui/lib/icon-button';
 import LeftNav from 'material-ui/lib/left-nav';
-import appStyle from '../style/appStyle';
 
 import ClientLogger from '../lib/logger';
+import appStyle from '../style/appStyle';
+import appStore from '../lib/app-store';
 
 let logger = new ClientLogger(__filename);
 
@@ -28,6 +31,7 @@ export default class Chrome extends React.Component {
 
     /**
      * Create a new component
+     *
      * @param {Object} props the property values
      */
     constructor(props) {
@@ -35,10 +39,78 @@ export default class Chrome extends React.Component {
         super(props);
 
         this.state = {
-            leftNavIsOpen: false
+            leftNavIsOpen: false,
+            isAuthenticated: false
         };
-
         logger.exit('$constructor');
+    }
+
+    /**
+     * Part of the react API that is called when the component
+     * is just about to be added to the DOM
+     */
+    componentWillMount() {
+        logger.entry('componentWillMount');
+        this.appStoreId = appStore.addStoreListener(() => {
+            this.updateState();
+        });
+        this.updateState();
+        logger.exit('componentWillMount');
+    }
+
+    /**
+     * Part of the react API that is called when the component
+     * is just about to be removed from the DOM
+     */
+    componentWillUnmount() {
+        logger.entry('componentWillUnmount');
+        appStore.removeStoreListener(this.appStoreId);
+        this.appStoreId = null;
+        logger.exit('componentWillUnmount');
+    }
+
+    /**
+     * Returns the Radium styles that will be used in the
+     * component rendering
+     * @returns {Object} the Radium stylesheet
+     */
+    stylesheet() {
+        return {
+            chrome: {
+                display: 'flex',
+                flexFlow: 'column nowrap',
+                height: '100%',
+                width: '100%'
+            },
+            appbar: {
+                backgroundColor: appStyle.color1
+            },
+            footer: {
+                backgroundColor: appStyle.color5,
+                display: 'block',
+                textAlign: 'center'
+            },
+            footertext: {
+                color: appStyle.trans8,
+                font: `0.8rem ${appStyle.fonts.sans}`,
+                margin: '0.5rem 0'
+            },
+            leftnav: {
+                usercard: {
+                    backgroundColor: appStyle.color1
+                }
+            }
+        };
+    }
+    /**
+     * Update the component state
+     */
+    updateState() {
+        logger.entry('updatestae');
+        this.setState({
+            isAuthenticated: appStore.isAuthenticated
+        });
+        logger.exit('updateState');
     }
 
     /**
@@ -67,32 +139,7 @@ export default class Chrome extends React.Component {
         logger.entry('render');
 
         // Style
-        let styles = {
-            chrome: {
-                display: 'flex',
-                flexFlow: 'column nowrap',
-                height: '100%',
-                width: '100%'
-            },
-            appbar: {
-                backgroundColor: appStyle.color1
-            },
-            footer: {
-                backgroundColor: appStyle.color5,
-                display: 'block',
-                textAlign: 'center'
-            },
-            footertext: {
-                color: appStyle.trans8,
-                font: `0.8rem ${appStyle.fonts.sans}`,
-                margin: '0.5rem 0'
-            },
-            leftnav: {
-                usercard: {
-                    backgroundColor: appStyle.color1
-                }
-            }
-        };
+        let styles = this.stylesheet();
 
         // Define Event Handlers
         let onMenuIconTap = (event) => { return this.onLeftNavDisplay(event, !this.state.leftNavIsOpen); };
@@ -110,9 +157,7 @@ export default class Chrome extends React.Component {
             </LeftNav>
         );
 
-        let authenticationIndicator = (
-            <IconButton iconClassName="mdi mdi-login" tooltip="Login" tooltipPosition="bottom-center" />
-        );
+        let authenticationIndicator = <AuthenticationButton authenticated={this.state.isAuthenticated}/>;
 
         let jsx = (
             <div style={styles.chrome}>

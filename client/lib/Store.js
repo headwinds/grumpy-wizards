@@ -18,7 +18,8 @@ export default class Store extends EventEmitter {
 
         this.name = name;
         this.logger = new ClientLogger(`Store-${name}`);
-        this.stores = new Map();
+        this.views = new Map();
+        this.dispatchTable = new Map();
 
         this.logger.entry('constructor-Store', { name: name });
         this.logger.trace('Registering onAction with dispatcher');
@@ -33,15 +34,25 @@ export default class Store extends EventEmitter {
     }
 
     /**
-     * Handler for the dispatched actions - this is normally
-     * over-ridden.
+     * Handler for the dispatched actions
      *
      * @param {Object} payload the dispatched payload
      * @param {string} payload.actionType the action type
      * @returns {bool} true if the payload was handled
      */
-    onAction(payload) { // eslint-disable-line no-unused-vars
-        throw new Error('You need to override the onAction method');
+    onAction(payload) {
+        this.logger.entry('onAction', payload);
+        if (typeof payload.actionType !== 'string') {
+            this.logger.error('No actionType in payload - skipping');
+            return this.logger.exit('onAction', false);
+        }
+        if (!this.dispatchTable.has(payload.actionType)) {
+            this.logger.warn(`actionType = ${payload.actionType} is not recognized`);
+            return this.logger.exit('onAction', false);
+        }
+        let callback = this.dispatchTable.get(payload.actionType);
+        this.logger.debug(`Calling callback for ${payload.actionType}`);
+        return this.logger.exit('onAction', callback(payload));
     }
 
     /**
@@ -52,8 +63,8 @@ export default class Store extends EventEmitter {
     addStoreListener(callback) {
         this.logger.entry('addStoreListener', { callback: callback });
         let id = uuid.v4();
-        this.stores.set(id, callback);
-        this.logger.trace('addStoreListener: stores=', this.stores);
+        this.views.set(id, callback);
+        this.logger.trace('addStoreListener: stores=', this.views);
         this.logger.exit('addStoreListener', id);
         return id;
     }
@@ -65,14 +76,28 @@ export default class Store extends EventEmitter {
      */
     removeStoreListener(id) {
         this.logger.entry('removeStoreListener', { id: id });
-        if (this.stores.has(id)) {
+        if (this.views.has(id)) {
             this.logger.debug(`removeStoreListener: found id ${id} - deleting`);
-            this.stores.delete(id);
-        } else {
+            this.views.delete(id);
+        } else
             this.logger.debug(`removeStoreListener: did not find id ${id}`);
-        }
-        this.logger.trace('removeStoreListener: stores=', this.stores);
+        this.logger.trace('removeStoreListener: stores=', this.views);
         this.logger.exit('removeStoreListener');
+    }
+
+    /**
+     * Add a store dispatch entry
+     *
+     * @param {string} action the action type
+     * @param {function} callback the callback to call
+     * @returns {boolean} true if the dispatch was added
+     */
+    onActionDispatched(action, callback) {
+        this.logger.entry('onActionDispatched', { action: action, callback: callback });
+        if (this.dispatchTable.has(action))
+            this.logger.warn(`onActionDispatched: action ${action} already exists - overwriting`);
+        this.dispatchTable.set(action, callback);
+        return this.logger.exit('onActionDispatched', true);
     }
 
     /**
@@ -91,7 +116,7 @@ export default class Store extends EventEmitter {
      */
     onStoreChanged() {
         this.logger.entry('onStoreChanged');
-        for (let [ id, storeHandler ] of this.stores) {
+        for (let [ id, storeHandler ] of this.views) {
             this.logger.trace('Executing callback for view ', id);
             storeHandler();
         }
