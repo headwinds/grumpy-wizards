@@ -39,6 +39,8 @@ export default class LeftMenu extends React.Component {
      * @returns {string} the gravatar URL
      */
     gravatarIcon(hash) {
+        if (window.location.protocol === 'https:')
+            return `https://secure.gravatar.com/avatar/${hash}?d=mm`;
         return `http://www.gravatar.com/avatar/${hash}?d=mm`;
     }
 
