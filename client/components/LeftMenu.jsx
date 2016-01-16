@@ -6,7 +6,7 @@ import LeftNav from 'material-ui/lib/left-nav';
 import appStyle from '../style/appStyle';
 import ClientLogger from '../lib/logger';
 
-let logger = new ClientLogger(__filename);
+let logger = new ClientLogger('LeftMenu.jsx');
 
 /**
  * Render the left hand navigation bar.

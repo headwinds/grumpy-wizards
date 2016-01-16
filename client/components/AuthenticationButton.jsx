@@ -3,8 +3,9 @@ import React from 'react';
 import IconButton from 'material-ui/lib/icon-button';
 
 import ClientLogger from '../lib/logger';
+import appStyle from '../style/appStyle';
 
-let logger = new ClientLogger(__filename);
+let logger = new ClientLogger('AuthenticationButton.jsx');
 
 /**
  * Render an authenticator button, with dispatch to login capabilities
@@ -14,6 +15,7 @@ let logger = new ClientLogger(__filename);
 export default class AuthenticationButton extends React.Component {
     static propTypes = {
         authenticated: React.PropTypes.bool.isRequired,
+        error: React.PropTypes.any,
         style: React.PropTypes.object
     };
 
@@ -25,10 +27,14 @@ export default class AuthenticationButton extends React.Component {
         logger.entry('render');
         logger.debug('props = ', this.props);
 
-        let classes = this.props.authenticated ? 'mdi mdi-logout' : 'mdi mdi-login';
-        let tooltip = this.props.authenticated ? 'Logout' : 'Login';
+        let classes = 'mdi mdi-alert-octagon';
+        let tooltip = 'Error';
+        if (!this.props.error) {
+            classes = this.props.authenticated ? 'mdi mdi-logout' : 'mdi mdi-login';
+            tooltip = this.props.authenticated ? 'Logout' : 'Login';
+        }
         let defaultStyle = {
-            color: '#FFFFFF'
+            color: this.props.error ? appStyle.redback : '#FFFFFF'
         };
         let style = Object.assign(defaultStyle, this.props.style);
         logger.debug('style = ', style);

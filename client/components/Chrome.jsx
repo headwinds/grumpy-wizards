@@ -10,7 +10,7 @@ import ClientLogger from '../lib/logger';
 import appStyle from '../style/appStyle';
 import appStore from '../lib/app-store';
 
-let logger = new ClientLogger(__filename);
+let logger = new ClientLogger('Chrome.jsx');
 
 /**
  * Provides all the chrome around the application
@@ -38,8 +38,9 @@ export default class Chrome extends React.Component {
         super(props);
 
         this.state = {
-            leftMenuOpen: false,
-            isAuthenticated: false
+            error: false,
+            isAuthenticated: false,
+            leftMenuOpen: false
         };
         logger.exit('$constructor');
     }
@@ -84,6 +85,14 @@ export default class Chrome extends React.Component {
             appbar: {
                 backgroundColor: appStyle.color1
             },
+            error: {
+                backgroundColor: appStyle.redback,
+                color: '#FFFFFF',
+                font: `1rem ${appStyle.fonts.sans}`,
+                padding: '0.4rem 0',
+                textAlign: 'center',
+                width: '100%'
+            },
             footer: {
                 backgroundColor: appStyle.color5,
                 display: 'block',
@@ -108,6 +117,7 @@ export default class Chrome extends React.Component {
     updateState() {
         logger.entry('updateState');
         this.setState({
+            error: appStore.errorMessage,
             isAuthenticated: appStore.isAuthenticated
         });
         logger.exit('updateState');
@@ -145,10 +155,18 @@ export default class Chrome extends React.Component {
         let onRequestChange = (open) => { return this.displayLeftMenu(open); };
 
         // Components
-        let authenticationIndicator = <AuthenticationButton authenticated={this.state.isAuthenticated}/>;
+        let authenticationIndicator = <AuthenticationButton error={this.state.error} authenticated={this.state.isAuthenticated}/>;
+
+        // If there is an error, we need to display it
+        let errorIndicator = '';
+        if (this.state.error) {
+            logger.debug(`setting errorIndicator to ${this.state.error}`);
+            errorIndicator = <div style={styles.error}>{this.state.error}</div>;
+        }
 
         let jsx = (
             <div style={styles.chrome}>
+                {errorIndicator}
                 <header>
                     <AppBar
                         iconElementRight={authenticationIndicator}

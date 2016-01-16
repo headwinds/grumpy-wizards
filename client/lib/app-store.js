@@ -1,3 +1,4 @@
+import fetch from 'isomorphic-fetch';
 import dispatcher from './dispatcher';
 import Store from './store';
 
@@ -19,7 +20,14 @@ class AppStore extends Store {
         this.storeData = {
             auth: {
                 token: null
-            }
+            },
+            config: null,
+            error: false
+        };
+
+        // List of endpoints we use
+        this.endpoints = {
+            config: '/api/config'
         };
 
         // Register any action listeners
@@ -34,7 +42,6 @@ class AppStore extends Store {
             actionType: 'init-store'
         });
 
-
         this.logger.exit('#constructor');
     }
 
@@ -46,6 +53,30 @@ class AppStore extends Store {
     initializeStore(payload) {
         this.logger.entry('initializeStore', payload);
 
+        this.logger.debug(`Initiating fetch of ${this.endpoints.config}`);
+        let options = {
+            method: 'GET',
+            credentials: 'omit',
+            cache: 'no-cache'
+        };
+        fetch(this.endpoints.config, options).then((response) => {
+            this.logger.debug('[fetch-callback-1]: Response = ', response);
+            if (!response.ok) {
+                this.logger.error(`[fetch-callback-1] response = ${response.status} ${response.statusText}`);
+                throw new Error('Invalid Response from Config Endpoint', response);
+            }
+            return response.json();
+        }).then((config) => {
+            this.logger.debug('[fetch-callback-2]: config = ', config);
+            this.storeData.config = Object.assign({}, config);
+            this.storeData.error = false;
+            this.storeChanged();
+        }).catch((error) => {
+            this.logger.error(`[fetch-callback-catch] failed to gather config information`);
+            this.storeData.error = { message: error.message };
+            this.storeChanged();
+        });
+
         return this.logger.exit('initializeStore', true);
     }
 
@@ -56,6 +87,17 @@ class AppStore extends Store {
      */
     get isAuthenticated() {
         return this.storeData.auth.token !== null;
+    }
+
+    /**
+     * Get any error message from the server
+     * @type {boolean|string}
+     * @readonly
+     */
+    get errorMessage() {
+        if (this.storeData.error)
+            return this.storeData.error.message;
+        return false;
     }
 }
 

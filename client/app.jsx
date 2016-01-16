@@ -6,7 +6,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import Chrome from './components/Chrome.jsx';
 import ClientLogger from './lib/logger';
 
-let logger = new ClientLogger(__filename);
+let logger = new ClientLogger('app.jsx');
 logger.info('Booting Application');
 
 // support tap events

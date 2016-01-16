@@ -4,6 +4,7 @@ let appSettings = {
     color3: '#FF5722',
     color4: '#311B92',
     color5: '#004D40',
+    redback: '#C62828',
 
     trans1: 'rgba(255, 255, 255, .1)',
     trans2: 'rgba(255, 255, 255, .2)',
