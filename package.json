@@ -10,6 +10,10 @@
     "nodemon": "nodemon --watch server ./server.js",
     "start": "node ./server.js"
   },
+  "engines": {
+      "node": ">=5.4.0",
+      "npm": ">=3.3.12"
+  },
   "keywords": [
     "express",
     "website"

@@ -103,8 +103,8 @@ echo "Handling node.js deployment."
 
 # 1. KuduSync
 if ($env:IN_PLACE_DEPLOYMENT -ne "1") {
-  & $KUDU_SYNC_CMD -v 50 -f "$DEPLOYMENT_SOURCE" -t "$DEPLOYMENT_TARGET" -n "$NEXT_MANIFEST_PATH" -p "$PREVIOUS_MANIFEST_PATH" -i ".git;.hg;.deployment;deploy.ps1"
-  exitWithMessageOnError "Kudu Sync failed"
+    & $KUDU_SYNC_CMD -v 50 -f "$DEPLOYMENT_SOURCE" -t "$DEPLOYMENT_TARGET" -n "$NEXT_MANIFEST_PATH" -p "$PREVIOUS_MANIFEST_PATH" -i ".git;.hg;.deployment;deploy.ps1"
+    exitWithMessageOnError "Kudu Sync failed"
 }
 
 # 2. Select node version
@@ -112,17 +112,19 @@ selectNodeVersion
 
 # 3. Install npm packages
 if (Test-Path "$DEPLOYMENT_TARGET\package.json") {
-  pushd "$DEPLOYMENT_TARGET"
-  try {
-    iex "$NPM_CMD install --production"
-  } catch {
-    exitWithMessageOnError "npm failed"
-  }
+    echo "Running npm install --production"
+    pushd "$DEPLOYMENT_TARGET"
+    try {
+        iex "$NPM_CMD install --production"
+    } catch {
+        exitWithMessageOnError "npm failed"
+    }
   popd
 }
 
 # 4. Build the environment
 if (Test-Path "$DEPLOYMENT_TARGET\package.json") {
+    echo "Running npm run build"
     pushd "$DEPLOYMENT_TARGET"
     try {
         iex "$NPM_CMD run build"
