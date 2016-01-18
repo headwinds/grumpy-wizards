@@ -148,22 +148,18 @@ export default class Chrome extends React.Component {
     onAuthIconTap() {
         logger.entry('onAuthIconTap');
 
-//         if (this.state.error) {
-//             logger.debug('Error is active - no authentication for you!');
-//             return logger.exit('onAuthIconTap', false);
-//         }
-//
-//         if (this.state.authenticated) {
-//             logger.error('Logout is not implemented right now');
-//             return logger.exit('onAuthIconTap', false);
-//         }
-//
-//         if (appStore.authenticationEndpoint) {
-//             window.location = appStore.authenticationEndpoint;
-//             return logger.exit('onAuthIconTap', true);
-//         }
-//
-//         logger.error('Login authentication endpoint is not available');
+        if (this.state.error || !appStore.authenticationEndpoint) {
+            logger.debug('Disabling Authentication link - no auth configuration received');
+            return logger.exit('onAuthIconTap', false);
+        }
+
+        if (this.state.authenticated) {
+            logger.debug('Disabling Authentication link - Logout is not implemented');
+            return logger.exit('onauthIconTap', false);
+        }
+
+        logger.info(`Redirecting to authentication endpoint: ${appStore.authenticationEndpoint}`);
+        window.location = appStore.authenticationEndpoint;
         logger.exit('onAuthIconTap', true);
     }
 
@@ -184,7 +180,12 @@ export default class Chrome extends React.Component {
         let onRequestChange = (open) => { return this.displayLeftMenu(open); };
 
         // Components
-        let authenticationIndicator = <AuthenticationButton authenticated={this.state.isAuthenticated} error={this.state.error} onTouchTap={onAuthIconTap}/>;
+        let authenticationIndicator = (
+            <AuthenticationButton
+                authenticated={this.state.isAuthenticated}
+                error={this.state.error}
+                onTouchTap={onAuthIconTap} />
+        );
 
         // If there is an error, we need to display it
         let errorIndicator = '';
