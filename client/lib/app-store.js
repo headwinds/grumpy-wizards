@@ -134,7 +134,7 @@ class AppStore extends Store {
                 token: providerData.access_token,
                 providertoken: providerData.authentication_token
             };
-            this.logger.debug('[checkauth-callback-2]: authdata = ', this.data.auth);
+            this.logger.debug('[checkauth-callback-2]: authdata = ', this.storeData.auth);
 
             this.storeData.error = false;
             this.storeChanged();
