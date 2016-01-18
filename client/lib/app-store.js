@@ -166,6 +166,28 @@ class AppStore extends Store {
             return this.storeData.error.message;
         return false;
     }
+
+    /**
+     * Returns the authentication endpoint
+     * @type {string}
+     * @readonly
+     */
+    get authenticationEndpoint() {
+        if (this.storeData.config)
+            return this.storeData.config.auth.endpoint;
+        return false;
+    }
+
+    /**
+     * Returns the authentication information block
+     * @type {object}
+     * @readonly
+     */
+    get authenticationInformation() {
+        if (this.isAuthenticated)
+            return this.storeData.auth;
+        return false;
+    }
 }
 
 // singleton pattern - only one import please

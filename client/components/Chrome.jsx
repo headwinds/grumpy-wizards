@@ -39,6 +39,8 @@ export default class Chrome extends React.Component {
 
         this.state = {
             error: false,
+            authConfig: false,
+            authInfo: null,
             isAuthenticated: false,
             leftMenuOpen: false
         };
@@ -140,6 +142,32 @@ export default class Chrome extends React.Component {
     }
 
     /**
+     * Event Handler to login to the system
+     * @returns {bool} true if the event was handled (although it should not return on success)
+     */
+    onAuthIconTap() {
+        logger.entry('onAuthIconTap');
+
+        if (this.state.error) {
+            logger.debug('Error is active - no authentication for you!');
+            return logger.exit('onAuthIconTap', false):
+        }
+
+        if (this.state.authenticated) {
+            logger.error('Logout is not implemented right now');
+            return logger.exit('onAuthIconTap', false);
+        }
+
+        if (appStore.authenticationEndpoint) {
+            window.location = appStore.authenticationEndpoint;
+            return logger.exit('onAuthIconTap', true);
+        }
+
+        logger.error('Login authentication endpoint is not available');
+        logger.exit('onAuthIconTap', false);
+    }
+
+    /**
      * Render the component
      * @returns {JSXElement} the rendered component
      * @overrides React.Component#render
@@ -151,6 +179,7 @@ export default class Chrome extends React.Component {
         let styles = this.stylesheet();
 
         // Define Event Handlers
+        let onAuthIconTap = () => { return this.onAuthIconTap(); };
         let onMenuIconTap = () => { return this.displayLeftMenu(!this.state.leftMenuOpen); };
         let onRequestChange = (open) => { return this.displayLeftMenu(open); };
 
@@ -172,7 +201,8 @@ export default class Chrome extends React.Component {
                         iconElementRight={authenticationIndicator}
                         style={styles.appbar}
                         title={'Grumpy Wizards'}
-                        onLeftIconButtonTouchTap={onMenuIconTap} />
+                        onLeftIconButtonTouchTap={onMenuIconTap}
+                        onRightIconButtonTouchTap={onAuthIconTap} />
                     <LeftMenu
                         authenticated={this.state.isAuthenticated}
                         onRequestChange={onRequestChange}
