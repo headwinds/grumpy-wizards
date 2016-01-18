@@ -148,22 +148,22 @@ export default class Chrome extends React.Component {
     onAuthIconTap() {
         logger.entry('onAuthIconTap');
 
-        if (this.state.error) {
-            logger.debug('Error is active - no authentication for you!');
-            return logger.exit('onAuthIconTap', false);
-        }
-
-        if (this.state.authenticated) {
-            logger.error('Logout is not implemented right now');
-            return logger.exit('onAuthIconTap', false);
-        }
-
-        if (appStore.authenticationEndpoint) {
-            window.location = appStore.authenticationEndpoint;
-            return logger.exit('onAuthIconTap', true);
-        }
-
-        logger.error('Login authentication endpoint is not available');
+//         if (this.state.error) {
+//             logger.debug('Error is active - no authentication for you!');
+//             return logger.exit('onAuthIconTap', false);
+//         }
+//
+//         if (this.state.authenticated) {
+//             logger.error('Logout is not implemented right now');
+//             return logger.exit('onAuthIconTap', false);
+//         }
+//
+//         if (appStore.authenticationEndpoint) {
+//             window.location = appStore.authenticationEndpoint;
+//             return logger.exit('onAuthIconTap', true);
+//         }
+//
+//         logger.error('Login authentication endpoint is not available');
         logger.exit('onAuthIconTap', false);
     }
 
@@ -184,7 +184,7 @@ export default class Chrome extends React.Component {
         let onRequestChange = (open) => { return this.displayLeftMenu(open); };
 
         // Components
-        let authenticationIndicator = <AuthenticationButton onClick={onAuthIconTap} error={this.state.error} authenticated={this.state.isAuthenticated}/>;
+        let authenticationIndicator = <AuthenticationButton error={this.state.error} authenticated={this.state.isAuthenticated}/>;
 
         // If there is an error, we need to display it
         let errorIndicator = '';
@@ -201,7 +201,8 @@ export default class Chrome extends React.Component {
                         iconElementRight={authenticationIndicator}
                         style={styles.appbar}
                         title={'Grumpy Wizards'}
-                        onLeftIconButtonTouchTap={onMenuIconTap} />
+                        onLeftIconButtonTouchTap={onMenuIconTap}
+                        onRightIconButtonTouchTap={onAuthIconTap} />
                     <LeftMenu
                         authenticated={this.state.isAuthenticated}
                         onRequestChange={onRequestChange}
