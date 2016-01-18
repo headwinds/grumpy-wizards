@@ -27,22 +27,19 @@ class AppStore extends Store {
 
         // List of endpoints we use
         this.endpoints = {
-            config: '/api/config'
+            config: '/api/config',
+            checkAuth: '/.auth/me'
         };
-
-        this.logger.debug('document.location = ', document.location);
 
         // Register any action listeners
         this.logger.debug('Creating Dispatch Table');
-        this.onActionDispatched('init-store', (payload) => {
-            this.initializeStore(payload);
-        });
+        this.onActionDispatched('init-store', (payload) => { this.initializeStore(payload); });
+        this.onActionDispatched('check-auth', (payload) => { this.checkAuthentication(payload); });
 
-        // Dispatch the action to initialize the store
+        // Dispatch initial actions
         this.logger.debug('Dispatching Store Initializer');
-        dispatcher.dispatch({
-            actionType: 'init-store'
-        });
+        dispatcher.dispatch({ actionType: 'init-store' });
+        dispatcher.dispatch({ actionType: 'check-auth' });
 
         this.logger.exit('$constructor');
     }
@@ -61,6 +58,8 @@ class AppStore extends Store {
             credentials: 'omit',
             cache: 'no-cache'
         };
+
+        // Fetch the authentication configuration
         fetch(this.endpoints.config, options).then((response) => {
             this.logger.debug('[fetch-callback-1]: Response = ', response);
             if (!response.ok) {
@@ -80,6 +79,46 @@ class AppStore extends Store {
         });
 
         return this.logger.exit('initializeStore', true);
+    }
+
+    /**
+     * Action Handler for the check-auth event
+     * @param {Object} payload the payload provided to the dispatcher
+     * @returns {boolean} true if the payload was handled
+     */
+    checkAuthentication(payload) {
+        this.logger.entry('checkAuthentication', payload);
+
+        this.logger.debug(`Initiating fetch of ${this.endpoints.checkAuth}`);
+        let options = {
+            method: 'GET',
+            credentials: 'include',
+            cache: 'no-cache'
+        };
+
+        // Fetch the authentication configuration
+        fetch(this.endpoints.config, options).then((response) => {
+            this.logger.debug('[checkauth-callback-1]: Response = ', response);
+            if (!response.ok && response.status !== 401)
+                throw new Error('Invalid Response from Config Endpoint', response);
+            if (response.status === 401)
+                return false;
+            return response.json();
+        }).then((config) => {
+            if (!config) {
+                this.logger.info('[checkauth-callback-2] unauthenticated');
+                return;
+            }
+            this.logger.debug('[checkauth-callback-2]: config = ', config);
+            this.storeData.error = false;
+            this.storeChanged();
+        }).catch((error) => {
+            this.logger.error(`[checkauth-callback-catch] failed to check authentication status`);
+            this.storeData.error = { message: error.message };
+            this.storeChanged();
+        });
+
+        return this.logger.exit('checkAuthentication', true);
     }
 
     /**
