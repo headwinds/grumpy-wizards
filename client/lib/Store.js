@@ -21,7 +21,7 @@ export default class Store extends EventEmitter {
         this.views = new Map();
         this.dispatchTable = new Map();
 
-        this.logger.entry('constructor-Store', { name: name });
+        this.logger.entry('$constructor-Store', { name: name });
         this.logger.trace('Registering onAction with dispatcher');
         dispatcher.register((payload) => {
             return this.onAction(payload);
@@ -30,7 +30,7 @@ export default class Store extends EventEmitter {
         this.logger.trace('Registering onStoreChanged for store-changed events');
         this.on('store-changed', this.onStoreChanged.bind(this));
 
-        this.logger.exit('constructor-Store');
+        this.logger.exit('$constructor-Store');
     }
 
     /**

@@ -14,7 +14,7 @@ class AppStore extends Store {
     constructor() {
         super('app-store');
 
-        this.logger.entry('#constructor');
+        this.logger.entry('$constructor');
 
         // Establish a data block
         this.storeData = {
@@ -30,6 +30,8 @@ class AppStore extends Store {
             config: '/api/config'
         };
 
+        this.logger.debug('document.location = ', document.location);
+
         // Register any action listeners
         this.logger.debug('Creating Dispatch Table');
         this.onActionDispatched('init-store', (payload) => {
@@ -42,7 +44,7 @@ class AppStore extends Store {
             actionType: 'init-store'
         });
 
-        this.logger.exit('#constructor');
+        this.logger.exit('$constructor');
     }
 
     /**
