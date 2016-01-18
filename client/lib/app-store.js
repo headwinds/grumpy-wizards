@@ -97,7 +97,7 @@ class AppStore extends Store {
         };
 
         // Fetch the authentication configuration
-        fetch(this.endpoints.config, options).then((response) => {
+        fetch(this.endpoints.checkAuth, options).then((response) => {
             this.logger.debug('[checkauth-callback-1]: Response = ', response);
             if (!response.ok && response.status !== 401)
                 throw new Error('Invalid Response from Config Endpoint', response);
