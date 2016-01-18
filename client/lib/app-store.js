@@ -104,12 +104,31 @@ class AppStore extends Store {
             if (response.status === 401)
                 return false;
             return response.json();
-        }).then((config) => {
-            if (!config) {
+        }).then((auth) => {
+            if (!auth) {
                 this.logger.info('[checkauth-callback-2] unauthenticated');
+                this.data.auth = { token: null };
+                this.storeChanged();
                 return;
             }
-            this.logger.debug('[checkauth-callback-2]: config = ', config);
+            this.logger.debug('[checkauth-callback-2]: auth = ', auth);
+
+            let providerData = auth[0];
+            let mapClaims = function(target, claim) {
+                target[claim.typ] = claim.val;
+                if (claim.typ.indexOf('http://schema.xmlsoap.org/ws') !== -1) {
+                    target[claim.typ.slice(claim.typ.lastIndexOf('/') + 1)] = claim.val;
+                }
+                return target;
+            };
+            this.data.auth = {
+                claims: providerData.user_claims.reduce(mapClaims, {}),
+                id: providerData.user_id,
+                provider: providerData.provider_name,
+                token: providerData.access_token
+            };
+            this.logger.debug('[checkauth-callback-2]: authdata = ', this.data.auth);
+
             this.storeData.error = false;
             this.storeChanged();
         }).catch((error) => {
