@@ -121,7 +121,7 @@ class AppStore extends Store {
              */
             function mapClaims(target, claim) {
                 target[claim.typ] = claim.val;
-                if (claim.typ.indexOf('http://schema.xmlsoap.org/ws') !== -1)
+                if (claim.typ.indexOf('http://schemas.xmlsoap.org/ws') !== -1)
                     target[claim.typ.slice(claim.typ.lastIndexOf('/') + 1)] = claim.val;
                 return target;
             }
