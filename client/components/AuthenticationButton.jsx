@@ -16,8 +16,23 @@ export default class AuthenticationButton extends React.Component {
     static propTypes = {
         authenticated: React.PropTypes.bool.isRequired,
         error: React.PropTypes.any,
+        onTouchTap: React.PropTypes.function,
         style: React.PropTypes.object
     };
+
+    /**
+     * Returns the default values of non-specified properties
+     *
+     * @returns {Object} the default values for properties
+     * @overrides React.Component#getDefaultProps
+     */
+    getDefaultProps() {
+        return {
+            error: false,
+            onTouchTap: () => { logger.warn('No onTouchTap function registered'); },
+            style: {}
+        };
+    }
 
     /**
      * Render the JSX element
@@ -39,7 +54,14 @@ export default class AuthenticationButton extends React.Component {
         let style = Object.assign(defaultStyle, this.props.style);
         logger.debug('style = ', style);
 
-        let jsx = <IconButton iconClassName={classes} iconStyle={style} tooltip={tooltip} tooltipPosition="bottom-center"/>;
+        let jsx = (
+            <IconButton
+                iconClassName={classes}
+                iconStyle={style}
+                onTouchTap={this.props.onTouchTap}
+                tooltip={tooltip}
+                tooltipPosition="bottom-center" />
+        );
 
         return logger.exit('render', jsx);
     }

@@ -164,7 +164,7 @@ export default class Chrome extends React.Component {
 //         }
 //
 //         logger.error('Login authentication endpoint is not available');
-        logger.exit('onAuthIconTap', false);
+        logger.exit('onAuthIconTap', true);
     }
 
     /**
@@ -184,7 +184,7 @@ export default class Chrome extends React.Component {
         let onRequestChange = (open) => { return this.displayLeftMenu(open); };
 
         // Components
-        let authenticationIndicator = <AuthenticationButton error={this.state.error} authenticated={this.state.isAuthenticated}/>;
+        let authenticationIndicator = <AuthenticationButton authenticated={this.state.isAuthenticated} error={this.state.error} onTouchTap={onAuthIconTap}/>;
 
         // If there is an error, we need to display it
         let errorIndicator = '';
@@ -201,8 +201,7 @@ export default class Chrome extends React.Component {
                         iconElementRight={authenticationIndicator}
                         style={styles.appbar}
                         title={'Grumpy Wizards'}
-                        onLeftIconButtonTouchTap={onMenuIconTap}
-                        onRightIconButtonTouchTap={onAuthIconTap} />
+                        onLeftIconButtonTouchTap={onMenuIconTap} />
                     <LeftMenu
                         authenticated={this.state.isAuthenticated}
                         onRequestChange={onRequestChange}
