@@ -32,6 +32,7 @@
     "body-parser": "^1.14.2",
     "compression": "^1.6.0",
     "config": "^1.19.0",
+    "cookie-parser": "^1.4.1",
     "eslint": "^1.10.3",
     "eslint-loader": "^1.2.0",
     "eslint-plugin-react": "^3.15.0",

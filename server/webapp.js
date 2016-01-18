@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------
 import bodyParser from 'body-parser';
 import compression from 'compression';
+import cookieParser from 'cookie-parser';
 import express from 'express';
 import { transactionLogger, errorLogger } from './logger';
 import customRouter from './routes';
@@ -27,6 +28,7 @@ export default function webApplication(logging = true) {
     app.use(compression());
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(bodyParser.json());
+    app.use(cookieParser());
 
     // Custom router
     app.use(customRouter);

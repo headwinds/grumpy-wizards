@@ -2,6 +2,12 @@
     "port": 3000,
     "env": "development",
     "auth": {
-        "endpoint": "/.auth/login/microsoftaccount"
+        "audience": false,
+        "clientid": false,
+        "clientsecret": false,
+        "encryptionkey": false,
+        "endpoint": "/.auth/login/microsoftaccount",
+        "scope": false,
+        "signingkey": false
     }
 }
