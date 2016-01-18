@@ -107,7 +107,7 @@ class AppStore extends Store {
         }).then((auth) => {
             if (!auth) {
                 this.logger.info('[checkauth-callback-2] unauthenticated');
-                this.data.auth = { token: null };
+                this.storeData.auth = { token: null };
                 this.storeChanged();
                 return;
             }
@@ -127,12 +127,12 @@ class AppStore extends Store {
             }
 
             let providerData = auth[0];
-            this.data.auth = {
+            this.storeData.auth = {
                 claims: providerData.user_claims.reduce(mapClaims, {}),
                 id: providerData.user_id,
                 provider: providerData.provider_name,
                 token: providerData.access_token,
-                providertoekn: providerData.authentication_token
+                providertoken: providerData.authentication_token
             };
             this.logger.debug('[checkauth-callback-2]: authdata = ', this.data.auth);
 
