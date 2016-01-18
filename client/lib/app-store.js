@@ -113,19 +113,26 @@ class AppStore extends Store {
             }
             this.logger.debug('[checkauth-callback-2]: auth = ', auth);
 
-            let providerData = auth[0];
-            let mapClaims = function(target, claim) {
+            /**
+             * Map/Reduce mapper for dealing with claims
+             * @param {object} target the target object
+             * @param {object} claim each individual claim
+             * @returns {object} the target
+             */
+            function mapClaims(target, claim) {
                 target[claim.typ] = claim.val;
-                if (claim.typ.indexOf('http://schema.xmlsoap.org/ws') !== -1) {
+                if (claim.typ.indexOf('http://schema.xmlsoap.org/ws') !== -1)
                     target[claim.typ.slice(claim.typ.lastIndexOf('/') + 1)] = claim.val;
-                }
                 return target;
-            };
+            }
+
+            let providerData = auth[0];
             this.data.auth = {
                 claims: providerData.user_claims.reduce(mapClaims, {}),
                 id: providerData.user_id,
                 provider: providerData.provider_name,
-                token: providerData.access_token
+                token: providerData.access_token,
+                providertoekn: providerData.authentication_token
             };
             this.logger.debug('[checkauth-callback-2]: authdata = ', this.data.auth);
 
