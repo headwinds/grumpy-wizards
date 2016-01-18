@@ -150,7 +150,7 @@ export default class Chrome extends React.Component {
 
         if (this.state.error) {
             logger.debug('Error is active - no authentication for you!');
-            return logger.exit('onAuthIconTap', false):
+            return logger.exit('onAuthIconTap', false);
         }
 
         if (this.state.authenticated) {
