@@ -1,6 +1,8 @@
 import config from 'config';
 import { logger } from '../logger';
 
+logger.trace('api/config.js#init: Loaded api/config.js');
+
 /**
  * Handler for GET /api/config
  * Returns the JSON client configuration
