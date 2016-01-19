@@ -17,6 +17,8 @@ function getConfiguration(request, response) {
         }
     };
 
+    logger.trace('api/config.js: config = ', JSON.stringify(clientConfiguration));
+
     return response.status(200).type('application/json').send(clientConfiguration);
 }
 
