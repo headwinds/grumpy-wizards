@@ -21,6 +21,7 @@
   "author": "Adrian Hall <adrian@shellmonger.com>",
   "license": "MIT",
   "dependencies": {
+    "azure-mobile-apps": "^2.0.0-beta3",
     "babel-core": "^6.4.0",
     "babel-eslint": "^4.1.6",
     "babel-loader": "^6.2.1",

@@ -11,8 +11,8 @@ import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import express from 'express';
 import { transactionLogger, errorLogger } from './logger';
-import customRouter from './routes';
 import staticFiles from './static';
+import zumo from 'azure-mobile-apps';
 
 /**
  * Create an express web application and configure it
@@ -30,15 +30,17 @@ export default function webApplication(logging = true) {
     app.use(bodyParser.json());
     app.use(cookieParser());
 
-    // Custom router
-    app.use(customRouter);
+    // Azure Mobile Apps
+    let mobileApp = zumo({ swagger: true, homePage: false });
+    mobileApp.api.import('./api');
+    app.use(mobileApp);
 
     // Static Files
     app.use(staticFiles);
 
     // Promisify the response as we have no async initialization yet.
-    return new Promise((resolve) => {
+    return mobileApp.tables.initialize().then(() => {
         app.use(errorLogger);
-        resolve(app);
+        return app;
     });
 }
