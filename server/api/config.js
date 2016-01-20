@@ -10,6 +10,7 @@ import config from 'config';
 function getConfiguration(request, response) {
     let clientConfiguration = {
         auth: {
+            // List of the Authentication Endpoints
             endpoint: config.get('auth.endpoint')
         }
     };

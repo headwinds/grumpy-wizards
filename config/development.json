@@ -1,0 +1,8 @@
+{
+    "env": "development",
+    "auth": {
+        "endpoint": {
+            "login": "/.auth/login/mock"
+        }
+    }
+}

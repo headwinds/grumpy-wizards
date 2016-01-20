@@ -6,7 +6,11 @@
         "clientid": false,
         "clientsecret": false,
         "encryptionkey": false,
-        "endpoint": "/.auth/login/microsoftaccount",
+        "endpoint": {
+            "details": "/.auth/me",
+            "login": "/.auth/login/microsoftaccount",
+            "logout": "/.auth/logout"
+        },
         "scope": false,
         "signingkey": false
     }
