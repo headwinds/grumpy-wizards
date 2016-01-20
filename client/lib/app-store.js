@@ -25,12 +25,6 @@ class AppStore extends Store {
             error: false
         };
 
-        // List of endpoints we use
-        this.endpoints = {
-            config: '/api/config',
-            checkAuth: '/.auth/me'
-        };
-
         // Register any action listeners
         this.logger.debug('Creating Dispatch Table');
         this.onActionDispatched('init-store', (payload) => { this.initializeStore(payload); });
@@ -39,7 +33,6 @@ class AppStore extends Store {
         // Dispatch initial actions
         this.logger.debug('Dispatching Store Initializer');
         dispatcher.dispatch({ actionType: 'init-store' });
-        dispatcher.dispatch({ actionType: 'check-auth' });
 
         this.logger.exit('$constructor');
     }
@@ -52,7 +45,8 @@ class AppStore extends Store {
     initializeStore(payload) {
         this.logger.entry('initializeStore', payload);
 
-        this.logger.debug(`Initiating fetch of ${this.endpoints.config}`);
+        const endpoint = '/api/config';
+        this.logger.debug(`Initiating fetch of ${endpoint}`);
         let options = {
             method: 'GET',
             credentials: 'omit',
@@ -60,7 +54,7 @@ class AppStore extends Store {
         };
 
         // Fetch the authentication configuration
-        fetch(this.endpoints.config, options).then((response) => {
+        fetch(endpoint, options).then((response) => {
             this.logger.debug('[fetch-callback-1]: Response = ', response);
             if (!response.ok) {
                 this.logger.error(`[fetch-callback-1] response = ${response.status} ${response.statusText}`);
@@ -72,6 +66,9 @@ class AppStore extends Store {
             this.storeData.config = Object.assign({}, config);
             this.storeData.error = false;
             this.storeChanged();
+
+            // Dispatch the action to check if we are authenticated
+            dispatcher.dispatch({ actionType: 'check-auth' });
         }).catch((error) => {
             this.logger.error(`[fetch-callback-catch] failed to gather config information`);
             this.storeData.error = { message: error.message };
@@ -89,7 +86,8 @@ class AppStore extends Store {
     checkAuthentication(payload) {
         this.logger.entry('checkAuthentication', payload);
 
-        this.logger.debug(`Initiating fetch of ${this.endpoints.checkAuth}`);
+        let endpoint = this.storeData.auth.endpoint.details;
+        this.logger.debug(`Initiating fetch of ${endpoint}`);
         let options = {
             method: 'GET',
             credentials: 'include',
@@ -97,10 +95,10 @@ class AppStore extends Store {
         };
 
         // Fetch the authentication configuration
-        fetch(this.endpoints.checkAuth, options).then((response) => {
+        fetch(endpoint, options).then((response) => {
             this.logger.debug('[checkauth-callback-1]: Response = ', response);
             if (!response.ok && response.status !== 401)
-                throw new Error('Invalid Response from Config Endpoint', response);
+                throw new Error('Invalid Response from Auth Endpoint', response);
             if (response.status === 401)
                 return false;
             return response.json();
