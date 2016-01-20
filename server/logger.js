@@ -10,6 +10,7 @@ import winston from 'winston';
 import logCollector from 'express-winston';
 
 let logger = new winston.Logger({
+    level: 'silly',
     transports: [
         new winston.transports.Console({ colorize: true, timestamp: true })
     ]

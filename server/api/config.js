@@ -1,7 +1,4 @@
 import config from 'config';
-import { logger } from '../logger';
-
-logger.debug('api/config.js#init: Loaded api/config.js');
 
 /**
  * Handler for GET /api/config
@@ -11,16 +8,11 @@ logger.debug('api/config.js#init: Loaded api/config.js');
  * @returns {express.Response} response the result of the operation
  */
 function getConfiguration(request, response) {
-    logger.debug('api/config.js#getConfiguration');
-
     let clientConfiguration = {
         auth: {
             endpoint: config.get('auth.endpoint')
         }
     };
-
-    logger.debug('api/config.js: config = ', JSON.stringify(clientConfiguration));
-
     return response.status(200).type('application/json').send(clientConfiguration);
 }
 
