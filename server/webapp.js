@@ -6,10 +6,12 @@
 // ------------------------------------------------------------------------
 //  Creates an express application server.
 // ------------------------------------------------------------------------
+/* global __dirname */
 import bodyParser from 'body-parser';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import express from 'express';
+import path from 'path';
 import { transactionLogger, errorLogger } from './logger';
 import staticFiles from './static';
 import zumo from 'azure-mobile-apps';
@@ -32,7 +34,7 @@ export default function webApplication(logging = true) {
 
     // Azure Mobile Apps
     let mobileApp = zumo({ swagger: true, homePage: false });
-    mobileApp.api.import('./api');
+    mobileApp.api.import(path.join(__dirname, 'api'));
     app.use(mobileApp);
 
     // Static Files
