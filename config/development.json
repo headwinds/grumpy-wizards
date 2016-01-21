@@ -2,7 +2,8 @@
     "env": "development",
     "auth": {
         "endpoint": {
-            "login": "/.auth/login/mock"
+            "login": "https://grumpy-wizards.azurewebsites.net/.auth/login/microsoftaccount",
+            "details": "https://grumpy-wizards.azurewebsites.net/.auth/me"
         }
     }
 }

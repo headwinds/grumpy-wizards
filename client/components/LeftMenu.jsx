@@ -16,6 +16,7 @@ let logger = new ClientLogger('LeftMenu.jsx');
 export default class LeftMenu extends React.Component {
     static propTypes = {
         authenticated: React.PropTypes.bool.isRequired,
+        authInfo: React.PropTypes.object,
         onRequestChange: React.PropTypes.func.isRequired,
         open: React.PropTypes.bool.isRequired,
         style: React.PropTypes.object
@@ -58,6 +59,8 @@ export default class LeftMenu extends React.Component {
         let authName = 'Not Logged In';
         let authEmail = 'Log in for more';
         let gravatarIcon = this.gravatarIcon('00000000000000000000000000000000');
+        if (this.props.authInfo)
+            authName = this.props.authInfo.name;
 
         let jsx = (
             <LeftNav docked={false} onRequestChange={this.props.onRequestChange} open={this.props.open}>

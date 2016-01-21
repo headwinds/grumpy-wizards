@@ -55,24 +55,24 @@ class AppStore extends Store {
 
         // Fetch the authentication configuration
         fetch(endpoint, options).then((response) => {
-            this.logger.debug('[fetch-callback-1]: Response = ', response);
+            this.logger.debug('[initStore-callback-1]: Response = ', response);
             if (!response.ok) {
-                this.logger.error(`[fetch-callback-1] response = ${response.status} ${response.statusText}`);
+                this.logger.error(`[initStore-callback-1] response = ${response.status} ${response.statusText}`);
                 throw new Error('Invalid Response from Config Endpoint', response);
             }
             return response.json();
+        }).catch((error) => {
+            this.logger.error(`[initStore-callback-catch] failed to gather config information`, error);
+            this.storeData.error = { message: error.message };
+            this.storeChanged();
         }).then((config) => {
-            this.logger.debug('[fetch-callback-2]: config = ', config);
+            this.logger.debug('[initStore-callback-2]: config = ', config);
             this.storeData.config = Object.assign({}, config);
             this.storeData.error = false;
             this.storeChanged();
 
             // Dispatch the action to check if we are authenticated
             dispatcher.dispatch({ actionType: 'check-auth' });
-        }).catch((error) => {
-            this.logger.error(`[fetch-callback-catch] failed to gather config information`);
-            this.storeData.error = { message: error.message };
-            this.storeChanged();
         });
 
         return this.logger.exit('initializeStore', true);
@@ -86,7 +86,8 @@ class AppStore extends Store {
     checkAuthentication(payload) {
         this.logger.entry('checkAuthentication', payload);
 
-        let endpoint = this.storeData.auth.endpoint.details;
+        this.logger.debug(`checkAuthentication: storeData.config = `, this.storeData.config);
+        let endpoint = this.storeData.config.auth.endpoint.details;
         this.logger.debug(`Initiating fetch of ${endpoint}`);
         let options = {
             method: 'GET',
@@ -95,6 +96,7 @@ class AppStore extends Store {
         };
 
         // Fetch the authentication configuration
+        this.logger.debug(`checkAuthentication: calling fetch ${endpoint}, `, options);
         fetch(endpoint, options).then((response) => {
             this.logger.debug('[checkauth-callback-1]: Response = ', response);
             if (!response.ok && response.status !== 401)
@@ -137,7 +139,7 @@ class AppStore extends Store {
             this.storeData.error = false;
             this.storeChanged();
         }).catch((error) => {
-            this.logger.error(`[checkauth-callback-catch] failed to check authentication status`);
+            this.logger.error(`[checkauth-callback-catch] failed to check authentication status`, error);
             this.storeData.error = { message: error.message };
             this.storeChanged();
         });

@@ -120,6 +120,8 @@ export default class Chrome extends React.Component {
         logger.entry('updateState');
         this.setState({
             error: appStore.errorMessage,
+            authConfig: appStore.authenticationEndpoint,
+            authInfo: appStore.authenticationInformation,
             isAuthenticated: appStore.isAuthenticated
         });
         logger.exit('updateState');
@@ -148,7 +150,7 @@ export default class Chrome extends React.Component {
     onAuthIconTap() {
         logger.entry('onAuthIconTap');
 
-        if (this.state.error || !appStore.authenticationEndpoint) {
+        if (this.state.error || !this.state.authConfig) {
             logger.debug('Disabling Authentication link - no auth configuration received');
             return logger.exit('onAuthIconTap', false);
         }
@@ -159,7 +161,7 @@ export default class Chrome extends React.Component {
         }
 
         logger.info(`Redirecting to authentication endpoint: ${appStore.authenticationEndpoint}`);
-        window.location = appStore.authenticationEndpoint;
+        window.location = appStore.authenticationEndpoint.login;
         logger.exit('onAuthIconTap', true);
     }
 
@@ -205,6 +207,7 @@ export default class Chrome extends React.Component {
                         onLeftIconButtonTouchTap={onMenuIconTap} />
                     <LeftMenu
                         authenticated={this.state.isAuthenticated}
+                        authInfo={this.state.authInfo}
                         onRequestChange={onRequestChange}
                         open={this.state.leftMenuOpen} />
                 </header>
