@@ -1,7 +1,10 @@
 import React from 'react';
-import { Router, Route, browserHistory } from 'react-router';
+import { Router, Route } from 'react-router';
+import { createHistory } from 'history';
 
 import Chrome from './components/Chrome.jsx';
+
+let browserHistory = createHistory();
 
 /**
  * The main page router

@@ -1,7 +1,5 @@
 import config from 'config';
 
-console.log('Loading api/config.js');
-
 /**
  * Handler for GET /api/config
  * Returns the JSON client configuration
@@ -16,7 +14,6 @@ function getConfiguration(request, response) {
             endpoint: config.get('auth.endpoint')
         }
     };
-    console.log('clientConfiguration = ', JSON.stringify(clientConfiguration));
     return response.status(200).type('application/json').send(clientConfiguration);
 }
 

@@ -28,8 +28,13 @@ var configuration = {
         filename: 'grumpywizards.js'
     },
     plugins: [
-        new webpack.optimize.UglifyJsPlugin({ mangle: false, compress: { warnings: false }})
+        new webpack.optimize.UglifyJsPlugin({ mangle: false, compress: { warnings: false }}),
+        new webpack.NoErrorsPlugin()
     ],
+    resolve: {
+        modulesDirectories: [ 'node_modules' ],
+        extensions: [ '', '.js', '.jsx' ]
+    },
     target: 'web',
 
     // Loader options
