@@ -55,10 +55,14 @@ export default class LeftMenu extends React.Component {
 
     /**
      * Convert a user hash into a Gravatar URL
-     * @param {string} hash the users hash
+     * @param {string} email the users email address
      * @returns {string} the gravatar URL
      */
-    gravatarIcon(hash) {
+    gravatarIcon(email = '') {
+        let hash = '00000000000000000000000000000000';
+        if (email !== '') {
+            hash = md5(hash.trim().toLowerCase());
+        }
         if (window.location.protocol === 'https:')
             return `https://secure.gravatar.com/avatar/${hash}?d=mm`;
         return `http://www.gravatar.com/avatar/${hash}?d=mm`;
@@ -74,6 +78,11 @@ export default class LeftMenu extends React.Component {
         let onRequestChange = (open) => { return this.onRequestChange(open); };
 
         // Fill these in later
+        let cardOptions = {
+            title: this.props.name || 'Not Logged In',
+            subtitle: this.props.email || '',
+            avatar: this.gravatarIcon(this.props.email)
+        }
         let title = this.props.name || 'Not Logged In';
         let subtitle = '';
         let avatar = this.gravatarIcon('00000000000000000000000000000000');

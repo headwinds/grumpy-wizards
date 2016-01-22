@@ -78,15 +78,6 @@ export default class Chrome extends React.Component {
         };
     }
 
-    // /**
-    //  * Event Handler - login to the system
-    //  * @returns {bool} true if the event was handled
-    //  */
-    // onAuthenticationTap() {
-    //     console.info('Redirecting to authentication endpoint'); // eslint-disable-line no-console
-    //     return true;
-    // }
-
     /**
      * Event Handler - show or display the left menu
      * @param {bool} open if the left nav should be open or closed
@@ -107,30 +98,35 @@ export default class Chrome extends React.Component {
      * @overrides React.Component#render
      */
     render() {
-        // Define Event Handlers
-        // let onAuthIconTap = () => { return this.onAuthenticationTap(); };
-        let onMenuIconTap = () => { return this.onManipulateLeftMenu(!this.state.leftMenu.open); };
-        let onMenuChange = (open) => { return this.onManipulateLeftMenu(open); };
-
         let errorIndicator = '';
+
+        // Properties for the AppBar component
+        let appbarOptions = {
+            style: Chrome.stylesheet.appbar,
+            title: 'Grumpy Wizards',
+            onLeftIconButtonTouchTap: () => { return this.onManipulateLeftMenu(!this.state.leftMenu.open); }
+        };
+
+        // Properties for the LeftMenu component
+        let leftMenuOptions = {
+            open: this.state.leftMenu.isOpen,
+            onRequestChange: (open) => { return this.onManipulateLeftMenu(open); }
+        };
 
         return (
             <div style={Chrome.stylesheet.chrome}>
                 {errorIndicator}
                 <header>
-                    <AppBar
-                        style={Chrome.stylesheet.appbar}
-                        title={'Grumpy Wizards'}
-                        onLeftIconButtonTouchTap={onMenuIconTap} />
-                    <LeftMenu
-                        open={this.state.leftMenu.isOpen}
-                        onRequestChange={onMenuChange} />
+                    <AppBar {...appbarOptions} />
+                    <LeftMenu {...leftMenuOptions} />
                 </header>
                 <section style={Chrome.stylesheet.mainpage}>
                     {this.props.children}
                 </section>
                 <footer style={Chrome.stylesheet.footer}>
-                    <h6 style={Chrome.stylesheet.footertext}>{'Copyright \u00a9 2016 Adrian Hall'}</h6>
+                    <h6 style={Chrome.stylesheet.footertext}>
+                        {'Copyright \u00a9 2016 Adrian Hall'}
+                    </h6>
                 </footer>
             </div>
         );
