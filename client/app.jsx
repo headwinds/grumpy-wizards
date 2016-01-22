@@ -1,13 +1,8 @@
 import { StyleRoot } from 'radium';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, browserHistory } from 'react-router';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import Chrome from './components/Chrome.jsx';
-import ClientLogger from './lib/logger';
-
-let logger = new ClientLogger('app.jsx');
-logger.info('Booting Application');
+import PageView from './pageview.jsx';
 
 // support tap events
 injectTapEventPlugin();
@@ -23,12 +18,4 @@ let pageStyle = {
 };
 
 // render the page
-ReactDOM.render(
-    <StyleRoot style={pageStyle}>
-        <Router history={browserHistory}>
-            <Route path="/" component={Chrome}>
-            </Route>
-        </Router>
-    </StyleRoot>,
-    document.getElementById('jsx-page')
-);
+ReactDOM.render(<StyleRoot style={pageStyle}><PageView/></StyleRoot>, document.getElementById('pageview'));

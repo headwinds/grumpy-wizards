@@ -1,37 +1,54 @@
 import Radium from 'radium';
 import React from 'react';
+
+// Library Components
 import { Card, CardHeader } from 'material-ui/lib/card';
 import LeftNav from 'material-ui/lib/left-nav';
 
+// Default Styles
 import appStyle from '../style/appStyle';
-import ClientLogger from '../lib/logger';
-
-let logger = new ClientLogger('LeftMenu.jsx');
 
 /**
- * Render the left hand navigation bar.
- * @extemds React.Component
+ * Provides all the chrome around the application
+ * @extends React.Component
  */
- @Radium
+@Radium
 export default class LeftMenu extends React.Component {
+    /**
+     * React property types
+     * @type {Object}
+     * @readonly
+     */
     static propTypes = {
-        authenticated: React.PropTypes.bool.isRequired,
-        authInfo: React.PropTypes.object,
-        onRequestChange: React.PropTypes.func.isRequired,
+        // Is the left menu open or closed?
         open: React.PropTypes.bool.isRequired,
+        // Event Handler called when the menu state changes
+        onRequestChange: React.PropTypes.func,
+        // Style over-rides
         style: React.PropTypes.object
     };
 
     /**
-     * Get the default style for the component
-     * @returns {Object} the Radium style object
+     * Default Stylesheet
+     * @type {Object}
+     * @readonly
      */
-    getDefaultStyle() {
-        return {
-            usercard: {
-                backgroundColor: appStyle.color1
-            }
-        };
+    static stylesheet = {
+        usercard: {
+            backgroundColor: appStyle.color1
+        }
+    };
+
+    /**
+     * Event Handler for the onRequestChange method
+     * @param {bool} open the state of the left menu
+     * @returns {bool} true if the event was handled
+     */
+    onRequestChange(open) {
+        if (this.props.onRequestChange)
+            return this.props.onRequestChange(open);
+        console.warn('LeftMenu#onRequestChange - not overridden - open = ', open); // eslint-disable-line no-console
+        return false;
     }
 
     /**
@@ -46,30 +63,26 @@ export default class LeftMenu extends React.Component {
     }
 
     /**
-     * Render the JSX element
-     * @returns {JSX.Element} the rendered conent
+     * Render the component
+     * @returns {JSX.Element} the rendered component
+     * @overrides React.Component#render
      */
     render() {
-        logger.entry('render');
-        logger.debug('props = ', this.props);
+        let styles = Object.assign(LeftMenu.stylesheet, this.props.style);
+        let onRequestChange = (open) => { return this.onRequestChange(open); };
 
-        let styles = Object.assign({}, this.getDefaultStyle(), this.props.style);
-        logger.debug('style = ', styles);
+        // Fill these in later
+        let title = 'Not Logged In';
+        let subtitle = '';
+        let avatar = this.gravatarIcon('00000000000000000000000000000000');
 
-        let authName = 'Not Logged In';
-        let authEmail = 'Log in for more';
-        let gravatarIcon = this.gravatarIcon('00000000000000000000000000000000');
-        if (this.props.authInfo)
-            authName = this.props.authInfo.name;
-
-        let jsx = (
-            <LeftNav docked={false} onRequestChange={this.props.onRequestChange} open={this.props.open}>
+        return (
+            <LeftNav docked={false} onRequestChange={onRequestChange} open={this.props.open}>
                 <Card style={styles.usercard}>
-                    <CardHeader title={authName} subtitle={authEmail} avatar={gravatarIcon}/>
+                    <CardHeader title={title} subtitle={subtitle} avatar={avatar}/>
                 </Card>
             </LeftNav>
         );
-
-        return logger.exit('render', jsx);
     }
 }
+
