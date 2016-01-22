@@ -1,5 +1,6 @@
 import Radium from 'radium';
 import React from 'react';
+import md5 from 'md5';
 
 // Library Components
 import { Card, CardHeader } from 'material-ui/lib/card';
@@ -20,6 +21,8 @@ export default class LeftMenu extends React.Component {
      * @readonly
      */
     static propTypes = {
+        // The email address of the user (if any)
+        email: React.PropTypes.string,
         // The name of the user (if any)
         name: React.PropTypes.string,
         // Is the left menu open or closed?
@@ -60,9 +63,8 @@ export default class LeftMenu extends React.Component {
      */
     gravatarIcon(email = '') {
         let hash = '00000000000000000000000000000000';
-        if (email !== '') {
+        if (email !== '')
             hash = md5(hash.trim().toLowerCase());
-        }
         if (window.location.protocol === 'https:')
             return `https://secure.gravatar.com/avatar/${hash}?d=mm`;
         return `http://www.gravatar.com/avatar/${hash}?d=mm`;
@@ -82,15 +84,12 @@ export default class LeftMenu extends React.Component {
             title: this.props.name || 'Not Logged In',
             subtitle: this.props.email || '',
             avatar: this.gravatarIcon(this.props.email)
-        }
-        let title = this.props.name || 'Not Logged In';
-        let subtitle = '';
-        let avatar = this.gravatarIcon('00000000000000000000000000000000');
+        };
 
         return (
             <LeftNav docked={false} onRequestChange={onRequestChange} open={this.props.open}>
                 <Card style={styles.usercard}>
-                    <CardHeader title={title} subtitle={subtitle} avatar={avatar}/>
+                    <CardHeader {...cardOptions} />
                 </Card>
             </LeftNav>
         );

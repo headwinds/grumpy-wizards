@@ -1,9 +1,4 @@
 {
     "env": "development",
-    "auth": {
-        "endpoint": {
-            "login": "https://grumpy-wizards.azurewebsites.net/.auth/login/microsoftaccount",
-            "details": "https://grumpy-wizards.azurewebsites.net/.auth/me"
-        }
-    }
+    "base": "https://grumpy-wizards.azurewebsites.net/"
 }

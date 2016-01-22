@@ -26,7 +26,10 @@ let router = express.Router(); // eslint-disable-line new-cap
 let indexFile = path.join(__dirname, 'index.html');
 let indexContents = fs.readFileSync(indexFile, 'utf8'); // eslint-disable-line no-sync
 router.get('/', (request, response) => {
-    response.status(200).type('text/html').send(indexContents);
+    let responseData = indexContents
+        .replace(/\$\{config.base\}/g, config.get('base'))
+        .replace(/\$\{config.env\}/g, config.get('env'));
+    response.status(200).type('text/html').send(responseData);
 });
 
 if (config.get('env') === 'production') {

@@ -9,10 +9,8 @@ import config from 'config';
  */
 function getConfiguration(request, response) {
     let clientConfiguration = {
-        auth: {
-            // List of the Authentication Endpoints
-            endpoint: config.get('auth.endpoint')
-        }
+        env: config.get('env'),
+        base: config.get('base')
     };
     return response.status(200).type('application/json').send(clientConfiguration);
 }

@@ -1,12 +1,5 @@
 {
     "port": "PORT",
     "env": "NODE_ENV",
-    "auth": {
-        "audience": "WEBSITE_AUTH_ALLOWED_AUDIENCES",
-        "clientid": "WEBSITE_AUTH_MSA_CLIENT_ID",
-        "clientsecret": "WEBSITE_AUTH_MSA_CLIENT_SECRET",
-        "encryptionkey": "WEBSITE_AUTH_ENCRYPTION_KEY",
-        "scope": "WEBSITE_AUTH_MSA_SCOPE",
-        "signingkey": "WEBSITE_AUTH_SIGNING_KEY"
-    }
+    "base": "WEBSITE_BASEURL"
 }
