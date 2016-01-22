@@ -20,6 +20,8 @@ export default class LeftMenu extends React.Component {
      * @readonly
      */
     static propTypes = {
+        // The name of the user (if any)
+        name: React.PropTypes.string,
         // Is the left menu open or closed?
         open: React.PropTypes.bool.isRequired,
         // Event Handler called when the menu state changes
@@ -72,7 +74,7 @@ export default class LeftMenu extends React.Component {
         let onRequestChange = (open) => { return this.onRequestChange(open); };
 
         // Fill these in later
-        let title = 'Not Logged In';
+        let title = this.props.name || 'Not Logged In';
         let subtitle = '';
         let avatar = this.gravatarIcon('00000000000000000000000000000000');
 
