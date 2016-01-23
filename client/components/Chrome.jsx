@@ -1,3 +1,4 @@
+import ClientLogger from '../lib/logger';
 import Radium from 'radium';
 import React from 'react';
 
@@ -9,6 +10,11 @@ import LeftMenu from '../components/LeftMenu.jsx';
 
 // Default Styles
 import appStyle from '../style/appStyle';
+
+// Flux Stores
+import authStore from '../stores/auth-store';
+
+let logger = new ClientLogger('components/Chrome');
 
 /**
  * Provides all the chrome around the application
@@ -71,11 +77,49 @@ export default class Chrome extends React.Component {
      */
     constructor(props) {
         super(props);
+        logger.entry('$constructor', props);
         this.state = {
+            authStore: authStore.state,
             leftMenu: {
                 isOpen: false
             }
         };
+        logger.debug('state = ', this.state);
+        logger.exit('$constructor');
+    }
+
+    /**
+     * React API: Called when the component is mounting itself in the DOM
+     *
+     * @returns {void}
+     * @overrides React.Component#componentWillMount
+     */
+    componentWillMount() {
+        logger.entry('componentWillMount');
+        this.authStoreId = authStore.addStoreListener(() => { return this.updateState(); });
+        logger.exit('componentWillMount');
+    }
+
+    /**
+     * React API: Called when the component is removed from the DOM
+     *
+     * @returns {void}
+     * @overrides React.Component#componentWillUnmount
+     */
+    componentWillUnmount() {
+        logger.entry('componentWillUnmount');
+        authStore.removeStoreListener(this.authStoreId);
+        logger.exit('componentWillUnmount');
+    }
+
+    /**
+     * Update the internal state of the component-view from the flux store
+     */
+    updateState() {
+        logger.entry('updateState');
+        this.setState({ authStore: authStore.state });
+        logger.debug('New State = ', this.state);
+        logger.exit('updateState');
     }
 
     /**
@@ -84,12 +128,14 @@ export default class Chrome extends React.Component {
      * @returns {bool} true if the event was handled
      */
     onManipulateLeftMenu(open) {
+        logger.entry('onManipulateLeftMenu', open);
         this.setState({
             leftMenu: {
                 isOpen: open
             }
         });
-        return true;
+        logger.debug('New State = ', this.state);
+        return logger.exit('onManipulateLeftMenu', true);
     }
 
     /**
@@ -98,7 +144,12 @@ export default class Chrome extends React.Component {
      * @overrides React.Component#render
      */
     render() {
+        logger.entry('render');
         let errorIndicator = '';
+        if (this.state.authStore.authState === 'error') {
+            logger.debug(`Will display errorIndicator = ${this.state.authStore.errorMessage}`);
+            errorIndicator = <div style={Chrome.stylesheet.error}>{this.state.authStore.errorMessage}</div>;
+        }
 
         // Properties for the AppBar component
         let appbarOptions = {
@@ -106,14 +157,16 @@ export default class Chrome extends React.Component {
             title: 'Grumpy Wizards',
             onLeftIconButtonTouchTap: () => { return this.onManipulateLeftMenu(!this.state.leftMenu.open); }
         };
+        logger.debug('appbarOptions = ', appbarOptions);
 
         // Properties for the LeftMenu component
         let leftMenuOptions = {
             open: this.state.leftMenu.isOpen,
             onRequestChange: (open) => { return this.onManipulateLeftMenu(open); }
         };
+        logger.debug('leftMenuOptions = ', leftMenuOptions);
 
-        return (
+        return logger.exit('render', (
             <div style={Chrome.stylesheet.chrome}>
                 {errorIndicator}
                 <header>
@@ -129,6 +182,6 @@ export default class Chrome extends React.Component {
                     </h6>
                 </footer>
             </div>
-        );
+        ));
     }
 }
