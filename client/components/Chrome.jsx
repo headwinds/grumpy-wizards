@@ -4,6 +4,7 @@ import React from 'react';
 
 // Library Components
 import AppBar from 'material-ui/lib/app-bar';
+import IconButton from 'material-ui/lib/icon-button';
 
 // My Components
 import LeftMenu from '../components/LeftMenu.jsx';
@@ -30,6 +31,18 @@ export default class Chrome extends React.Component {
     static propTypes = {
         // Child page to be provided by react-router
         children: React.PropTypes.node
+    };
+
+    /**
+     * Conversion of the authentication status to an icon
+     * @type {Object}
+     * @readonly
+     */
+    static statusIcons = {
+        pending: 'fa fa-spinner fa-pulse',
+        error: 'mdi mdi-alert-octagon',
+        anonymous: 'mdi mdi-login',
+        authenticated: 'mdi mdi-logout'
     };
 
     /**
@@ -152,7 +165,10 @@ export default class Chrome extends React.Component {
         }
 
         // Properties for the AppBar component
+        let iconClassName = Chrome.statusIcons[this.state.authStore.authState];
+        let color = this.state.authStore.authState === 'error' ? '#ff0000' : '#ffffff';
         let appbarOptions = {
+            iconElementRight: <IconButton iconStyle={{ color: color }} iconClassName={iconClassName} />,
             style: Chrome.stylesheet.appbar,
             title: 'Grumpy Wizards',
             onLeftIconButtonTouchTap: () => { return this.onManipulateLeftMenu(!this.state.leftMenu.open); }
