@@ -13,7 +13,7 @@ import LeftMenu from '../components/LeftMenu.jsx';
 import appStyle from '../style/appStyle';
 
 // Flux Stores
-import authStore from '../stores/auth-store';
+import store from '../redux/store';
 
 let logger = new ClientLogger('components/Chrome');
 
@@ -92,7 +92,9 @@ export default class Chrome extends React.Component {
         super(props);
         logger.entry('$constructor', props);
         this.state = {
-            authStore: authStore.state,
+            phase: 'pending',
+            user: null,
+            error: null,
             leftMenu: {
                 isOpen: false
             }
@@ -109,7 +111,7 @@ export default class Chrome extends React.Component {
      */
     componentWillMount() {
         logger.entry('componentWillMount');
-        this.authStoreId = authStore.addStoreListener(() => { return this.updateState(); });
+        this.unsubscribe = store.subscribe(() => { return this.updateState(); });
         logger.exit('componentWillMount');
     }
 
@@ -121,7 +123,7 @@ export default class Chrome extends React.Component {
      */
     componentWillUnmount() {
         logger.entry('componentWillUnmount');
-        authStore.removeStoreListener(this.authStoreId);
+        this.unsubscribe();
         logger.exit('componentWillUnmount');
     }
 
@@ -130,7 +132,7 @@ export default class Chrome extends React.Component {
      */
     updateState() {
         logger.entry('updateState');
-        this.setState({ authStore: authStore.state });
+        this.setState(store.getState());
         logger.debug('New State = ', this.state);
         logger.exit('updateState');
     }
@@ -159,14 +161,14 @@ export default class Chrome extends React.Component {
     render() {
         logger.entry('render');
         let errorIndicator = '';
-        if (this.state.authStore.authState === 'error') {
-            logger.debug(`Will display errorIndicator = ${this.state.authStore.errorMessage}`);
-            errorIndicator = <div style={Chrome.stylesheet.error}>{this.state.authStore.errorMessage}</div>;
+        if (this.state.phase === 'error') {
+            logger.debug(`Will display errorIndicator = ${this.state.error}`);
+            errorIndicator = <div style={Chrome.stylesheet.error}>{this.state.error}</div>;
         }
 
         // Properties for the AppBar component
-        let iconClassName = Chrome.statusIcons[this.state.authStore.authState];
-        let color = this.state.authStore.authState === 'error' ? '#ff0000' : '#ffffff';
+        let iconClassName = Chrome.statusIcons[this.state.phase];
+        let color = this.state.phase === 'error' ? '#ff0000' : '#ffffff';
         let appbarOptions = {
             iconElementRight: <IconButton iconStyle={{ color: color }} iconClassName={iconClassName} />,
             style: Chrome.stylesheet.appbar,
