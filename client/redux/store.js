@@ -5,7 +5,8 @@ import reducer from './reducers';
 const initialState = {
     phase: 'pending',
     user: null,
-    error: null
+    error: null,
+    leftMenuVisibility: false
 };
 
 let store = createStore(reducer, initialState);

@@ -6,6 +6,18 @@ if (window.GRUMPYWIZARDS && window.GRUMPYWIZARDS.base)
     baseUrl = window.GRUMPYWIZARDS.base.replace(/\/$/, '');
 
 /**
+ * Redux Action Creator for toggling left menu visibility
+ * @param {bool} open the requested state of the left menu
+ * @returns {Object} Redux Action
+ */
+export function displayLeftMenu(open) {
+    return {
+        type: 'UI-LEFTMENU-VISIBILITY',
+        visibility: open
+    };
+}
+
+/**
  * Redux Action Creator for handling anonymous response
  * @returns {Object} Redux Action
  */

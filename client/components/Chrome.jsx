@@ -4,10 +4,15 @@ import { connect } from 'react-redux';
 
 // Library Components
 import AppBar from 'material-ui/lib/app-bar';
-import IconButton from 'material-ui/lib/icon-button';
 
 // My Components
+import ErrorIndicator from '../components/ErrorIndicator.jsx';
+import Footer from '../components/Footer.jsx';
 import LeftMenu from '../components/LeftMenu.jsx';
+import PhaseIconButton from '../components/PhaseIconButton.jsx';
+
+// Action Creators
+import { displayLeftMenu } from '../redux/actions';
 
 // Default Styles
 import appStyle from '../style/appStyle';
@@ -24,93 +29,13 @@ class Chrome extends React.Component {
      * @readonly
      */
     static propTypes = {
-        // Child page to be provided by react-router
         children: React.PropTypes.node,
-        // Phase - provided by the Redux Store (connect call)
-        phase: React.PropTypes.string.isRequired,
-        // Error - provided by the Redux Store (connect call)
+        dispatch: React.PropTypes.func.isRequired,
         error: React.PropTypes.string,
-        // User - provided by the Redux Store (connect call)
+        open: React.PropTypes.bool.isRequired,
+        phase: React.PropTypes.string.isRequired,
         user: React.PropTypes.object
     };
-
-    /**
-     * Conversion of the authentication status to an icon
-     * @type {Object}
-     * @readonly
-     */
-    static statusIcons = {
-        pending: 'fa fa-spinner fa-pulse',
-        error: 'mdi mdi-alert-octagon',
-        anonymous: 'mdi mdi-login',
-        authenticated: 'mdi mdi-logout'
-    };
-
-    /**
-     * Radium Stylesheet
-     * @type {Object}
-     * @readonly
-     */
-    static stylesheet = {
-        chrome: {
-            display: 'flex',
-            flexFlow: 'column nowrap',
-            height: '100%',
-            width: '100%'
-        },
-        appbar: {
-            backgroundColor: appStyle.color1
-        },
-        error: {
-            backgroundColor: appStyle.redback,
-            color: '#FFFFFF',
-            font: `1rem ${appStyle.fonts.sans}`,
-            padding: '0.4rem 0',
-            textAlign: 'center',
-            width: '100%'
-        },
-        footer: {
-            backgroundColor: appStyle.color5,
-            display: 'block',
-            textAlign: 'center'
-        },
-        footertext: {
-            color: appStyle.trans8,
-            font: `0.8rem ${appStyle.fonts.sans}`,
-            margin: '0.5rem 0'
-        },
-        mainpage: {
-            flexGrow: 1
-        }
-    };
-
-    /**
-     * Create a new component
-     *
-     * @param {Object} props the property values
-     */
-    constructor(props) {
-        super(props);
-        this.state = {
-            leftMenu: {
-                isOpen: false
-            }
-        };
-    }
-
-    /**
-     * Event Handler - show or display the left menu
-     * @param {bool} open if the left nav should be open or closed
-     * @returns {bool} true if the event was handled
-     */
-    onManipulateLeftMenu(open) {
-        this.setState({
-            leftMenu: {
-                isOpen: open
-            }
-        });
-        return true;
-    }
 
     /**
      * Render the component
@@ -118,70 +43,53 @@ class Chrome extends React.Component {
      * @overrides React.Component#render
      */
     render() {
-        let errorIndicator = '';
-        if (this.props.phase === 'error')
-            errorIndicator = <div style={Chrome.stylesheet.error}>{this.props.error}</div>;
+        let dispatch = this.props.dispatch;
 
-        // Properties for the AppBar component
-        let iconClassName = Chrome.statusIcons[this.props.phase];
-        let color = this.props.phase === 'error' ? '#ff0000' : '#ffffff';
-        let appbarOptions = {
-            iconElementRight: <IconButton iconStyle={{ color: color }} iconClassName={iconClassName} />,
-            style: Chrome.stylesheet.appbar,
-            title: 'Grumpy Wizards',
-            onLeftIconButtonTouchTap: () => { return this.onManipulateLeftMenu(!this.state.leftMenu.isOpen); }
+        // Style for the component
+        let style = {
+            display: 'flex',
+            flexFlow: 'column nowrap',
+            height: '100%',
+            width: '100%'
         };
 
-        // Properties for the LeftMenu component
-        let leftMenuOptions = {
-            open: this.state.leftMenu.isOpen,
-            onRequestChange: (open) => { return this.onManipulateLeftMenu(open); }
+        // Event Handlers
+        let onToggleLeftMenu = () => { return dispatch(displayLeftMenu(!this.props.open)); };
+        let onLeftMenuRequestChange = (open) => { return dispatch(displayLeftMenu(open)); };
+
+        // Component Options
+        let appbarOptions = {
+            iconElementRight: <PhaseIconButton phase={this.props.phase} />,
+            style: { backgroundColor: appStyle.color1 },
+            title: 'Grumpy Wizards',
+            onLeftIconButtonTouchTap: onToggleLeftMenu
         };
 
         return (
-            <div style={Chrome.stylesheet.chrome}>
-                {errorIndicator}
+            <div style={style}>
+                <ErrorIndicator phase={this.props.phase} error={this.props.error}/>
                 <header>
                     <AppBar {...appbarOptions} />
-                    <LeftMenu {...leftMenuOptions} />
                 </header>
-                <section style={Chrome.stylesheet.mainpage}>
+                <section style={{ flexGrow: 1 }}>
                     {this.props.children}
                 </section>
-                <footer style={Chrome.stylesheet.footer}>
-                    <h6 style={Chrome.stylesheet.footertext}>
-                        {'Copyright \u00a9 2016 Adrian Hall'}
-                    </h6>
-                </footer>
+                <Footer/>
+                <LeftMenu open={this.props.open} onRequestChange={onLeftMenuRequestChange} />
             </div>
         );
     }
 }
 
-/**
- * Choose which Redux store properties to transition into component
- * properties.
- *
- * @param {Object} state the Redux store properties
- * @returns {Object} the properties to include.
- */
-function select(state) {
-    switch (state.phase) {
-    case 'error':
+/*
+** Link the Chrome component to the Redux store
+*/
+export default connect(
+    (state) => {
         return {
-            phase: state.phase,
-            error: state.error
-        };
-    case 'authenticated':
-        return {
+            error: state.error,
+            open: state.leftMenuVisibility,
             phase: state.phase,
             user: state.user
         };
-    default:
-        return {
-            phase: state.phase
-        };
-    }
-}
-
-export default connect(select)(Chrome);
+    })(Chrome);

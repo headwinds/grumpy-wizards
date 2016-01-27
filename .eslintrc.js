@@ -135,7 +135,7 @@ module.exports = {
         'consistent-this': [ WARN, 'self' ],
         'eol-last': WARN,
         'func-names': OFF,
-        'func-style': [ WARN, 'declaration' ],
+        'func-style': OFF,
         'id-length': [ WARN, { 'min': 2, 'max': 32 } ],
         'id-match': OFF,
         'indent': [ WARN, 4 ],

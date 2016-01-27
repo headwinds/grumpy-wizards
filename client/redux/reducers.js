@@ -46,6 +46,11 @@ export default function authReducer(state, action) {
             error: action.error.message
         });
 
+    case 'UI-LEFTMENU-VISIBILITY':
+        return Object.assign({}, state, {
+            leftMenuVisibility: action.visibility
+        });
+
     default:
         return state;
     }
