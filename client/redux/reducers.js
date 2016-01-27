@@ -1,10 +1,10 @@
+/* eslint-disable no-case-declarations */
 /**
  * Redux Reducer for authentication
  * @param {Object} state the initial state
  * @param {Object} action the Redux Action object
  * @returns {Object} the new state
  */
-/* eslint-disable no-case-declarations */
 export default function authReducer(state, action) {
     switch (action.type) {
     case 'AUTH-ANONYMOUS':

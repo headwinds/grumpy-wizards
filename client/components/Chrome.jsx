@@ -1,6 +1,6 @@
-import ClientLogger from '../lib/logger';
 import Radium from 'radium';
 import React from 'react';
+import { connect } from 'react-redux';
 
 // Library Components
 import AppBar from 'material-ui/lib/app-bar';
@@ -12,17 +12,12 @@ import LeftMenu from '../components/LeftMenu.jsx';
 // Default Styles
 import appStyle from '../style/appStyle';
 
-// Flux Stores
-import store from '../redux/store';
-
-let logger = new ClientLogger('components/Chrome');
-
 /**
  * Provides all the chrome around the application
  * @extends React.Component
  */
 @Radium
-export default class Chrome extends React.Component {
+class Chrome extends React.Component {
     /**
      * React property types
      * @type {Object}
@@ -30,7 +25,13 @@ export default class Chrome extends React.Component {
      */
     static propTypes = {
         // Child page to be provided by react-router
-        children: React.PropTypes.node
+        children: React.PropTypes.node,
+        // Phase - provided by the Redux Store (connect call)
+        phase: React.PropTypes.string.isRequired,
+        // Error - provided by the Redux Store (connect call)
+        error: React.PropTypes.string,
+        // User - provided by the Redux Store (connect call)
+        user: React.PropTypes.object
     };
 
     /**
@@ -90,51 +91,11 @@ export default class Chrome extends React.Component {
      */
     constructor(props) {
         super(props);
-        logger.entry('$constructor', props);
         this.state = {
-            phase: 'pending',
-            user: null,
-            error: null,
             leftMenu: {
                 isOpen: false
             }
         };
-        logger.debug('state = ', this.state);
-        logger.exit('$constructor');
-    }
-
-    /**
-     * React API: Called when the component is mounting itself in the DOM
-     *
-     * @returns {void}
-     * @overrides React.Component#componentWillMount
-     */
-    componentWillMount() {
-        logger.entry('componentWillMount');
-        this.unsubscribe = store.subscribe(() => { return this.updateState(); });
-        logger.exit('componentWillMount');
-    }
-
-    /**
-     * React API: Called when the component is removed from the DOM
-     *
-     * @returns {void}
-     * @overrides React.Component#componentWillUnmount
-     */
-    componentWillUnmount() {
-        logger.entry('componentWillUnmount');
-        this.unsubscribe();
-        logger.exit('componentWillUnmount');
-    }
-
-    /**
-     * Update the internal state of the component-view from the flux store
-     */
-    updateState() {
-        logger.entry('updateState');
-        this.setState(store.getState());
-        logger.debug('New State = ', this.state);
-        logger.exit('updateState');
     }
 
     /**
@@ -143,14 +104,12 @@ export default class Chrome extends React.Component {
      * @returns {bool} true if the event was handled
      */
     onManipulateLeftMenu(open) {
-        logger.entry('onManipulateLeftMenu', open);
         this.setState({
             leftMenu: {
                 isOpen: open
             }
         });
-        logger.debug('New State = ', this.state);
-        return logger.exit('onManipulateLeftMenu', true);
+        return true;
     }
 
     /**
@@ -159,32 +118,27 @@ export default class Chrome extends React.Component {
      * @overrides React.Component#render
      */
     render() {
-        logger.entry('render');
         let errorIndicator = '';
-        if (this.state.phase === 'error') {
-            logger.debug(`Will display errorIndicator = ${this.state.error}`);
-            errorIndicator = <div style={Chrome.stylesheet.error}>{this.state.error}</div>;
-        }
+        if (this.props.phase === 'error')
+            errorIndicator = <div style={Chrome.stylesheet.error}>{this.props.error}</div>;
 
         // Properties for the AppBar component
-        let iconClassName = Chrome.statusIcons[this.state.phase];
-        let color = this.state.phase === 'error' ? '#ff0000' : '#ffffff';
+        let iconClassName = Chrome.statusIcons[this.props.phase];
+        let color = this.props.phase === 'error' ? '#ff0000' : '#ffffff';
         let appbarOptions = {
             iconElementRight: <IconButton iconStyle={{ color: color }} iconClassName={iconClassName} />,
             style: Chrome.stylesheet.appbar,
             title: 'Grumpy Wizards',
-            onLeftIconButtonTouchTap: () => { return this.onManipulateLeftMenu(!this.state.leftMenu.open); }
+            onLeftIconButtonTouchTap: () => { return this.onManipulateLeftMenu(!this.state.leftMenu.isOpen); }
         };
-        logger.debug('appbarOptions = ', appbarOptions);
 
         // Properties for the LeftMenu component
         let leftMenuOptions = {
             open: this.state.leftMenu.isOpen,
             onRequestChange: (open) => { return this.onManipulateLeftMenu(open); }
         };
-        logger.debug('leftMenuOptions = ', leftMenuOptions);
 
-        return logger.exit('render', (
+        return (
             <div style={Chrome.stylesheet.chrome}>
                 {errorIndicator}
                 <header>
@@ -200,6 +154,34 @@ export default class Chrome extends React.Component {
                     </h6>
                 </footer>
             </div>
-        ));
+        );
     }
 }
+
+/**
+ * Choose which Redux store properties to transition into component
+ * properties.
+ *
+ * @param {Object} state the Redux store properties
+ * @returns {Object} the properties to include.
+ */
+function select(state) {
+    switch (state.phase) {
+    case 'error':
+        return {
+            phase: state.phase,
+            error: state.error
+        };
+    case 'authenticated':
+        return {
+            phase: state.phase,
+            user: state.user
+        };
+    default:
+        return {
+            phase: state.phase
+        };
+    }
+}
+
+export default connect(select)(Chrome);

@@ -2,6 +2,9 @@ import { StyleRoot } from 'radium';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+import { Provider } from 'react-redux';
+
+import store from './redux/store';
 import PageView from './pageview.jsx';
 
 // support tap events
@@ -18,4 +21,10 @@ let pageStyle = {
 };
 
 // render the page
-ReactDOM.render(<StyleRoot style={pageStyle}><PageView/></StyleRoot>, document.getElementById('pageview'));
+ReactDOM.render(
+    <Provider store={store}>
+        <StyleRoot style={pageStyle}>
+            <PageView/>
+        </StyleRoot>
+    </Provider>,
+document.getElementById('pageview'));
