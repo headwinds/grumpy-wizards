@@ -1,6 +1,7 @@
 import Radium from 'radium';
 import React from 'react';
 import { connect } from 'react-redux';
+import settings from '../settings';
 
 // Library Components
 import AppBar from 'material-ui/lib/app-bar';
@@ -38,6 +39,23 @@ class Chrome extends React.Component {
     };
 
     /**
+     * Event Handler for when a user clicks on the right icon - this
+     * will redirect to the server authentication task
+     * @param {Event} event - the synthetic event from React
+     * @returns {bool} true if the event was handled
+     */
+    onAuthenticateAction(event) {
+        if (this.props.phase === 'anonymous')
+            window.location = `${settings.base}/.auth/login/microsoftaccount`;
+        if (this.props.phase === 'authenticated')
+            window.location = `${settings.base}/.auth/logout`;
+
+        console.warn('Swallowing click event - phase is not valid');
+        event.preventDefault();
+        reutrn true;
+    }
+
+    /**
      * Render the component
      * @returns {JSX.Element} the rendered component
      * @overrides React.Component#render
@@ -56,13 +74,15 @@ class Chrome extends React.Component {
         // Event Handlers
         let onToggleLeftMenu = () => { return dispatch(displayLeftMenu(!this.props.open)); };
         let onLeftMenuRequestChange = (open) => { return dispatch(displayLeftMenu(open)); };
+        let onAuthenticateAction = () => { return this.onAuthenticateAction(this.props.phase); };
 
         // Component Options
         let appbarOptions = {
             iconElementRight: <PhaseIconButton phase={this.props.phase} />,
             style: { backgroundColor: appStyle.color1 },
             title: 'Grumpy Wizards',
-            onLeftIconButtonTouchTap: onToggleLeftMenu
+            onLeftIconButtonTouchTap: onToggleLeftMenu,
+            onRightIconButtonTouchTap: onAuthenticateAction
         };
 
         return (

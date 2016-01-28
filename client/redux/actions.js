@@ -1,9 +1,5 @@
 import fetch from 'isomorphic-fetch';
-
-// baseUrl is required for the fetch actions
-let baseUrl = '';
-if (window.GRUMPYWIZARDS && window.GRUMPYWIZARDS.base)
-    baseUrl = window.GRUMPYWIZARDS.base.replace(/\/$/, '');
+import settings from '../settings';
 
 /**
  * Redux Action Creator for toggling left menu visibility
@@ -63,10 +59,10 @@ export function requestAuthInfo() {
             cache: 'no-cache',
             mode: 'cors'
         };
-        return fetch(`${baseUrl}/.auth/me`, fetchOptions)
+        return fetch(`${settings.base}/.auth/me`, fetchOptions)
         .then((response) => {
             if (!response.ok && response.status !== 401)
-                throw new Error(`Invalid Response from ${baseUrl}/.auth/me:`, response);
+                throw new Error(`Invalid Response from ${settings.base}/.auth/me:`, response);
             if (response.status === 401)
                 return new Promise((resolve) => { resolve(false); });
             return response.json();
