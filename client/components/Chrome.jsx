@@ -45,12 +45,13 @@ class Chrome extends React.Component {
      * @returns {bool} true if the event was handled
      */
     onAuthenticateAction(event) {
+        console.info('Chrome#onAuthenticationAction: ', event); // eslint-disable-line no-console
         if (this.props.phase === 'anonymous')
             window.location = `${settings.base}/.auth/login/microsoftaccount`;
         if (this.props.phase === 'authenticated')
             window.location = `${settings.base}/.auth/logout`;
 
-        console.warn('Swallowing click event - phase is not valid');
+        console.warn('Swallowing click event - phase is not valid'); // eslint-disable-line no-console
         event.preventDefault();
         reutrn true;
     }
@@ -74,7 +75,7 @@ class Chrome extends React.Component {
         // Event Handlers
         let onToggleLeftMenu = () => { return dispatch(displayLeftMenu(!this.props.open)); };
         let onLeftMenuRequestChange = (open) => { return dispatch(displayLeftMenu(open)); };
-        let onAuthenticateAction = () => { return this.onAuthenticateAction(this.props.phase); };
+        let onAuthenticateAction = (event) => { return this.onAuthenticateAction(event); };
 
         // Component Options
         let appbarOptions = {
