@@ -16,13 +16,19 @@ export default class PhaseIconButton extends React.Component {
         onTouchTap: React.PropTypes.func
     };
 
+    /**
+     * Event Handler for when a user clicks on the phase icon
+     * @param {Event} event the event that caused the ccall
+     * @returns {bool} true if the event was handled
+     */
     onTouchTap(event) {
-        console.info('PhaseIconButton#onTouchTap: ', event);
+        console.info('PhaseIconButton#onTouchTap: ', event); // eslint-disable-line no-console
         if (this.props.onTouchTap) {
             this.props.onTouchTap(event);
             event.preventDefault();
             return true;
         }
+        return false;
     }
 
     /**
