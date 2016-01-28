@@ -73,17 +73,13 @@ export default class LeftMenu extends React.Component {
         let styles = Object.assign(LeftMenu.stylesheet, this.props.style);
         let onRequestChange = (open) => { return this.onRequestChange(open); };
 
-        // We get the user object, so need to pull the name and email addressl
-        let defaultOptions ={
-            title: 'Not Logged In',
-            subtitle: '',
-            avatar: this.gravatarIcon('')
-        };
+        // We get the user object, so need to pull the name and email address
+        let userInfo = Object.assign({}, { name: 'Not Logged In', email: '' }, this.props.user);
 
         return (
             <LeftNav docked={false} onRequestChange={onRequestChange} open={this.props.open}>
                 <Card style={styles.usercard}>
-                    <CardHeader {...defaultOptions} />
+                    <CardHeader avatar={this.gravatarIcon(userInfo.email)} subtitle={userInfo.email} title={userInfo.name} />
                 </Card>
             </LeftNav>
         );
