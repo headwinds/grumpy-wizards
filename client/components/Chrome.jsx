@@ -53,7 +53,7 @@ class Chrome extends React.Component {
 
         console.warn('Swallowing click event - phase is not valid'); // eslint-disable-line no-console
         event.preventDefault();
-        reutrn true;
+        return true;
     }
 
     /**

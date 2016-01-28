@@ -29,7 +29,8 @@ var configuration = {
     },
     plugins: [
         new webpack.optimize.UglifyJsPlugin({ mangle: false, compress: { warnings: false }}),
-        new webpack.NoErrorsPlugin()
+        new webpack.NoErrorsPlugin(),
+        new webpack.DefinePlugin({ 'process.env.NODE_ENV': `"${config.env}"` })
     ],
     resolve: {
         modulesDirectories: [ 'node_modules' ],
