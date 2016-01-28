@@ -16,11 +16,11 @@ export default function authReducer(state, action) {
 
     case 'AUTH-AUTHENTICATED':
 
-        let claims = action.providerInfo.reduce((target, claim) => {
+        let claims = action.providerInfo.user_claims.reduce((target, claim) => {
             target[claim.typ] = claim.val;
             if (claim.typ.indexOf('http://schemas.xmlsoap.org/ws') !== -1)
                 target[claim.typ.slice(claim.typ.lastIndexOf('/') + 1)] = claim.val;
-            return claims;
+            return target;
         });
 
         let user = {
