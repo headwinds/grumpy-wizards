@@ -12,8 +12,18 @@ export default class PhaseIconButton extends React.Component {
      * @readonly
      */
     static propTypes = {
-        phase: React.PropTypes.string.isRequired
+        phase: React.PropTypes.string.isRequired,
+        onTouchTap: React.PropTypes.func
     };
+
+    onTouchTap(event) {
+        console.info('PhaseIconButton#onTouchTap: ', event);
+        if (this.props.onTouchTap) {
+            this.props.onTouchTap(event);
+            event.preventDefault();
+            return true;
+        }
+    }
 
     /**
      * Render the React Component
@@ -28,8 +38,9 @@ export default class PhaseIconButton extends React.Component {
         };
 
         let color = this.props.phase === 'error' ? '#ff0000' : '#ffffff';
+        let onTouchTap = (event) => { return this.onTouchTap(event); };
 
         /* eslint-disable react/jsx-handler-names */
-        return <IconButton iconStyle={{ color: color }} iconClassName={statusIcons[this.props.phase]} />;
+        return <IconButton iconStyle={{ color: color }} iconClassName={statusIcons[this.props.phase]} onTouchTap={onTouchTap} />;
     }
 }

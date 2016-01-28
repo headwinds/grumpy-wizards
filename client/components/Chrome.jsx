@@ -88,7 +88,7 @@ class Chrome extends React.Component {
 
         return (
             <div style={style}>
-                <ErrorIndicator phase={this.props.phase} error={this.props.error}/>
+                <ErrorIndicator phase={this.props.phase} error={this.props.error} onTouchTap={onAuthenticateAction} />
                 <header>
                     <AppBar {...appbarOptions} />
                 </header>
