@@ -21,13 +21,8 @@ export default class LeftMenu extends React.Component {
      * @readonly
      */
     static propTypes = {
-        // The email address of the user (if any)
-        email: React.PropTypes.string,
-        // The name of the user (if any)
-        name: React.PropTypes.string,
-        // Is the left menu open or closed?
+        user: React.PropTypes.object,
         open: React.PropTypes.bool.isRequired,
-        // Event Handler called when the menu state changes
         onRequestChange: React.PropTypes.func,
         // Style over-rides
         style: React.PropTypes.object
@@ -52,7 +47,6 @@ export default class LeftMenu extends React.Component {
     onRequestChange(open) {
         if (this.props.onRequestChange)
             return this.props.onRequestChange(open);
-        console.warn('LeftMenu#onRequestChange - not overridden - open = ', open); // eslint-disable-line no-console
         return false;
     }
 
@@ -79,17 +73,17 @@ export default class LeftMenu extends React.Component {
         let styles = Object.assign(LeftMenu.stylesheet, this.props.style);
         let onRequestChange = (open) => { return this.onRequestChange(open); };
 
-        // Fill these in later
-        let cardOptions = {
-            title: this.props.name || 'Not Logged In',
-            subtitle: this.props.email || '',
-            avatar: this.gravatarIcon(this.props.email)
+        // We get the user object, so need to pull the name and email addressl
+        let defaultOptions ={
+            title: 'Not Logged In',
+            subtitle: '',
+            avatar: this.gravatarIcon('')
         };
 
         return (
             <LeftNav docked={false} onRequestChange={onRequestChange} open={this.props.open}>
                 <Card style={styles.usercard}>
-                    <CardHeader {...cardOptions} />
+                    <CardHeader {...defaultOptions} />
                 </Card>
             </LeftNav>
         );

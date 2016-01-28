@@ -75,7 +75,7 @@ class Chrome extends React.Component {
                     {this.props.children}
                 </section>
                 <Footer/>
-                <LeftMenu open={this.props.open} onRequestChange={onLeftMenuRequestChange} />
+                <LeftMenu open={this.props.open} user={this.props.user} onRequestChange={onLeftMenuRequestChange} />
             </div>
         );
     }
