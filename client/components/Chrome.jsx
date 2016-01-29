@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import settings from '../settings';
 
 // Library Components
-import AppBar from 'material-ui/lib/app-bar';
+import { AppBar } from 'material-ui';
 
 // My Components
 import ErrorIndicator from '../components/ErrorIndicator.jsx';

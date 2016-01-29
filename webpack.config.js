@@ -16,7 +16,25 @@ var jsxLoader = (config.get('env') === 'development') ? 'react-hot!babel' : 'bab
 
 var configuration = {
     devtool: 'source-map',
-    entry: [ path.join(__dirname, 'client/app.jsx') ],
+    entry: {
+        app: [ path.join(__dirname, 'client/app.jsx') ],
+        vendor: [
+            'history',
+            'isomorphic-fetch',
+            'material-ui',
+            'md5',
+            'radium',
+            'react',
+            'react-dom',
+            'react-redux',
+            'react-router',
+            'react-tap-event-plugin',
+            'redux',
+            'redux-logger',
+            'redux-promise',
+            'redux-thunk'
+        ]
+    },
     module: {
         loaders: [
             // JavaScript and React JSX Files
@@ -30,6 +48,7 @@ var configuration = {
         filename: 'grumpywizards.js'
     },
     plugins: [
+        new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js'),
         new webpack.optimize.UglifyJsPlugin({ mangle: false, compress: { warnings: false }}),
         new webpack.NoErrorsPlugin(),
         new webpack.DefinePlugin({ 'process.env.NODE_ENV': `"${config.env}"` })
@@ -48,7 +67,7 @@ var configuration = {
 };
 
 if (config.env === 'development') {
-    configuration.entry.unshift(
+    configuration.entry.app.unshift(
         'webpack/hot/dev-server',
         'webpack-hot-middleware/client'
     );

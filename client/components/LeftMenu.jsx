@@ -3,8 +3,7 @@ import React from 'react';
 import md5 from 'md5';
 
 // Library Components
-import { Card, CardHeader } from 'material-ui/lib/card';
-import LeftNav from 'material-ui/lib/left-nav';
+import { Card, CardHeader, LeftNav } from 'material-ui';
 
 // Default Styles
 import appStyle from '../style/appStyle';
