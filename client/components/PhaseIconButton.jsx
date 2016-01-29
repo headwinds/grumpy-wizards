@@ -24,6 +24,7 @@ export default class PhaseIconButton extends React.Component {
     onTouchTap(event) {
         console.info('PhaseIconButton#onTouchTap: ', event); // eslint-disable-line no-console
         if (this.props.onTouchTap) {
+            console.info(`Handling this.props.onTouchTap`); // eslint-disable-line no-console
             this.props.onTouchTap(event);
             event.preventDefault();
             return true;

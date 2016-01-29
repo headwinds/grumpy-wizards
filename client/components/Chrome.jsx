@@ -79,7 +79,7 @@ class Chrome extends React.Component {
 
         // Component Options
         let appbarOptions = {
-            iconElementRight: <PhaseIconButton phase={this.props.phase} />,
+            iconElementRight: <PhaseIconButton phase={this.props.phase} onTouchTap={onAuthenticateAction} />,
             style: { backgroundColor: appStyle.color1 },
             title: 'Grumpy Wizards',
             onLeftIconButtonTouchTap: onToggleLeftMenu,
@@ -88,7 +88,7 @@ class Chrome extends React.Component {
 
         return (
             <div style={style}>
-                <ErrorIndicator phase={this.props.phase} error={this.props.error} onTouchTap={onAuthenticateAction} />
+                <ErrorIndicator phase={this.props.phase} error={this.props.error} />
                 <header>
                     <AppBar {...appbarOptions} />
                 </header>
