@@ -79,7 +79,7 @@ export default class LeftMenu extends React.Component {
         return (
             <LeftNav docked={false} onRequestChange={onRequestChange} open={this.props.open}>
                 <Card style={styles.usercard}>
-                    <CardHeader avatar={this.gravatarIcon(userInfo.email)} subtitle={userInfo.email} title={userInfo.name} />
+                    <CardHeader avatar={this.gravatarIcon(userInfo.email)} subtitle={userInfo.email} title={userInfo.name} titleColor={'white'} />
                 </Card>
             </LeftNav>
         );
