@@ -48,6 +48,6 @@ export default class PhaseIconButton extends React.Component {
         let onTouchTap = (event) => { return this.onTouchTap(event); };
 
         /* eslint-disable react/jsx-handler-names */
-        return <IconButton iconStyle={{ color: color }} iconClassName={statusIcons[this.props.phase]} onTouchTap={onTouchTap} />;
+        return <IconButton iconStyle={{ color: color }} iconClassName={statusIcons[this.props.phase]} />;
     }
 }
