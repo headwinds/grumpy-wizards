@@ -26,7 +26,7 @@ export default function authReducer(state, action) {
         let user = {
             accessToken: action.providerInfo.access_token,
             claims: claims,
-            givenname: claims.firstname || '',
+            givenname: claims.givenname || '',
             name: claims.name || '',
             id: action.providerInfo.user_id,
             provider: action.providerInfo.provider_name,
