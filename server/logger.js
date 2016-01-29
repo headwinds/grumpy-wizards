@@ -6,28 +6,28 @@
 // ------------------------------------------------------------------------
 //  Configure the Winston Logger as a singleton.
 // ------------------------------------------------------------------------
-import winston from 'winston';
-import logCollector from 'express-winston';
+var winston = require('winston');
+var logCollector = require('express-winston');
 
-let logger = new winston.Logger({
+var logger = new winston.Logger({
     level: 'silly',
     transports: [
         new winston.transports.Console({ colorize: true, timestamp: true })
     ]
 });
 
-let transactionLogger = logCollector.logger({
+var transactionLogger = logCollector.logger({
     winstonInstance: logger,
     colorStatus: true,
     statusLevels: true
 });
 
-let errorLogger = logCollector.logger({
+var errorLogger = logCollector.logger({
     winstonInstance: logger
 });
 
-export {
-    transactionLogger,
-    errorLogger,
-    logger
+module.exports = {
+    transactionLogger: transactionLogger,
+    errorLogger: errorLogger,
+    logger: logger
 };

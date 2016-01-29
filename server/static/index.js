@@ -7,48 +7,41 @@
 //  Static File Router
 // ------------------------------------------------------------------------
 /* global __dirname */
-import config from 'config';
-import express from 'express';
-import fs from 'fs';
-import { logger } from '../logger';
-import path from 'path';
-import serveStatic from 'serve-static';
+var config = require('config');
+var express = require('express');
+var fs = require('fs');
+var path = require('path');
+var serveStatic = require(`./static.${config.get('env')}.js`);
 
-// Development
-import devServer from 'webpack-dev-middleware';
-import hotServer from 'webpack-hot-middleware';
-import webpack from 'webpack';
-import webpackConfig from '../../webpack.config.js';
+var fileContents = {};
+var router = express.Router(); // eslint-disable-line new-cap
 
-let router = express.Router(); // eslint-disable-line new-cap
-
-// Load the Home Page and link in.
-let indexFile = path.join(__dirname, 'index.html');
-let indexContents = fs.readFileSync(indexFile, 'utf8'); // eslint-disable-line no-sync
-router.get('/', (request, response) => {
-    let responseData = indexContents
-        .replace(/\$\{config.base\}/g, config.get('base'))
-        .replace(/\$\{config.env\}/g, config.get('env'));
-    response.status(200).type('text/html').send(responseData);
-});
-
-if (config.get('env') === 'production') {
-    router.use(serveStatic('public', {
-        dotfile: 'ignore',
-        etag: true,
-        index: false,
-        lastModified: true
-    }));
-} else {
-    logger.warn(`[webpack-dev-server] wait for bundle to be VALID before reload`);
-    let compiler = webpack(webpackConfig);
-    router.use(devServer(compiler, {
-        publicPath: webpackConfig.output.publicPath || '/',
-        stats: { colors: true }
-    }));
-    router.use(hotServer(compiler, {
-        log: console.log // eslint-disable-line no-console
-    }));
+/**
+ * Load the specified HTML file, caching the contents
+ * in the fileContents object.
+ * @param {string} filename the file name to load
+ * @returns {string} the contents of the file
+ */
+function loadHtmlFile(filename) {
+    var contents = '', file = path.join(__dirname, filename);
+    if (!Object.hasOwnProperty(fileContents, filename)) {
+        contents = fs.readFileSync(file, 'utf8'); // eslint-disable-line no-sync
+        fileContents[filename] = contents
+            .replace(/\$\{config.base\}/g, config.get('base'))
+            .replace(/\$\{config.env\}/g, config.get('env'));
+    }
+    return fileContents[filename];
 }
 
-export default router;
+// Home Page
+router.get('/', (request, response) => {
+    return response
+        .status(200)
+        .type('text/html')
+        .send(loadHtmlFile('index.html'));
+});
+
+// Service static files - different for dev vs. prod
+serveStatic(router);
+
+module.exports = router;

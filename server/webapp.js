@@ -7,14 +7,16 @@
 //  Creates an express application server.
 // ------------------------------------------------------------------------
 /* global __dirname */
-import bodyParser from 'body-parser';
-import compression from 'compression';
-import cookieParser from 'cookie-parser';
-import express from 'express';
-import path from 'path';
-import { transactionLogger, errorLogger } from './logger';
-import staticFiles from './static';
-import zumo from 'azure-mobile-apps';
+var bodyParser = require('body-parser');
+var compression = require('compression');
+var cookieParser = require('cookie-parser');
+var express = require('express');
+var path = require('path');
+var LogMaster = require('./logger');
+var staticFiles = require('./static');
+var zumo = require('azure-mobile-apps');
+var transactionLogger = LogMaster.transactionLogger;
+var errorLogger = LogMaster.errorLogger;
 
 /**
  * Create an express web application and configure it
@@ -22,8 +24,9 @@ import zumo from 'azure-mobile-apps';
  * @param {boolean} logging - set to false to disable all logging
  * @returns {Promise.<express>} A promise that resolves to an express applications
  */
-export default function webApplication(logging = true) {
-    let app = express();
+function webApplication(logging) {
+    var app = express(),
+        mobileApp = zumo({ swagger: true, homePage: false });
 
     // Basic application settings & middleware
     if (logging) app.use(transactionLogger);
@@ -33,7 +36,6 @@ export default function webApplication(logging = true) {
     app.use(cookieParser());
 
     // Azure Mobile Apps
-    let mobileApp = zumo({ swagger: true, homePage: false });
     mobileApp.api.import(path.join(__dirname, 'api'));
     app.use(mobileApp);
 
@@ -46,3 +48,5 @@ export default function webApplication(logging = true) {
         return app;
     });
 }
+
+module.exports = webApplication;

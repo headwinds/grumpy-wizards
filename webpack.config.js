@@ -12,13 +12,15 @@ var config = require('config'),
     path = require('path'),
     webpack = require('webpack');
 
+var jsxLoader = (config.get('env') === 'development') ? 'react-hot!babel' : 'babel';
+
 var configuration = {
     devtool: 'source-map',
     entry: [ path.join(__dirname, 'client/app.jsx') ],
     module: {
         loaders: [
             // JavaScript and React JSX Files
-            { test: /\.jsx?$/, loader: 'babel', exclude: /node_modules/ },
+            { test: /\.jsx?$/, loader: jsxLoader, exclude: /node_modules/ },
             { test: /\.jsx?$/, loader: 'eslint', exclude: /node_modules/ },
         ]
     },

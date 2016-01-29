@@ -198,7 +198,6 @@ module.exports = {
         'no-const-assign': ERROR,
         'no-dupe-class-members': ERROR,
         'no-this-before-super': ERROR,
-        'no-var': ERROR,
         'object-shorthand': [ WARN, 'never' ],
         'prefer-arrow-callback': WARN,
         'prefer-spread': WARN,

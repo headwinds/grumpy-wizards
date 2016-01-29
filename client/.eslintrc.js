@@ -14,6 +14,9 @@ module.exports = exports = {
     ],
     parser: 'babel-eslint',
     rules: {
+        // ES2015 Settings
+        'no-var': ERROR,
+
         // React Settings
         'jsx-quotes': [WARN, 'prefer-double'],
         'react/display-name': [WARN, { acceptTranspilerName: true }],

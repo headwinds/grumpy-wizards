@@ -22,9 +22,7 @@ export default class PhaseIconButton extends React.Component {
      * @returns {bool} true if the event was handled
      */
     onTouchTap(event) {
-        console.info('PhaseIconButton#onTouchTap: ', event); // eslint-disable-line no-console
         if (this.props.onTouchTap) {
-            console.info(`Handling this.props.onTouchTap`); // eslint-disable-line no-console
             this.props.onTouchTap(event);
             event.preventDefault();
             return true;
@@ -48,6 +46,11 @@ export default class PhaseIconButton extends React.Component {
         let onTouchTap = (event) => { return this.onTouchTap(event); };
 
         /* eslint-disable react/jsx-handler-names */
-        return <IconButton iconStyle={{ color: color }} iconClassName={statusIcons[this.props.phase]} />;
+        return (
+            <IconButton
+                iconStyle={{ color: color }}
+                iconClassName={statusIcons[this.props.phase]}
+                onTouchTap={onTouchTap} />
+        );
     }
 }

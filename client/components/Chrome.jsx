@@ -45,13 +45,12 @@ class Chrome extends React.Component {
      * @returns {bool} true if the event was handled
      */
     onAuthenticateAction(event) {
-        console.info('Chrome#onAuthenticationAction: ', event); // eslint-disable-line no-console
         if (this.props.phase === 'anonymous')
             window.location = `${settings.base}/.auth/login/microsoftaccount`;
         else if (this.props.phase === 'authenticated')
             window.location = `${settings.base}/.auth/logout`;
         else
-            console.warn('Swallowing click event - phase is not valid'); // eslint-disable-line no-console
+            console.warn(`Swallowing click event - phase '${this.props.phase}' is not valid`); // eslint-disable-line no-console
         event.preventDefault();
         return true;
     }
