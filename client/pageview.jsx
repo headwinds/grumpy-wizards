@@ -1,10 +1,9 @@
 import React from 'react';
-import { Router, Route } from 'react-router';
+import { Router } from 'react-router';
 import { createHistory } from 'history';
+import AppRoutes from './pages/index.jsx';
 
-import Chrome from './components/Chrome.jsx';
-
-let browserHistory = createHistory();
+let browserHistory = createHistory({ queryKey: false });
 
 /**
  * The main page router
@@ -17,10 +16,11 @@ export default class PageView extends React.Component {
      * @returns {JSX.Element} the JSX rendering.
      */
     render() {
+        let onUpdate = () => { window.scrollTo(0, 0); };
+
         return (
-            <Router history={browserHistory}>
-                <Route path="/" component={Chrome}>
-                </Route>
+            <Router history={browserHistory} onUpdate={onUpdate}>
+                {AppRoutes}
             </Router>
         );
     }

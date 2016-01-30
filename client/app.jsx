@@ -7,7 +7,8 @@ import { Provider } from 'react-redux';
 import store from './redux/store';
 import PageView from './pageview.jsx';
 
-// support tap events
+// Needed for onTouchTap - Can go away when react 1.0 release
+// Check this repo: https://github.com/zilverline/react-tap-event-plugin
 injectTapEventPlugin();
 
 let pageStyle = {
