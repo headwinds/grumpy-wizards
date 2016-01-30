@@ -7,10 +7,10 @@ import settings from '../settings';
 import { AppBar } from 'material-ui';
 
 // My Components
-import ErrorIndicator from '../components/ErrorIndicator.jsx';
-import Footer from '../components/Footer.jsx';
-import LeftMenu from '../components/LeftMenu.jsx';
-import PhaseIconButton from '../components/PhaseIconButton.jsx';
+import ErrorIndicator from '../components/ErrorIndicator';
+import Footer from '../components/Footer';
+import LeftMenu from '../components/LeftMenu';
+import PhaseIconButton from '../components/PhaseIconButton';
 
 // Action Creators
 import { displayLeftMenu } from '../redux/actions';

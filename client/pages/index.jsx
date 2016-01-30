@@ -1,8 +1,8 @@
 import React from 'react';
 import { IndexRoute, Route } from 'react-router';
-import Chrome from '../components/Chrome.jsx';
+import Chrome from '../components/Chrome';
 
-import Home from './Home.jsx';
+import Home from './Home';
 
 /**
  * Routes: https://github.com/rackt/react-router/blob/master/docs/api/components/Route.md
