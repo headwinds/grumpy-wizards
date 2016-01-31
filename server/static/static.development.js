@@ -17,6 +17,8 @@ module.exports = function (router) {
     router.use(devServer(compiler, {
         publicPath: webpackConfig.output.publicPath || '/',
         stats: {
+            assets: true,
+            chunks: false,
             chunkModules: false,
             colors: true,
             hash: false,

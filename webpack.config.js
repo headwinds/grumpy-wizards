@@ -38,8 +38,7 @@ var configuration = {
     module: {
         loaders: [
             // JavaScript and React JSX Files
-            { test: /\.jsx?$/, loader: jsxLoader, exclude: /node_modules/ },
-            { test: /\.jsx?$/, loader: 'eslint', exclude: /node_modules/ },
+            { test: /\.jsx?$/, loader: jsxLoader, exclude: /node_modules/ }
         ]
     },
     output: {
@@ -57,13 +56,7 @@ var configuration = {
         modulesDirectories: [ 'node_modules' ],
         extensions: [ '', '.js', '.jsx' ]
     },
-    target: 'web',
-
-    // Loader options
-    eslint: {
-        failOnWarning: false,
-        failOnError: true
-    }
+    target: 'web'
 };
 
 if (config.env === 'development') {
