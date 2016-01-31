@@ -1,3 +1,11 @@
+import constants from '../constants';
+
+const initialState = {
+    phase: 'pending',
+    user: null,
+    error: null
+};
+
 /* eslint-disable no-case-declarations */
 /**
  * Redux Reducer for authentication
@@ -5,16 +13,16 @@
  * @param {Object} action the Redux Action object
  * @returns {Object} the new state
  */
-export default function authReducer(state, action) {
+export default function authReducer(state = initialState, action) {
     switch (action.type) {
-    case 'AUTH-ANONYMOUS':
+    case constants.auth.setAnonymous:
         return Object.assign({}, state, {
             phase: 'anonymous',
             user: null,
             error: null
         });
 
-    case 'AUTH-AUTHENTICATED':
+    case constants.auth.setAuthenticated:
 
         let claims = action.providerInfo.user_claims.reduce((target, claim) => {
             target[claim.typ] = claim.val;
@@ -40,19 +48,15 @@ export default function authReducer(state, action) {
             error: null
         });
 
-    case 'AUTH-ERROR':
+    case constants.auth.setError:
         return Object.assign({}, state, {
             phase: 'error',
             user: null,
             error: action.error.message
         });
 
-    case 'UI-LEFTMENU-VISIBILITY':
-        return Object.assign({}, state, {
-            leftMenuVisibility: action.visibility
-        });
-
     default:
         return state;
     }
 }
+

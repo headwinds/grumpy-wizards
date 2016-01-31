@@ -13,7 +13,7 @@ import LeftMenu from '../components/LeftMenu';
 import PhaseIconButton from '../components/PhaseIconButton';
 
 // Action Creators
-import { displayLeftMenu } from '../redux/actions';
+import { displayLeftMenu } from '../redux/actions/ui';
 
 // Default Styles
 import appStyle from '../style/appStyle';
@@ -30,12 +30,16 @@ class Chrome extends React.Component {
      * @readonly
      */
     static propTypes = {
+        auth: React.PropTypes.shape({
+            error: React.PropTypes.string,
+            phase: React.PropTypes.string.isRequired,
+            user: React.PropTypes.object
+        }),
         children: React.PropTypes.node,
         dispatch: React.PropTypes.func.isRequired,
-        error: React.PropTypes.string,
-        open: React.PropTypes.bool.isRequired,
-        phase: React.PropTypes.string.isRequired,
-        user: React.PropTypes.object
+        ui: React.PropTypes.shape({
+            leftMenuVisibility: React.PropTypes.bool.isRequired
+        })
     };
 
     /**
@@ -45,12 +49,12 @@ class Chrome extends React.Component {
      * @returns {bool} true if the event was handled
      */
     onAuthenticateAction(event) {
-        if (this.props.phase === 'anonymous')
+        if (this.props.auth.phase === 'anonymous')
             window.location = `${settings.base}/.auth/login/microsoftaccount`;
-        else if (this.props.phase === 'authenticated')
+        else if (this.props.auth.phase === 'authenticated')
             window.location = `${settings.base}/.auth/logout`;
         else
-            console.warn(`Swallowing click event - phase '${this.props.phase}' is not valid`); // eslint-disable-line no-console
+            console.warn(`Swallowing event - phase '${this.props.auth.phase}' is not valid`); // eslint-disable-line no-console
         event.preventDefault();
         return true;
     }
@@ -72,22 +76,27 @@ class Chrome extends React.Component {
         };
 
         // Event Handlers
-        let onToggleLeftMenu = () => { return dispatch(displayLeftMenu(!this.props.open)); };
+        let onToggleLeftMenu = () => { return dispatch(displayLeftMenu(!this.props.ui.leftMenuVisibility)); };
         let onLeftMenuRequestChange = (open) => { return dispatch(displayLeftMenu(open)); };
         let onAuthenticateAction = (event) => { return this.onAuthenticateAction(event); };
 
         // Component Options
         let appbarOptions = {
-            iconElementRight: <PhaseIconButton phase={this.props.phase} onTouchTap={onAuthenticateAction} />,
+            iconElementRight: <PhaseIconButton phase={this.props.auth.phase} onTouchTap={onAuthenticateAction} />,
             style: { backgroundColor: appStyle.color1 },
             title: 'Grumpy Wizards',
             onLeftIconButtonTouchTap: onToggleLeftMenu,
             onRightIconButtonTouchTap: onAuthenticateAction
         };
+        let leftMenuOptions = {
+            open: this.props.ui.leftMenuVisibility,
+            user: this.props.auth.user,
+            onRequestChange: onLeftMenuRequestChange
+        };
 
         return (
             <div style={style}>
-                <ErrorIndicator phase={this.props.phase} error={this.props.error} />
+                <ErrorIndicator phase={this.props.auth.phase} error={this.props.auth.error} />
                 <header>
                     <AppBar {...appbarOptions} />
                 </header>
@@ -95,7 +104,7 @@ class Chrome extends React.Component {
                     {this.props.children}
                 </section>
                 <Footer/>
-                <LeftMenu open={this.props.open} user={this.props.user} onRequestChange={onLeftMenuRequestChange} />
+                <LeftMenu {...leftMenuOptions} />
             </div>
         );
     }
@@ -107,9 +116,9 @@ class Chrome extends React.Component {
 export default connect(
     (state) => {
         return {
-            error: state.error,
-            open: state.leftMenuVisibility,
-            phase: state.phase,
-            user: state.user
+            auth: state.auth,
+            ui: {
+                leftMenuVisibility: state.ui.leftMenuVisibility
+            }
         };
     })(Chrome);

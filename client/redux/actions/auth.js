@@ -1,17 +1,6 @@
 import fetch from 'isomorphic-fetch';
-import settings from '../settings';
-
-/**
- * Redux Action Creator for toggling left menu visibility
- * @param {bool} open the requested state of the left menu
- * @returns {Object} Redux Action
- */
-export function displayLeftMenu(open) {
-    return {
-        type: 'UI-LEFTMENU-VISIBILITY',
-        visibility: open
-    };
-}
+import settings from '../../settings';
+import constants from '../constants';
 
 /**
  * Redux Action Creator for handling anonymous response
@@ -19,7 +8,7 @@ export function displayLeftMenu(open) {
  */
 function receiveAnonymousAuth() {
     return {
-        type: 'AUTH-ANONYMOUS'
+        type: constants.auth.setAnonymous
     };
 }
 
@@ -30,7 +19,7 @@ function receiveAnonymousAuth() {
  */
 function receiveAuthenticatedAuth(response) {
     return {
-        type: 'AUTH-AUTHENTICATED',
+        type: constants.auth.setAuthenticated,
         providerInfo: response[0]
     };
 }
@@ -42,7 +31,7 @@ function receiveAuthenticatedAuth(response) {
  */
 function receiveErrorCondition(error) {
     return {
-        type: 'AUTH-ERROR',
+        type: constants.auth.setError,
         error: error
     };
 }

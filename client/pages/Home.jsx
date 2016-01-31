@@ -30,6 +30,6 @@ class Home extends React.Component {
 export default connect(
     (state) => {
         return {
-            phase: state.phase
+            phase: state.auth.phase
         };
     })(Home);
