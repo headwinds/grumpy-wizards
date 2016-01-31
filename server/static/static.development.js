@@ -16,7 +16,13 @@ module.exports = function (router) {
     var compiler = webpack(webpackConfig);
     router.use(devServer(compiler, {
         publicPath: webpackConfig.output.publicPath || '/',
-        stats: { colors: true }
+        stats: {
+            chunkModules: false,
+            colors: true,
+            hash: false,
+            timings: false,
+            version: false
+        }
     }));
     router.use(hotServer(compiler, {
         log: console.log // eslint-disable-line no-console

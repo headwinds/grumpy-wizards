@@ -49,8 +49,8 @@ var configuration = {
     },
     plugins: [
         new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js'),
+        new webpack.optimize.DedupePlugin(),
         new webpack.optimize.UglifyJsPlugin({ mangle: false, compress: { warnings: false }}),
-        new webpack.NoErrorsPlugin(),
         new webpack.DefinePlugin({ 'process.env.NODE_ENV': `"${config.env}"` })
     ],
     resolve: {
