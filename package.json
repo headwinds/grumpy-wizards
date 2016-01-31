@@ -6,6 +6,7 @@
   "main": "server.js",
   "scripts": {
     "build": "gulp build",
+    "prenodemon": "gulp libraries:copy",
     "nodemon": "nodemon --watch server ./server.js",
     "start": "node ./server.js"
   },
