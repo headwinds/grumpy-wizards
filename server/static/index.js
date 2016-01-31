@@ -28,7 +28,11 @@ function loadHtmlFile(filename) {
         contents = fs.readFileSync(file, 'utf8'); // eslint-disable-line no-sync
         fileContents[filename] = contents
             .replace(/\$\{config.base\}/g, config.get('base'))
-            .replace(/\$\{config.env\}/g, config.get('env'));
+            .replace(/\$\{config.env\}/g, config.get('env'))
+            .replace(/\$\{config.library.font-awesome}/g, config.get('library.font-awesome'))
+            .replace(/\$\{config.library.mdi}/g, config.get('library.mdi'))
+            .replace(/\$\{config.library.core-js}/g, config.get('library.core-js'))
+            ;
     }
     return fileContents[filename];
 }

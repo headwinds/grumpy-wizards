@@ -1,6 +1,7 @@
 var webpack = require('webpack'),
     devServer = require('webpack-dev-middleware'),
     hotServer = require('webpack-hot-middleware'),
+    serveStatic = require('serve-static'),
     webpackConfig = require('../../webpack.config.js'),
     logger = require('../logger').logger;
 
@@ -28,5 +29,11 @@ module.exports = function (router) {
     }));
     router.use(hotServer(compiler, {
         log: console.log // eslint-disable-line no-console
+    }));
+    router.use(serveStatic('public', {
+        dotfile: 'ignore',
+        etag: true,
+        index: false,
+        lastModified: true
     }));
 };

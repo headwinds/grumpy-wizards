@@ -6,11 +6,18 @@ var eslint = require('gulp-eslint'),
 
 var files = {
     client: [ 'client/**/*.js', 'client/**/*.jsx' ],
-    server: [ 'server/**/*.js' ]
+    server: [ 'server/**/*.js' ],
+    libraries: [
+        './node_modules/font-awesome/@(css|fonts)/*',
+        './node_modules/mdi/@(css|fonts)/*',
+        './node_modules/core-js/client/*'
+    ]
 };
+var destination = './public';
 
 gulp.task('build', [
     'server:lint',
+    'libraries:copy',
     'webpack:build'
 ]);
 
@@ -24,6 +31,11 @@ gulp.task('server:lint', function () {
         .pipe(eslint())
         .pipe(eslint.format())
         .pipe(eslint.failAfterError());
+});
+
+gulp.task('libraries:copy', function () {
+    return gulp.src(files.libraries, { base: './node_modules' })
+        .pipe(gulp.dest(destination));
 });
 
 gulp.task('webpack:lint', function () {

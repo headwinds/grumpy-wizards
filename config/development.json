@@ -1,4 +1,9 @@
 {
     "env": "development",
-    "base": "https://grumpy-wizards.azurewebsites.net/"
+    "base": "https://grumpy-wizards.azurewebsites.net/",
+    "library": {
+        "core-js": "core-js/client/core.min.js",
+        "mdi": "mdi/css/materialdesignicons.min.css",
+        "font-awesome": "font-awesome/css/font-awesome.min.css"
+    }
 }
