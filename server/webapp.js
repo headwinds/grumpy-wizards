@@ -37,6 +37,7 @@ function webApplication(logging) {
 
     // Azure Mobile Apps
     mobileApp.api.import(path.join(__dirname, 'api'));
+    // mobileApp.tables.import(path.join(__dirname, 'tables'));
     app.use(mobileApp);
 
     // Static Files

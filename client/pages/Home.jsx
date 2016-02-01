@@ -1,6 +1,7 @@
 import Radium from 'radium';
 import React from 'react';
 import { connect } from 'react-redux';
+import { routeActions } from 'react-router-redux';
 
 @Radium
 class Home extends React.Component {
@@ -20,7 +21,17 @@ class Home extends React.Component {
      * @overrides React.Component#render
      */
     render() {
-        return <h1>{'Home'}</h1>;
+        const dispatch = this.props.dispatch;
+        const page1 = () => { return dispatch(routeActions.push('/page1')); };
+
+        return (
+            <div id="homePage">
+                <h1>{'Home'}</h1>
+                <ul>
+                    <li><button onClick={page1}>Page 1</button></li>
+                </ul>
+            </div>
+        );
     }
 }
 
