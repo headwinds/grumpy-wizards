@@ -48,4 +48,12 @@ router.get('/', (request, response) => {
 // Service static files - different for dev vs. prod
 serveStatic(router);
 
+// Ensure that anything not routed is captured here
+router.get(/.*/, (request, response) => {
+    return response
+        .status(200)
+        .type('text/html')
+        .send(loadHtmlFile('index.html'));
+});
+
 module.exports = router;
