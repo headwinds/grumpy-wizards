@@ -1,5 +1,5 @@
 import React from 'react';
-import { IndexRoute, Route } from 'react-router';
+import { IndexRoute, Redirect, Route } from 'react-router';
 import Chrome from '../components/Chrome';
 
 import Home from './Home';
@@ -15,6 +15,7 @@ const routes = (
         <IndexRoute component={Home}/>
         <Route path="home" component={Home}/>
         <Route path="page1" component={PageOne}/>
+        <Redirect path="*" to="/" />
     </Route>
 );
 
