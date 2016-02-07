@@ -1,4 +1,3 @@
-import Radium from 'radium';
 import React from 'react';
 import appStyle from '../style/appStyle';
 
@@ -6,7 +5,7 @@ import appStyle from '../style/appStyle';
  * React Component: Display the footer
  * @extends React.Component
  */
-@Radium
+
 export default class Footer extends React.Component {
     /**
      * Radium styling

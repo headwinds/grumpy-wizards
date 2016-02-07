@@ -1,11 +1,9 @@
-import Radium from 'radium';
 import React from 'react';
 import { connect } from 'react-redux';
-import { routeActions } from 'react-router-redux';
+// import { routeActions } from 'react-router-redux';
 
 import HomeIconLink from '../components/HomeIconLink';
 
-@Radium
 class Home extends React.Component {
     /**
      * React property types
@@ -41,8 +39,9 @@ class Home extends React.Component {
      * @overrides React.Component#render
      */
     render() {
-        const dispatch = this.props.dispatch;
+        // const dispatch = this.props.dispatch;
         const stylesheet = this.stylesheet();
+
         return (
             <div style={stylesheet.homePage}>
                 <div style={stylesheet.equalwidth}>

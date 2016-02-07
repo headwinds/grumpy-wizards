@@ -1,4 +1,3 @@
-import Radium from 'radium';
 import React from 'react';
 import { connect } from 'react-redux';
 import settings from '../settings';
@@ -22,7 +21,6 @@ import appStyle from '../style/appStyle';
  * Provides all the chrome around the application
  * @extends React.Component
  */
-@Radium
 class Chrome extends React.Component {
     /**
      * React property types

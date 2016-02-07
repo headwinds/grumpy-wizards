@@ -1,4 +1,3 @@
-import Radium from 'radium';
 import React from 'react';
 import appStyle from '../style/appStyle';
 
@@ -6,7 +5,6 @@ import appStyle from '../style/appStyle';
  * React Component: Display a banner DIV when there is an error
  * @extends React.Component
  */
-@Radium
 export default class ErrorIndicator extends React.Component {
     /**
      * React PropTypes

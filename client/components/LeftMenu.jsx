@@ -1,4 +1,3 @@
-import Radium from 'radium';
 import React from 'react';
 import md5 from 'md5';
 
@@ -12,7 +11,6 @@ import appStyle from '../style/appStyle';
  * Provides all the chrome around the application
  * @extends React.Component
  */
-@Radium
 export default class LeftMenu extends React.Component {
     /**
      * React property types
@@ -92,4 +90,3 @@ export default class LeftMenu extends React.Component {
         );
     }
 }
-

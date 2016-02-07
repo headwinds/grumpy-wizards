@@ -5,8 +5,7 @@ import React from 'react';
  * React Component: Display an icon in a circle mold
  * @extends React.Component
  */
-@Radium
-export default class CircleIcon extends React.Component {
+class CircleIcon extends React.Component {
     /**
      * React property types
      * @type {Object}
@@ -47,3 +46,5 @@ export default class CircleIcon extends React.Component {
         );
     }
 }
+
+export default Radium(CircleIcon); // eslint-disable-line new-cap

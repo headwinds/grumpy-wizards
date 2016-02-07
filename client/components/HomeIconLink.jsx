@@ -27,9 +27,9 @@ class HomeIconLink extends React.Component {
     stylesheet() {
         return {
             outer: {
-                margin: '0 auto',
-                width: '60%',
-                padding: '1rem 0',
+                'margin': '0 auto',
+                'width': '60%',
+                'padding': '1rem 0',
 
                 ':hover': {
                     background: appStyle.color1
