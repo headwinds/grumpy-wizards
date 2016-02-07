@@ -40,5 +40,6 @@ node_modules/
 # Visual Studio Code workspace
 .vscode/
 
-# Build Area
-public/
+# Build Area (not including images)
+public/**/*
+!public/images/*.png
