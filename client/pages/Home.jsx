@@ -46,17 +46,17 @@ class Home extends React.Component {
         return (
             <div style={stylesheet.homePage}>
                 <div style={stylesheet.equalwidth}>
-                    <HomeIconLink icon="spells.png" title="Spells">
+                    <HomeIconLink icon="images/spells.png" title="Spells">
                         Access a complete set of spells available across multiple Dungeons &amp; Dragons books
                     </HomeIconLink>
                 </div>
                 <div style={stylesheet.equalwidth}>
-                    <HomeIconLink icon="tables.png" title="Tables">
+                    <HomeIconLink icon="images/tables.png" title="Tables">
                         Quickly get information from a whole host of tables within the Players Handbook and elsewhere
                     </HomeIconLink>
                 </div>
                 <div style={stylesheet.equalwidth}>
-                    <HomeIconLink icon="characters.png" title="Characters">
+                    <HomeIconLink icon="images/characters.png" title="Characters">
                         Record details of your characters in our character store
                     </HomeIconLink>
                 </div>
