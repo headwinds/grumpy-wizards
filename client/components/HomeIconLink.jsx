@@ -17,6 +17,7 @@ class HomeIconLink extends React.Component {
     static propTypes = {
         children: React.PropTypes.node,
         icon: React.PropTypes.string.isRequired,
+        onClick: React.PropTypes.func,
         title: React.PropTypes.string.isRequired
     };
 
@@ -32,6 +33,7 @@ class HomeIconLink extends React.Component {
                 'padding': '1rem 0',
 
                 ':hover': {
+                    cursor: 'pointer',
                     background: appStyle.color1
                 }
             },
@@ -42,14 +44,26 @@ class HomeIconLink extends React.Component {
     }
 
     /**
+     * Click Handler
+     * @param {Event} event the synthetic event causing the call
+     * @returns {bool} true if the event was handled
+     */
+    onClick(event) {
+        if (this.props.onClick)
+            return this.props.onClick(event);
+        return false;
+    }
+
+    /**
      * Render the component
      * @returns {JSX.Element} the rendered component
      */
     render() {
         const stylesheet = this.stylesheet();
+        const onClick = (event) => { return this.onClick(event); };
 
         return (
-            <div style={stylesheet.outer}>
+            <div style={stylesheet.outer} onClick={onClick}>
                 <CircleIcon icon={this.props.icon}/>
                 <div style={stylesheet.title}>{this.props.title}</div>
                 <div className="content">{this.props.children}</div>

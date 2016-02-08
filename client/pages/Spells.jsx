@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { routeActions } from 'react-router-redux';
 
 @Radium
-class PageOne extends React.Component {
+class Spells extends React.Component {
     /**
      * React property types
      * @type {Object}
@@ -25,8 +25,8 @@ class PageOne extends React.Component {
         const home = () => { return dispatch(routeActions.push('/home')); };
 
         return (
-            <div id="pageOne">
-                <h1>{'Page 1'}</h1>
+            <div id="spells">
+                <h1>{'Spells'}</h1>
                 <ul>
                     <li><button onClick={home}>Home</button></li>
                 </ul>
@@ -43,4 +43,4 @@ export default connect(
         return {
             phase: state.auth.phase
         };
-    })(PageOne);
+    })(Spells);
