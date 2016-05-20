@@ -1,3 +1,4 @@
+/// <binding BeforeBuild='build' />
 var eslint = require('gulp-eslint'),
     gulp = require('gulp'),
     gutil = require('gulp-util'),

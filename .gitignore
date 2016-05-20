@@ -43,3 +43,6 @@ node_modules/
 # Build Area (not including images)
 public/**/*
 !public/images/*.png
+/.vs/grumpy-wizards/v14
+/obj/Debug
+/typings

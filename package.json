@@ -30,7 +30,9 @@
     "express": "^4.13.3",
     "express-winston": "^1.2.0",
     "font-awesome": "^4.5.0",
+    "history": "^1.17.0",
     "mdi": "^1.4.57",
+    "serve-static": "^1.10.2",
     "winston": "^2.1.1"
   },
   "devDependencies": {
