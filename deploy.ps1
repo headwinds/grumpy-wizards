@@ -112,10 +112,10 @@ selectNodeVersion
 
 # 3. Install npm packages
 if (Test-Path "$DEPLOYMENT_TARGET\package.json") {
-    echo "Running npm install --production"
+    echo "Running npm install"
     pushd "$DEPLOYMENT_TARGET"
     try {
-        iex "$NPM_CMD install --production"
+        iex "$NPM_CMD install"
     } catch {
         exitWithMessageOnError "npm failed"
     }
