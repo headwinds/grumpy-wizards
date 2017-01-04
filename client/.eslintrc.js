@@ -1,4 +1,4 @@
-var OFF = 0, WARN = WARN, ERROR = 2;
+var OFF = 0, WARN = 1, ERROR = 2;
 
 module.exports = exports = {
     env: {
